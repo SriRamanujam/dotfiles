@@ -1,0 +1,48 @@
+#
+# These things are run when an Openbox X Session is started.
+# You may place a similar script in $HOME/.config/openbox/autostart
+# to run user-specific things.
+#
+
+# If you want to use GNOME config tools...
+#
+#if test -x /usr/lib/openbox/gnome-settings-daemon >/dev/null; then
+#  /usr/lib/openbox/gnome-settings-daemon &
+#elif which gnome-settings-daemon >/dev/null 2>&1; then
+#  gnome-settings-daemon &
+#fi
+
+# If you want to use XFCE config tools...
+#
+#xfce-mcs-manager &
+
+devmon &
+
+
+redshift -l 39.98389:-75.14986 -t 6500:5000 &
+
+if [ $(xrandr -q | grep -c "DFP1 disconnected" ) -ne 0 ]
+then
+	xrandr --output LVDS --mode 1366x768 &
+	conky -c ~/.conkylaptoprc &
+	#sonata &
+else
+	xrandr --output LVDS --off &
+	xrandr --output HDMI-0 --mode 1920x1080 & 
+	conky &
+	#leafpad &
+fi
+
+(sleep 1 && ~/.fehbg) & 
+
+thunar --daemon &
+
+mpd &
+
+stalonetray &
+
+/usr/bin/amixer -c 0 sset "Auto-Mute Mode" Enabled
+
+dropboxd &
+
+google-musicmanager &
