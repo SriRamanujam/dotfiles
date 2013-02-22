@@ -6,6 +6,8 @@
 #Executed by startx
 #
 
+[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
+
 #if [ $(xrandr -q | grep -c HDMI) -ne 0 ]
 #then
 #	xrandr --output LVDS --off
@@ -16,5 +18,8 @@
 
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 #exec pulseaudio --start
+#xsetroot -cursor_name left_ptr
+#exec xmonad
+
 exec openbox-session
 

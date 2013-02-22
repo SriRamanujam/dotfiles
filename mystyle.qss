@@ -1,8 +1,8 @@
-ChatView { background: #272822; }
-NickView { background: #272822; }
-BufferView { background: #272822; }
-QTextEdit { background: #272822; color: #E2E2E2; }
-StyledLabel#topicLabel { background: #272822; }
-TopicWidget { background: #272822; }
+ChatView { background: #262626; }
+NickView { background: #262626; }
+BufferView { background: #262626; }
+QTextEdit { background: #262626; color: #E2E2E2; }
+StyledLabel#topicLabel { background: #262626; }
+TopicWidget { background: #262626; }
 
 ChatLine::url { foreground: #F8F8F2; }

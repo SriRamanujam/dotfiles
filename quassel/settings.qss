@@ -6,11 +6,11 @@ ChatLine { font: normal 12pt "Consolas"; }
 
 // Custom ChatView Colors
 Palette { marker-line: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ff0000, stop: 0.1 transparent); }
-ChatView { background: #272822; }
+ChatView { background: #262626; }
 
 ChatLine[label="highlight"] {
   foreground: #66d9ef;
-  background: #272822;
+  background: #262626;
 }
 
 ChatLine::timestamp { foreground: #707c70; }
@@ -54,6 +54,11 @@ ChatLine::sender#plain[sender="0c"] { foreground: #a7ffc3; }
 ChatLine::sender#plain[sender="0d"] { foreground: #f4d2ff; }
 ChatLine::sender#plain[sender="0e"] { foreground: #ffe1a0; }
 ChatLine::sender#plain[sender="0f"] { foreground: #4f8788; }
+
+// ItemView Font
+ChatListItem { font: normal 8pt "Sans Serif"; }
+NickListItem { font: normal 8pt "Sans Serif"; }
+
 
 // BufferView Colors
 ChatListItem { foreground: #f8f8f2; }

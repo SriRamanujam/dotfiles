@@ -4,7 +4,7 @@
 		<separator label="ArchmageRina"/>
 		<item label="Terminal">
 			<action name="Execute">
-				<execute>lxterminal</execute>
+				<execute>urxvt</execute>
 			</action>
 		</item>
 		<item label="IRC Client">
@@ -143,6 +143,16 @@
 		</menu>
 		<menu id="39" label="Other">
 			<menu id="39-692429" label="Office">
+				<item label="FBReader (epub)">
+					<action name="Execute">
+						<execute>FBReader</execute>
+					</action>
+				</item>
+				<item label="DJView Reader">
+					<action name="Execute">
+						<execute>djview4</execute>
+					</action>
+				</item>
 				<item label="QPDFView">
 					<action name="Execute">
 						<execute>qpdfview</execute>
