@@ -337,7 +337,7 @@ audio_output {
 # the argument "off", "album" or "track". See <http://www.replaygain.org>
 # for more details. This setting is off by default.
 #
-replaygain			"track"
+replaygain			"album"
 #
 # This setting sets the pre-amp used for files that have ReplayGain tags. By
 # default this setting is disabled.

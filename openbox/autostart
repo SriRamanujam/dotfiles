@@ -24,12 +24,12 @@ redshift -l 39.98389:-75.14986 -t 6500:5000 &
 if [ $(xrandr -q | grep -c "HDMI-0 disconnected" ) -ne 0 ]
 then
 	xrandr --output LVDS --mode 1366x768 &
-	conky -c ~/.conkylaptoprc &
+	(sleep 0.5 && conky -c ~/.conkylaptoprc) &
 	#sonata &
 else
 	xrandr --output LVDS --off &
 	xrandr --output HDMI-0 --mode 1920x1080 & 
-	conky &
+	(sleep 0.5 && conky) &
 	#leafpad &
 fi
 
