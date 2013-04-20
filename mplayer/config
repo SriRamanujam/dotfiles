@@ -34,7 +34,7 @@ cache-min=15.0
 #testing out software volume functionality
 softvol=yes
 softvol-max=100
-volume=50
+volume=30
 
 stop-xscreensaver=yes
 

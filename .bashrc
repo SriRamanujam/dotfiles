@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
+PS1='[\u@\h:\w]\$ '
 
 # from this point on i'm pretty much going to be copying ubuntu lol
 

@@ -21,12 +21,15 @@ devmon &
 
 redshift -l 39.98389:-75.14986 -t 6500:5000 &
 
+wicd-gtk &
+
 if [ $(xrandr -q | grep -c "HDMI-0 disconnected" ) -ne 0 ]
 then
 	xrandr --output LVDS --mode 1366x768 &
 	(sleep 0.5 && conky -c ~/.conkylaptoprc) &
 	#sonata &
 else
+	xset s off &
 	xrandr --output LVDS --off &
 	xrandr --output HDMI-0 --mode 1920x1080 & 
 	(sleep 0.5 && conky) &
@@ -37,7 +40,7 @@ fi
 
 thunar --daemon &
 
-mpd &
+#mpd &
 
 stalonetray &
 
@@ -45,4 +48,4 @@ stalonetray &
 
 dropboxd &
 
-google-musicmanager &
+#google-musicmanager &

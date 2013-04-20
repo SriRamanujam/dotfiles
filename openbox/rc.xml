@@ -156,9 +156,9 @@
      cases. -->
   <margins>
     <top>32</top>
-    <bottom>1</bottom>
-    <left>1</left>
-    <right>1</right>
+    <bottom>0</bottom>
+    <left>0</left>
+    <right>0</right>
   </margins>
   <dock>
     <position>BottomRight</position>

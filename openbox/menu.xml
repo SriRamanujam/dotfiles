@@ -4,7 +4,7 @@
 		<separator label="ArchmageRina"/>
 		<item label="Terminal">
 			<action name="Execute">
-				<execute>urxvt</execute>
+				<execute>lxterminal</execute>
 			</action>
 		</item>
 		<item label="IRC Client">
@@ -14,7 +14,7 @@
 		</item>
 		<item label="Web Browser">
 			<action name="Execute">
-				<execute>google-chrome</execute>
+				<execute>chromium</execute>
 			</action>
 		</item>
 		<item label="File Manager">
@@ -24,7 +24,7 @@
 		</item>
 		<item label="Music Player">
 			<action name="Execute">
-				<execute>sonata</execute>
+				<execute>quodlibet</execute>
 			</action>
 		</item>
 		<separator label="Programs"/>
@@ -93,14 +93,29 @@
 					<execute>xterm -geometry 161x25 -e alsamixer</execute>
 				</action>
 			</item>
+			<item label="Easytag">
+				<action name="Execute">
+					<execute>easytag</execute>
+				</action>
+			</item>
 			<item label="Equalizer">
 				<action name="Execute">
 					<execute>xterm -geometry 123x25 -e alsamixer -D equal</execute>
 				</action>
 			</item>
-			<item label="Sonata">
+			<item label="Gimp">
 				<action name="Execute">
-					<execute>sonata</execute>
+					<execute>gimp</execute>
+				</action>
+			</item>
+			<item label="Quod Libet">
+				<action name="Execute">
+					<execute>quodlibet</execute>
+				</action>
+			</item>
+			<item label="VLC">
+				<action name="Execute">
+					<execute>vlc</execute>
 				</action>
 			</item>
 		</menu>
@@ -130,16 +145,6 @@
 					<execute>transgui</execute>
 				</action>
 			</item>
-			<item label="Talk">
-				<action name="Execute">
-					<execute>xterm -e talk</execute>
-				</action>
-			</item>
-			<item label="Telnet">
-				<action name="Execute">
-					<execute>xterm -e telnet</execute>
-				</action>
-			</item>
 		</menu>
 		<menu id="39" label="Other">
 			<menu id="39-692429" label="Office">
@@ -164,6 +169,11 @@
 					</action>
 				</item>
 			</menu>
+			<item label="Virtualbox">
+				<action name="Execute">
+					<execute>VirtualBox</execute>
+				</action>
+			</item>
 			<item label="Matlab">
 				<action name="Execute">
 					<execute>/home/sri/MatLab/bin/matlab -desktop</execute>
@@ -201,9 +211,9 @@
 					<execute>lxterminal</execute>
 				</action>
 			</item>
-			<item label="UXTerm">
+			<item label="URxvt">
 				<action name="Execute">
-					<execute>uxterm</execute>
+					<execute>urxvt</execute>
 				</action>
 			</item>
 			<item label="Xterm">

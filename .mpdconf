@@ -1,4 +1,4 @@
-# An example configuration file for MPD
+#An example configuration file for MPD
 # See the mpd.conf man page for a more detailed description of each parameter.
 
 
@@ -337,12 +337,12 @@ audio_output {
 # the argument "off", "album" or "track". See <http://www.replaygain.org>
 # for more details. This setting is off by default.
 #
-replaygain			"album"
+replaygain			"track"
 #
 # This setting sets the pre-amp used for files that have ReplayGain tags. By
 # default this setting is disabled.
 #
-#replaygain_preamp		"0"
+replaygain_preamp		"-3.0"
 #
 # This setting enables on-the-fly normalization volume adjustment. This will
 # result in the volume of all playing audio to be adjusted so the output has 

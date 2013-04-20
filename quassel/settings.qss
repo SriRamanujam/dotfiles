@@ -6,11 +6,11 @@ ChatLine { font: normal 12pt "Consolas"; }
 
 // Custom ChatView Colors
 Palette { marker-line: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ff0000, stop: 0.1 transparent); }
-ChatView { background: #262626; }
+ChatView { background: #272822; }
 
 ChatLine[label="highlight"] {
   foreground: #66d9ef;
-  background: #262626;
+  background: #272822;
 }
 
 ChatLine::timestamp { foreground: #707c70; }
@@ -55,14 +55,9 @@ ChatLine::sender#plain[sender="0d"] { foreground: #f4d2ff; }
 ChatLine::sender#plain[sender="0e"] { foreground: #ffe1a0; }
 ChatLine::sender#plain[sender="0f"] { foreground: #4f8788; }
 
-// ItemView Font
-ChatListItem { font: normal 8pt "Sans Serif"; }
-NickListItem { font: normal 8pt "Sans Serif"; }
-
-
 // BufferView Colors
 ChatListItem { foreground: #f8f8f2; }
-ChatListItem[state="inactive"] { foreground: #a0a0a4; }
+ChatListItem[state="inactive"] { foreground: #d2d2d7; }
 ChatListItem[state="channel-event"] { foreground: #800000; }
 ChatListItem[state="unread-message"] { foreground: #ff0000; }
 ChatListItem[state="highlighted"] { foreground: #0000ff; }

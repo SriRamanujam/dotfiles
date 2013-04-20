@@ -11,9 +11,9 @@ auto = True
 profile_num = 0
 
 [player]
-w = 378
+w = 368
 h = 530
-x = 1
+x = 0
 y = 32
 expanded = True
 withdrawn = False
@@ -25,8 +25,8 @@ sticky = True
 ontop = False
 decorated = True
 update_on_start = True
-xfade = 5
-xfade_enabled = False
+xfade = 1
+xfade_enabled = True
 covers_pref = 1
 use_infofile = False
 infofile_path = /tmp/xmms-info
@@ -51,9 +51,9 @@ playback = True
 progressbar = True
 trayicon = False
 search_num = 5
-existing_playlist = 0
+existing_playlist = 1
 browser = 
-columnwidths = 317,10
+columnwidths = 305,10
 
 [notebook]
 current_tab_visible = True
@@ -68,12 +68,12 @@ streams_tab_pos = 3
 info_tab_pos = 4
 
 [library]
-lib_album = !NONE!
-lib_artist = !NONE!
+lib_album = GIRLS' GENERATION II ～Girls & Peace～
+lib_artist = 少女時代
 lib_genre = !NONE!
-lib_year = !NONE!
-lib_path = GIRLS' GENERATION - I GOT A BOY [V0]
-lib_view = 0
+lib_year = 2012
+lib_path = GIRLS' GENERATION II ~Girls & Peace~
+lib_view = 1
 
 [currformat]
 current = %A - %T|%L
