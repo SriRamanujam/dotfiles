@@ -1,0 +1,17 @@
+parent: 			true
+urxvt*.shading:			55
+!rxvt*.cursorBlink:		true
+urxvt.scrollBar:		false
+!urxvt*.transparent:		true
+
+!# Font settings
+urxvt*font:			xft:Inconsolata-g:size=12:antialias=true
+!urxvt*Font:			-*-terminus-*-*-*-*-10-*-*-*-*-*-*-*
+urxvt*foreground:		#F8F8F2
+urxvt*background:		#262626
+
+!#xft settings
+
+!Xft.dpi:			96
+
+

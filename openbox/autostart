@@ -21,7 +21,7 @@ devmon &
 
 redshift -l 39.98389:-75.14986 -t 6500:5000 &
 
-wicd-gtk &
+wicd-client --tray &
 
 if [ $(xrandr -q | grep -c "HDMI-0 disconnected" ) -ne 0 ]
 then
