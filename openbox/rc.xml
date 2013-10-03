@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
   <resistance>
     <strength>10</strength>
@@ -22,7 +23,7 @@
        mouse into it, also raise the window -->
   </focus>
   <placement>
-    <policy>Smart</policy>
+    <policy>UnderMouse</policy>
     <!-- 'Smart' or 'UnderMouse' -->
     <center>yes</center>
     <!-- whether to place windows in the center of the free area found or
@@ -122,9 +123,9 @@
     <names>
       <name>Web</name>
       <name>Terminal</name>
+      <name>Media</name>
       <name>Dev 1</name>
       <name>Dev 2</name>
-      <name>Media</name>
       <name>School</name>
     </names>
     <popupTime>875</popupTime>
@@ -225,8 +226,8 @@
       <action name="Unfocus"/>
     </keybind>
     <keybind key="W-space">
-      <action name="ShowMenu">
-        <menu>client-menu</menu>
+      <action name="Execute">
+        <command>gmrun</command>
       </action>
     </keybind>
     <keybind key="W-l">

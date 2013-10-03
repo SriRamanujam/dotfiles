@@ -18,10 +18,11 @@
 
 devmon &
 
-
 redshift -l 39.98389:-75.14986 -t 6500:5000 &
 
 wicd-client --tray &
+
+pulseaudio --daemon &
 
 if [ $(xrandr -q | grep -c "HDMI-0 disconnected" ) -ne 0 ]
 then
@@ -40,11 +41,13 @@ fi
 
 thunar --daemon &
 
-#mpd &
+mpd &
+
+mpdscribble &
 
 stalonetray &
 
-/usr/bin/amixer -c 0 sset "Auto-Mute Mode" Enabled
+#/usr/bin/amixer -c 0 sset "Auto-Mute Mode" Enabled
 
 dropboxd &
 

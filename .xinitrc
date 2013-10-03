@@ -10,7 +10,7 @@
 
 #if [ $(xrandr -q | grep -c HDMI) -ne 0 ]
 #then
-#	xrandr --output LVDS --off
+#    xrandr --output LVDS --off
 #	xrandr --output VGA-0 --mode 1680x1050 --output HDMI-0 --mode 1920x1080 --right-of VGA-0
 #else
 #	xrandr --output LVDS --mode 1366x768
@@ -21,5 +21,6 @@
 #xsetroot -cursor_name left_ptr
 #exec xmonad
 
-#exec openbox-session
-exec startkde
+exec openbox-session
+#exec i3
+#exec startkde

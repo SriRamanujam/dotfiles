@@ -2,6 +2,9 @@
 
 #Device setup for alsaequal audio out
 ao=pulse
+
+#Why is it using vdpau?
+vo=opengl-hq,xv
 #for the subtitles
 double=yes #double buffering
 sub-fuzziness=1 #and also find any subtitle files
@@ -28,7 +31,7 @@ cache-min=15.0
 #deinterlace settings
 # this should be passed to files that need it via the command line, rather than
 # via this setting, since mplayer doesn't have autodetect (afaik)
-vf=yadif
+#vf=yadif
 
 
 #testing out software volume functionality

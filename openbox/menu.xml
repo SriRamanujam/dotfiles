@@ -14,7 +14,7 @@
 		</item>
 		<item label="Web Browser">
 			<action name="Execute">
-				<execute>chromium --alsa-output-device=equal</execute>
+				<execute>firefox</execute>
 			</action>
 		</item>
 		<item label="File Manager">
@@ -24,11 +24,16 @@
 		</item>
 		<item label="Music Player">
 			<action name="Execute">
-				<execute>quodlibet</execute>
+				<execute>sonata</execute>
 			</action>
 		</item>
 		<separator label="Programs"/>
 		<menu id="1" label="Development">
+			<item label="AWF">
+				<action name="Execute">
+					<execute>awf-gtk3</execute>
+				</action>
+			</item>
 			<item label="IDLE">
 				<action name="Execute">
 					<execute>idle</execute>
@@ -73,7 +78,7 @@
 			</item>
 			<item label="Sublime Text 2">
 				<action name="Execute">
-					<execute>/home/sri/apps/ST2/sublime_text</execute>
+					<execute>&quot;/home/sri/apps/Sublime Text 2/sublime_text&quot;</execute>
 				</action>
 			</item>
 			<item label="Vi">
@@ -98,9 +103,9 @@
 					<execute>easytag</execute>
 				</action>
 			</item>
-			<item label="Equalizer">
+			<item label="Pavucontrol">
 				<action name="Execute">
-					<execute>xterm -geometry 123x25 -e alsamixer -D equal</execute>
+					<execute>pavucontrol</execute>
 				</action>
 			</item>
 			<item label="Gimp">
@@ -147,7 +152,7 @@
 			</item>
 			<item label="Transmission">
 				<action name="Execute">
-					<execute>transgui</execute>
+					<execute>transmission-remote-gtk</execute>
 				</action>
 			</item>
 		</menu>

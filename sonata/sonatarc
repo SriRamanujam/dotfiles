@@ -11,9 +11,9 @@ auto = True
 profile_num = 0
 
 [player]
-w = 368
-h = 530
-x = 0
+w = 364
+h = 451
+x = 4
 y = 32
 expanded = True
 withdrawn = False
@@ -26,7 +26,7 @@ ontop = False
 decorated = True
 update_on_start = True
 xfade = 1
-xfade_enabled = True
+xfade_enabled = False
 covers_pref = 1
 use_infofile = False
 infofile_path = /tmp/xmms-info
@@ -36,7 +36,7 @@ lyrics_location = 0
 info_song_expanded = True
 info_lyrics_expanded = True
 info_album_expanded = False
-info_song_more = True
+info_song_more = False
 info_art_enlarged = False
 show_header = True
 tabs_expanded = False
@@ -68,12 +68,12 @@ streams_tab_pos = 3
 info_tab_pos = 4
 
 [library]
-lib_album = GIRLS' GENERATION II ～Girls & Peace～
-lib_artist = 少女時代
+lib_album = !NONE!
+lib_artist = !NONE!
 lib_genre = !NONE!
-lib_year = 2012
-lib_path = GIRLS' GENERATION II ~Girls & Peace~
-lib_view = 1
+lib_year = !NONE!
+lib_path = /
+lib_view = 0
 
 [currformat]
 current = %A - %T|%L
@@ -86,7 +86,7 @@ currsong2 = by %A from %B
 num_streams = 0
 
 [audioscrobbler]
-use_audioscrobbler = True
+use_audioscrobbler = False
 username = QurrUm
 password_md5 = 03c956fc7cc19b8ca3ebd35701607999
 
