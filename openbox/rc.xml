@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
   <resistance>
     <strength>10</strength>
@@ -181,6 +180,21 @@
     <keybind key="C-A-Left">
       <action name="DesktopLeft"/>
     </keybind>
+    <keybind key="XF86AudioRaiseVolume">
+      <action name="Execute">
+        <command>pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +5%</command>
+      </action>
+    </keybind>
+    <keybind key="XF86AudioLowerVolume">
+      <action name="Execute">
+        <command>pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -- -5%</command>
+      </action>
+    </keybind>
+    <keybind key="XF86AudioMute">
+      <action name="Execute">
+        <command>pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle</command>
+      </action>
+    </keybind>
     <keybind key="C-A-Right">
       <action name="DesktopRight"/>
     </keybind>
@@ -272,9 +286,10 @@
       <action name="UnmaximizeFull"/>
       <action name="MaximizeVert"/>
       <action name="MoveResizeTo">
+        <x>0</x>
+        <y>0</y>
         <width>50%</width>
       </action>
-      <action name="MoveToEdgeWest"/>
     </keybind>
     <keybind key="W-Right">
       <action name="UnmaximizeFull"/>
