@@ -24,3 +24,5 @@
 exec openbox-session
 #exec i3
 #exec startkde
+
+#exec cinnamon-session
