@@ -4,7 +4,7 @@
 		<separator label="ArchmageRina"/>
 		<item label="Terminal">
 			<action name="Execute">
-				<execute>lxterminal</execute>
+				<execute>konsole</execute>
 			</action>
 		</item>
 		<item label="IRC Client">
@@ -24,7 +24,7 @@
 		</item>
 		<item label="Music Player">
 			<action name="Execute">
-				<execute>sonata</execute>
+				<execute>cantata</execute>
 			</action>
 		</item>
 		<separator label="Programs"/>
@@ -34,14 +34,9 @@
 					<execute>awf-gtk3</execute>
 				</action>
 			</item>
-			<item label="IDLE">
+			<item label="QTCreator">
 				<action name="Execute">
-					<execute>idle</execute>
-				</action>
-			</item>
-			<item label="Python">
-				<action name="Execute">
-					<execute>xterm -e python</execute>
+					<execute>qtcreator</execute>
 				</action>
 			</item>
 			<item label="IntelliJ IDEA">
@@ -79,11 +74,6 @@
 			<item label="Sublime Text 2">
 				<action name="Execute">
 					<execute>&quot;/home/sri/apps/Sublime Text 2/sublime_text&quot;</execute>
-				</action>
-			</item>
-			<item label="Vi">
-				<action name="Execute">
-					<execute>xterm -e vi</execute>
 				</action>
 			</item>
 			<item label="Vim">
@@ -130,16 +120,6 @@
 			</item>
 		</menu>
 		<menu id="5" label="Network">
-			<item label="FTP">
-				<action name="Execute">
-					<execute>xterm -e ftp</execute>
-				</action>
-			</item>
-			<item label="Google Chrome">
-				<action name="Execute">
-					<execute>google-chrome</execute>
-				</action>
-			</item>
 			<item label="Quassel IRC">
 				<action name="Execute">
 					<execute>quassel</execute>
@@ -148,6 +128,11 @@
 			<item label="Quassel IRC (Client only)">
 				<action name="Execute">
 					<execute>quasselclient</execute>
+				</action>
+			</item>
+			<item label="Shameful Browsing">
+				<action name="Execute">
+					<execute>chromium --incognito</execute>
 				</action>
 			</item>
 			<item label="Transmission">
@@ -168,9 +153,9 @@
 						<execute>djview4</execute>
 					</action>
 				</item>
-				<item label="QPDFView">
+				<item label="Evince">
 					<action name="Execute">
-						<execute>qpdfview</execute>
+						<execute>evince</execute>
 					</action>
 				</item>
 				<item label="Libreoffice">
@@ -197,11 +182,6 @@
 			<item label="Dropbox">
 				<action name="Execute">
 					<execute>dropboxd</execute>
-				</action>
-			</item>
-			<item label="Help">
-				<action name="Execute">
-					<execute>khelpcenter</execute>
 				</action>
 			</item>
 			<item label="KeePass Password Safe">
@@ -244,14 +224,14 @@
 						<execute>obconf</execute>
 					</action>
 				</item>
+				<item label="Openbox Keys Manager">
+					<action name="Execute">
+						<execute>obkey</execute>
+					</action>
+				</item>
 				<item label="Openbox Menu Manager">
 					<action name="Execute">
 						<execute>obmenu</execute>
-					</action>
-				</item>
-				<item label="Preferred Applications">
-					<action name="Execute">
-						<execute>libfm-pref-apps</execute>
 					</action>
 				</item>
 			</menu>
@@ -285,6 +265,11 @@
 			<item label="Archive Manager">
 				<action name="Execute">
 					<execute>file-roller</execute>
+				</action>
+			</item>
+			<item label="Back In Time">
+				<action name="Execute">
+					<execute>backintime-gnome</execute>
 				</action>
 			</item>
 			<item label="Info">

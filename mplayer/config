@@ -1,10 +1,15 @@
 # Write your default config options here!
 
-#Device setup for alsaequal audio out
+#Device setup for pulse audio out
 ao=pulse
 
-#Why is it using vdpau?
-vo=opengl-hq,xv
+#hwdec doesn't work on big files, sadly.
+#because that is where it would make the
+#most sense to be used. 
+#hwdec=vdpau
+
+#Why is it not using vdpau?
+vo=vdpau,opengl-hq,xv
 #for the subtitles
 double=yes #double buffering
 sub-fuzziness=1 #and also find any subtitle files
@@ -36,7 +41,7 @@ cache-min=15.0
 
 #testing out software volume functionality
 softvol=yes
-softvol-max=70
+#softvol-max=70
 volume=30
 
 stop-xscreensaver=yes

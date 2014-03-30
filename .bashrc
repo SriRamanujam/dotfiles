@@ -10,11 +10,13 @@ export GTK_RC_FILES=$HOME/.gtkrc-2.0
 alias ls='ls --color=auto'
 PS1='[\u@\h:\w]\$ '
 
-# from this point on i'm pretty much going to be copying ubuntu lol
-
-HISTCONTROL=ignoredups:ignorespace
-shopt -s histappend
-shopt -s checkwinsize
+# Some user-defined exports and sources here
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk/lib
+export WORKON_HOME=/home/sri/.venvs
+export PROJECT_HOME=/home/sri/Documents/Projects
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv2
+source /usr/bin/virtualenvwrapper.sh
 
 case "$TERM" in
 	xterm-color) color_prompt=yes;;
@@ -30,10 +32,11 @@ alias l='ls -CF'
 
 fehbg() {
 	feh --bg-fill "$1"
-	cp "$1" /home/sri/wallpaper
-	echo "feh --bg-fill /home/sri/wallpaper" > ~/.fehbg	
+	cp "$1" /usr/share/backgrounds/wallpaper 2>/dev/null
+	convert -adaptive-resize 1920x1080 "$1"  /usr/share/backgrounds/wallpaper.png
+    cp /usr/share/backgrounds/wallpaper.png /usr/share/backgrounds/login.jpg
+	echo "feh --bg-fill /usr/share/backgrounds/wallpaper" > ~/.fehbg
 }
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e'\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 

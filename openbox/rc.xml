@@ -72,12 +72,12 @@
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="MenuHeader">
-      <name>sans</name>
+      <name>Sans</name>
       <size>9</size>
       <!-- font size in points -->
-      <weight>normal</weight>
+      <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
-      <slant>normal</slant>
+      <slant>Normal</slant>
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="MenuItem">
@@ -160,12 +160,12 @@
   <dock>
     <position>BottomRight</position>
     <!-- (Top|Bottom)(Left|Right|)|Top|Bottom|Left|Right|Floating -->
-    <floatingX>0</floatingX>
-    <floatingY>0</floatingY>
-    <noStrut>yes</noStrut>
+    <floatingX>85</floatingX>
+    <floatingY>1</floatingY>
+    <noStrut>no</noStrut>
     <stacking>Above</stacking>
     <!-- 'Above', 'Normal', or 'Below' -->
-    <direction>Vertical</direction>
+    <direction>Horizontal</direction>
     <!-- 'Vertical' or 'Horizontal' -->
     <autoHide>yes</autoHide>
     <hideDelay>300</hideDelay>
@@ -177,8 +177,55 @@
   </dock>
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
-    <keybind key="C-A-Left">
+    <keybind key="W-h">
       <action name="DesktopLeft"/>
+    </keybind>
+    <keybind key="W-t">
+      <action name="Execute">
+        <command>konsole</command>
+      </action>
+    </keybind>
+    <keybind key="Print">
+      <action name="Execute">
+        <command>scrot -e 'mv $f ~/screenshots/'</command>
+      </action>
+    </keybind>
+    <keybind chroot="yes" key="A-W-p">
+      <keybind key="1">
+        <action name="BreakChroot"/>
+        <action name="Execute">
+          <command>xrandr --output LVDS --off --output HDMI-0 --auto --output VGA-0 --off</command>
+        </action>
+        <action name="Execute">
+          <command>killall conky</command>
+        </action>
+        <action name="Execute">
+          <command>conky --daemon</command>
+        </action>
+        <action name="Execute">
+          <command>feh --bg-fill --no-fehbg /usr/share/backgrounds/wallpaper</command>
+        </action>
+      </keybind>
+      <keybind key="2">
+        <action name="BreakChroot"/>
+        <action name="Execute">
+          <command>xrandr --output LVDS --auto --output HDMI-0 --off --output VGA-0 --off</command>
+        </action>
+        <action name="Execute">
+          <command>killall conky</command>
+        </action>
+        <action name="Execute">
+          <command>conky --daemon</command>
+        </action>
+        <action name="Execute">
+          <command>feh --bg-fill --no-fehbg /usr/share/backgrounds/wallpaper</command>
+        </action>
+      </keybind>
+    </keybind>
+    <keybind key="S-Print">
+      <action name="Execute">
+        <command>scrot -s -e 'mv $f ~/screenshots/'</command>
+      </action>
     </keybind>
     <keybind key="XF86AudioRaiseVolume">
       <action name="Execute">
@@ -187,7 +234,7 @@
     </keybind>
     <keybind key="XF86AudioLowerVolume">
       <action name="Execute">
-        <command>pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -- -5%</command>
+        <command>pactl -- set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5%</command>
       </action>
     </keybind>
     <keybind key="XF86AudioMute">
@@ -195,41 +242,68 @@
         <command>pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle</command>
       </action>
     </keybind>
-    <keybind key="C-A-Right">
+    <keybind key="W-s">
       <action name="DesktopRight"/>
     </keybind>
-    <keybind key="C-A-Up">
-      <action name="GoToDesktop"/>
+    <keybind key="S-C-A-Down">
+      <action name="Execute">
+        <command>pactl -- set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5%</command>
+      </action>
     </keybind>
-    <keybind key="C-A-Down">
-      <action name="GoToDesktop"/>
+    <keybind key="S-C-A-Up">
+      <action name="Execute">
+        <command>pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -- +5%</command>
+      </action>
     </keybind>
-    <keybind key="S-A-Left">
+    <keybind key="S-C-A-m">
+      <action name="Execute">
+        <command>pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle</command>
+      </action>
+    </keybind>
+    <keybind key="S-W-h">
       <action name="SendToDesktopLeft"/>
     </keybind>
-    <keybind key="S-A-Right">
+    <keybind key="S-W-s">
       <action name="SendToDesktopRight"/>
     </keybind>
-    <keybind key="S-A-Up">
-      <action name="SendToDesktop"/>
-    </keybind>
-    <keybind key="S-A-Down">
-      <action name="SendToDesktop"/>
-    </keybind>
     <keybind key="W-F1">
-      <action name="GoToDesktop"/>
+      <action name="Desktop"/>
+    </keybind>
+    <keybind key="Menu">
+      <action name="ShowMenu">
+        <menu>root-menu</menu>
+      </action>
     </keybind>
     <keybind key="W-F2">
-      <action name="GoToDesktop"/>
+      <action name="Desktop">
+        <desktop>2</desktop>
+      </action>
     </keybind>
     <keybind key="W-F3">
-      <action name="GoToDesktop"/>
+      <action name="Desktop">
+        <desktop>3</desktop>
+      </action>
     </keybind>
     <keybind key="W-F4">
-      <action name="GoToDesktop"/>
+      <action name="Desktop">
+        <desktop>4</desktop>
+      </action>
+    </keybind>
+    <keybind key="W-F5">
+      <action name="Desktop">
+        <desktop>5</desktop>
+      </action>
+    </keybind>
+    <keybind key="W-F6">
+      <action name="Desktop">
+        <desktop>6</desktop>
+      </action>
     </keybind>
     <keybind key="W-d">
       <action name="ToggleShowDesktop"/>
+    </keybind>
+    <keybind key="S-W-d">
+      <action name="ToggleDockAutohide"/>
     </keybind>
     <keybind key="A-F4">
       <action name="Close"/>
@@ -239,68 +313,137 @@
       <action name="FocusToBottom"/>
       <action name="Unfocus"/>
     </keybind>
-    <keybind key="W-space">
-      <action name="Execute">
-        <command>gmrun</command>
-      </action>
+    <keybind key="W-Up">
+      <action name="ToggleMaximizeFull"/>
+    </keybind>
+    <keybind chroot="yes" key="S-W-Up">
+      <keybind key="Right">
+        <action name="UnmaximizeFull"/>
+        <action name="MaximizeVert"/>
+        <action name="MoveResizeTo">
+          <x>--0</x>
+          <width>368</width>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
+      <keybind key="Left">
+        <action name="UnmaximizeFull"/>
+        <action name="MaximizeVert"/>
+        <action name="MoveResizeTo">
+          <x>0</x>
+          <width>1552</width>
+          <height/>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
+      <keybind key="S-W-Right">
+        <action name="UnmaximizeFull"/>
+        <action name="MaximizeVert"/>
+        <action name="MoveResizeTo">
+          <x>--0</x>
+          <width>368</width>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
+      <keybind key="S-W-Left">
+        <action name="UnmaximizeFull"/>
+        <action name="MaximizeVert"/>
+        <action name="MoveResizeTo">
+          <x>0</x>
+          <width>1552</width>
+          <height/>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
     </keybind>
     <keybind key="W-l">
       <action name="Execute">
-        <command>slimlock</command>
+        <command>i3lock -i /usr/share/backgrounds/wallpaper.png -n</command>
       </action>
     </keybind>
     <keybind key="A-Tab">
-      <action name="NextWindow"/>
-    </keybind>
-    <keybind key="A-S-Tab">
-      <action name="PreviousWindow"/>
-    </keybind>
-    <keybind key="C-A-Tab">
       <action name="NextWindow">
-        <panels>yes</panels>
-        <desktop>yes</desktop>
+        <bar>no</bar>
+        <raise>yes</raise>
       </action>
     </keybind>
-    <keybind key="W-S-Right">
-      <action name="DirectionalCycleWindows"/>
-    </keybind>
-    <keybind key="W-S-Left">
-      <action name="DirectionalCycleWindows"/>
-    </keybind>
-    <keybind key="W-S-Up">
-      <action name="DirectionalCycleWindows"/>
-    </keybind>
-    <keybind key="W-S-Down">
-      <action name="DirectionalCycleWindows"/>
+    <keybind key="A-S-Tab">
+      <action name="PreviousWindow">
+        <bar>no</bar>
+        <raise>yes</raise>
+      </action>
     </keybind>
     <keybind key="W-e">
       <action name="Execute">
-        <command>kfmclient openProfile filemanagement</command>
-        <startupnotify>
-          <enabled>yes</enabled>
-          <name>Konqueror</name>
-        </startupnotify>
+        <command>thunar</command>
       </action>
     </keybind>
-    <keybind key="W-Left">
-      <action name="UnmaximizeFull"/>
-      <action name="MaximizeVert"/>
-      <action name="MoveResizeTo">
-        <x>0</x>
-        <y>0</y>
-        <width>50%</width>
-      </action>
-    </keybind>
-    <keybind key="W-Right">
-      <action name="UnmaximizeFull"/>
-      <action name="MaximizeVert"/>
-      <action name="MoveResizeTo">
-        <width>50%</width>
-      </action>
-      <action name="MoveToEdgeWest"/>
+    <keybind chroot="yes" key="W-Left">
+      <keybind key="W-Left">
+        <action name="UnmaximizeFull"/>
+        <action name="MaximizeVert"/>
+        <action name="MoveResizeTo">
+          <x>0</x>
+          <y>0</y>
+          <width>50%</width>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
+      <keybind key="W-Up">
+        <action name="UnmaximizeFull"/>
+        <action name="MoveResizeTo">
+          <x>0</x>
+          <y>0</y>
+          <width>50%</width>
+          <height>50%</height>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
+      <keybind key="W-Down">
+        <action name="UnmaximizeFull"/>
+        <action name="MoveResizeTo">
+          <x>0</x>
+          <y>--0</y>
+          <width>50%</width>
+          <height>50%</height>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
     </keybind>
     <keybind key="W-Down">
-      <action name="Unmaximize"/>
+      <action name="Iconify"/>
+    </keybind>
+    <keybind chroot="yes" key="W-Right">
+      <keybind key="W-Right">
+        <action name="UnmaximizeFull"/>
+        <action name="MaximizeVert"/>
+        <action name="MoveResizeTo">
+          <x>--0</x>
+          <y>--0</y>
+          <width>50%</width>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
+      <keybind key="W-Up">
+        <action name="UnmaximizeFull"/>
+        <action name="MoveResizeTo">
+          <x>--0</x>
+          <y>0</y>
+          <width>50%</width>
+          <height>50%</height>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
+      <keybind key="W-Down">
+        <action name="UnmaximizeFull"/>
+        <action name="MoveResizeTo">
+          <x>--0</x>
+          <y>--0</y>
+          <width>50%</width>
+          <height>50%</height>
+        </action>
+        <action name="BreakChroot"/>
+      </keybind>
     </keybind>
   </keyboard>
   <mouse>

@@ -16,39 +16,34 @@
 #
 #xfce-mcs-manager &
 
-devmon &
+#devmon &
+
+# pulseaudio --daemon &
+
+~/.fehbg &
+
+conky --daemon &
+
+compton -CGcf -t -4 -l -2 -r4 -o .55 -D2 --backend glx --glx-use-copysubbuffermesa --paint-on-overlay --glx-no-stencil --glx-no-rebind-pixmap --vsync opengl-swc &
+
+if [ $(xrandr -q | grep -c "HDMI-0 disconnected" ) -eq 0 ]
+then
+	xset s off &
+	xset -dpms &
+fi
 
 redshift -l 39.98389:-75.14986 -t 6500:5000 &
 
-wicd-client --tray &
-
-pulseaudio --daemon &
-
-if [ $(xrandr -q | grep -c "HDMI-0 disconnected" ) -ne 0 ]
-then
-	xrandr --output LVDS --mode 1366x768 &
-	(sleep 0.5 && conky -c ~/.conkylaptoprc) &
-	#sonata &
-else
-	xset s off &
-	xrandr --output LVDS --off &
-	xrandr --output HDMI-0 --mode 1920x1080 & 
-	(sleep 0.5 && conky) &
-	#leafpad &
-fi
-
-(sleep 1 && ~/.fehbg) & 
-
-thunar --daemon &
-
-mpd &
-
-mpdscribble &
+dunst &
 
 stalonetray &
 
-#/usr/bin/amixer -c 0 sset "Auto-Mute Mode" Enabled
+nm-applet &
+
+thunar --daemon &
+
+kmix &
 
 dropboxd &
 
-#google-musicmanager &
+batterymon --notify-at=10 --theme=24x24_narrow &

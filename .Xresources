@@ -5,7 +5,7 @@ urxvt.scrollBar:		false
 !urxvt*.transparent:		true
 
 !# Font settings
-urxvt*font:			xft:Inconsolata-g:size=12:antialias=true
+urxvt*font:			xft:Droid Sans Mono:size=9:antialias=true
 !urxvt*Font:			-*-terminus-*-*-*-*-10-*-*-*-*-*-*-*
 urxvt*foreground:		#F8F8F2
 urxvt*background:		#262626

@@ -16,13 +16,13 @@
 #	xrandr --output LVDS --mode 1366x768
 #fi
 
-#export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 #exec pulseaudio --start
 #xsetroot -cursor_name left_ptr
 #exec xmonad
 
-exec openbox-session
+#exec openbox-session
 #exec i3
-#exec startkde
+exec startkde
 
 #exec cinnamon-session
