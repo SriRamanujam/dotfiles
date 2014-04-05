@@ -6,7 +6,7 @@ ao=pulse
 #hwdec doesn't work on big files, sadly.
 #because that is where it would make the
 #most sense to be used. 
-#hwdec=vdpau
+hwdec=vdpau
 
 #Why is it not using vdpau?
 vo=vdpau,opengl-hq,xv

@@ -7,6 +7,7 @@ set nocompatible
 " Line number settings
 set ruler
 set number
+set relativenumber
 
 " Whitespace settings
 set encoding=utf-8
@@ -37,6 +38,13 @@ set foldmethod=syntax
 set foldlevelstart=99
 
 
+"Training myself to be a better vimmer
+inoremap jj <ESC>
+inoremap <Esc> <NOP>
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
+inoremap <Left> <NOP>
+inoremap <Right <NOP>
 " Make cursor move as expected with wrapped lines
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
