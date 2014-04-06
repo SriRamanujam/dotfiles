@@ -1,8 +1,9 @@
-" Basic settings
+" Basic setting
+set nocompatible
 set t_Co=256
 syntax on
 colo Monokai
-set nocompatible
+
 
 " Line number settings
 set ruler
@@ -39,12 +40,8 @@ set foldlevelstart=99
 
 
 "Training myself to be a better vimmer
-inoremap jj <ESC>
-inoremap <Esc> <NOP>
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
-inoremap <Left> <NOP>
-inoremap <Right <NOP>
+" inoremap <Esc> <NOP>
+" inoremap jj <Esc>
 " Make cursor move as expected with wrapped lines
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
