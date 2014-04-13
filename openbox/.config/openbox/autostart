@@ -38,8 +38,6 @@ dunst &
 
 stalonetray &
 
-nm-applet &
-
 thunar --daemon &
 
 kmix &

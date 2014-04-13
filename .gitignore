@@ -1,3 +1,4 @@
-mpdscribble.conf
-.vim/bundle*
-!.vim/bundle/vundle
+mpdscribble*
+vim/.vim/bundle*
+!vim/.vim/bundle/vundle
+.netrwhist

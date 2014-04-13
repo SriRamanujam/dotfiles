@@ -189,6 +189,11 @@
 					<execute>keepass</execute>
 				</action>
 			</item>
+			<item label="Steam">
+				<action name="Execute">
+					<execute>/home/sri/.local/share/Steam/steam.sh</execute>
+				</action>
+			</item>
 			<item label="QT V4L2 test Utility">
 				<action name="Execute">
 					<execute>qv4l2</execute>

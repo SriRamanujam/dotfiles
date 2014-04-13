@@ -1,4 +1,4 @@
-" Basic setting
+" Basic settings
 set nocompatible
 set t_Co=256
 syntax on
@@ -50,6 +50,9 @@ inoremap <Up> <C-o>gk
 set wrapscan
 "set spell
 "set spelllang=en
+
+" Filetype-specific settings
+autocmd BufRead, BufNewFile *.py setlocal foldmethod=indent
 
 " Vundle settings
 set rtp+=~/.vim/bundle/vundle
