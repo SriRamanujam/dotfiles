@@ -9,7 +9,7 @@ ao=pulse
 hwdec=vdpau
 
 #Why is it not using vdpau?
-vo=vdpau,opengl-hq,xv
+vo=vdpau
 #for the subtitles
 double=yes #double buffering
 sub-fuzziness=1 #and also find any subtitle files
@@ -25,7 +25,7 @@ subfont-outline=2.0
 subfont-text-scale=4.4
 
 #default aspect ratio
-monitoraspect=16:9
+#monitoraspect=16:9
 
 #always use english subtitles
 slang=en

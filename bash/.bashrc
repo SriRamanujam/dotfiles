@@ -7,6 +7,11 @@
 
 export GTK_RC_FILES=$HOME/.gtkrc-2.0
 
+# set PATH so it includes ~/bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
 alias ls='ls --color=auto'
 PS1='[\u@\h:\w]\$ '
 

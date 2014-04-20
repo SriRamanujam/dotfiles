@@ -16,10 +16,6 @@
 #
 #xfce-mcs-manager &
 
-#devmon &
-
-# pulseaudio --daemon &
-
 ~/.fehbg &
 
 conky --daemon &
