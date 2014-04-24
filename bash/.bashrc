@@ -35,11 +35,15 @@ alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
 
+# I'll figure this out properly later
+alias ssh='TERM=xterm ssh'
+
+alias feh='feh --scale-down'
 fehbg() {
 	feh --bg-fill "$1"
 	cp "$1" /usr/share/backgrounds/wallpaper 2>/dev/null
 	convert -adaptive-resize 1920x1080 "$1"  /usr/share/backgrounds/wallpaper.png
-    cp /usr/share/backgrounds/wallpaper.png /usr/share/backgrounds/login.jpg
+    convert /usr/share/backgrounds/wallpaper -blur 0x7 /usr/share/backgrounds/login.jpg
 	echo "feh --bg-fill /usr/share/backgrounds/wallpaper" > ~/.fehbg
 }
 
