@@ -59,18 +59,18 @@ set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
 "let vundle manage vundle, REQUIRED!!
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 " other bundles
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'majutsushi/tagbar'
-Bundle 'bling/vim-airline'
-Bundle 'kien/ctrlp.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'vim-scripts/Gundo'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'plasticboy/vim-markdown'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'majutsushi/tagbar'
+Plugin 'bling/vim-airline'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-scripts/Gundo'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'plasticboy/vim-markdown'
 
 " NERDTree settings
 autocmd vimenter * NERDTree
