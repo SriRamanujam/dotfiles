@@ -1,91 +1,183 @@
 #
 # bspwm hotkeys
 #
+# I'll be commenting these as I find out what they are.
+# It'll probably be easiest that way.
 
+# Quit bspwm (aka logout)
 super + alt + Escape
-	bspc quit
+    bspc quit
 
+# Close the highlighted window
 super + w
-	bspc window -c
+    bspc window -c
 
-super + t
-	bspc desktop -l next
+# Switch layout between monocle/tiled
+super + q
+    bspc desktop -l next
 
+# Balance the ratio of the splits so that all 
+# windows occupy the same area on the screen.
 super + b
-	bspc desktop -B
+    bspc desktop -B
 
-super + {s,f}
-	bspc window -t {floating,fullscreen}
+# super+s toggles the window to be floating
+# super+t toggles the window to be fullscreen.
+# Neither of these are probably what you'd want
+# for a fullscreen window, ironically. You'd want
+# to use the monocle layout for that. But what do I know.
+super + {f,r}
+    bspc window -t {floating,fullscreen}
 
+# super+grave switches to the last selected window, 
+# no matter what desktop it was on.
+# super+Tab switches to the last desktop.
 super + {grave,Tab}
-	bspc {window,desktop} -f last
+    bspc {window,desktop} -f last
 
+# Swaps the currently selected window with
+# the last-selected window.
 super + apostrophe
-	bspc window -s last
+    bspc window -s last
 
+# Okay, so these two commands go backwards and 
+# forwards in your window selection history. The
+# reason they're wrapped in the --record-history
+# flags is because you don't want the re-selections to
+# be part of the history themselves.
 super + {o,i}
-	bspc control --record-history off; \
-	bspc window {older,newer} -f; \
-	bspc control --record-history on
+    bspc control --record-history off; \
+    bspc window {older,newer} -f; \
+    bspc control --record-history on
 
+# This will transplant the currently-selected
+# window with the last manually-split window.
+# I have no idea what this means, but that's
+# what the manpage says.
 super + y
-	bspc window -w last.manual
+    bspc window -w last.manual
 
+# Swaps the current window with the biggest
+# window on the desktop.
 super + m
-	bspc window -s biggest
+    bspc window -s biggest
 
-super + {_,shift + }{h,j,k,l}
-	bspc window -{f,s} {left,down,up,right}
+# Okay, so this block handles window selection
+# and swapping. super+{h,j,k,l} will focus the
+# window to the left, top, bottom, right.
+#
+# super+shift+{h,j,k,l} will swap the window with
+# the one to its left, top, bottom, right.
+super + {_,shift + }{h,n,t,s}
+    bspc window -{f,s} {left,down,up,right}
 
+# This focuses the next or previous window.
+# Next and previous are determined in a cyclic manner.
 super + {_,shift + }c
-	bspc window -f {next,prev}
+    bspc window -f {next,prev}
 
+# Circulates the leaves of the tree forward or backward.
 super + {comma,period}
-	bspc desktop -C {backward,forward}
+    bspc desktop -C {backward,forward}
 
+# Moves one desktop left or right.
 super + bracket{left,right}
-	bspc desktop -f {prev,next}
+    bspc desktop -f {prev,next}
 
-super + ctrl + {h,j,k,l}
-	bspc window -p {left,down,up,right}
+# Preselect the splitting area of the selected window.
+# So if you wanted to create a new window on top of the 
+# current one, instead of the default which is to rejigger
+# the whole arrangement, then you say super+ctrl+k (which 
+# highlights the top half of the window, you will note), then
+# launch the program you want. It will tile exactly like you 
+# asked.
+super + ctrl + {h,n,t,s}
+    bspc window -p {left,down,up,right}
 
+# Clears preselections. 
+# super+ctrl+space cancels presels on the highlighted
+# window.
+# super+ctrl+shift+space cancels all presels on the 
+# visible desktop.
 super + ctrl + {_,shift + }space
-	bspc {window -p cancel,desktop -c}
+    bspc {window -p cancel,desktop -c}
 
-super + alt + {h,j,k,l}
-	bspc window -e {left -10,down +10,up -10,right +10}
+# Keyboard-driven resize. super+alt+{h,j,k,l} grows
+# the highlighted window 10px in the given direction.
+super + alt + {h,n,t,s}
+    bspc window -e {left -10,down +10,up -10,right +10}
 
-super + alt + shift + {h,j,k,l}
-	bspc window -e {right -10,up +10,down -10,left +10}
+# Keyboard-driven resize. super+shift+alt+{h,j,k,l} shrinks
+# the highlighted window 10px in the given direction.
+super + alt + shift + {h,n,t,s}
+    bspc window -e {right -10,up +10,down -10,left +10}
 
+# Sets the window splitting ratio with super+ctrl+{1,9}
+# where 1-9 are increments of 0.1. 
 super + ctrl + {1-9}
-	bspc window -r 0.{1-9}
+    bspc window -r 0.{1-9}
 
+# Desktop manipulation. super+{1-9,0} switches
+# the active desktop to the one specified.
+# super+shift+{1-9,0} moves the highlighted 
+# window to that desktop.
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} ^{1-9,10}
+    bspc {desktop -f,window -d} ^{1-9,10}
 
+# Focuses the window under the pointer on click,
+# and also replays that click to the client.
+# This is handy so that you don't have to click
+# twice to do something in an unfocused window.
 ~button1
-	bspc pointer -g focus
+    bspc pointer -g focus
 
+# Mouse-driven move and resize commands. Move is 
+# bound to button1, resize_side to button2, resize_corner
+# to button3
 super + button{1-3}
-	bspc pointer -g {move,resize_side,resize_corner}
+    bspc pointer -g {move,resize_side,resize_corner}
 
+# This tracks the location of the mouse pointer while
+# the key is held down, enabling bspwm to watch where
+# you are moving or resizing your window.
 super + !button{1-3}
-	bspc pointer -t %i %i
+    bspc pointer -t %i %i
 
+# When the mouse button is released, bspwm will also
+# terminate the current pointer action.
 super + @button{1-3}
-	bspc pointer -u
+    bspc pointer -u
 
 #
 # wm independent hotkeys
 #
 
-super + Return
-	konsole
+# Volume settings
+{XF86AudioRaiseVolume, ctrl + alt + shift + Up}
+    pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +5%
 
+{XF86AudioLowerVolume, ctrl + alt + shift + Down}
+    pactl -- set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5%
+
+{XF86AudioMute, ctrl + alt + shift + m}
+    pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle
+
+# Monitor switching
+super + alt + {F1,F2}
+    xrandr --output {LVDS,HDMI-0} --off --output {HDMI-0,LVDS} --auto; \
+    ~/.fehbg
+
+# Launches urxvt
+super + Return
+    urxvt
+
+# Runs dmenu
 super + space
-	dmenu_run
+    dmenu_run
+
+super + l
+    ~/bin/lock
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill -USR1 -x sxhkd
+    pkill -USR1 -x sxhkd

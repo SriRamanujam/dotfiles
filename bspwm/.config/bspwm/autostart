@@ -1,0 +1,11 @@
+#!/bin/bash
+
+~/.fehbg &
+
+redshift -l 39.98389:-75.14986 -t 6500:5000 &
+
+compton -CGcf -t -4 -l -2 -r4 -o .55 -D2 --backend glx --glx-use-copysubbuffermesa --paint-on-overlay --glx-no-stencil --glx-no-rebind-pixmap --vsync opengl-swc --sw-opti &
+
+devmon --no-gui &
+
+dunst &
