@@ -71,6 +71,7 @@ Plugin 'vim-scripts/Gundo'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'plasticboy/vim-markdown'
+" Plugin 'ajh17/VimCompletesMe'
 
 " NERDTree settings
 autocmd vimenter * NERDTree
@@ -82,16 +83,25 @@ nmap <F8> :TagbarToggle<CR>
 
 " CtrlP settings
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode= 'ra'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_extensions = ['buffertag', 'dir']
 
 filetype plugin indent on
 
 " Airline symbols
 let g:airline_powerline_fonts = 1
 let AirlineTheme="molokai"
+let g:airline#extensions#tabline#enabled = 1
 
 " Syntastic settings
 let g:syntastic_check_on_open = 1
 let g:syntastic_auto_loc_list = 1
+
+" Easymotion settings
+let g:EasyMotion_do_mapping = 0 "Disable default mapping
+nmap <Leader><Leader> <Plug>(easymotion-jumptoanywhere)
+
+" Tagbar settings
+let g:tagbar_show_linenumbers = 1
