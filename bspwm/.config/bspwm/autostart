@@ -8,4 +8,5 @@ compton -CGcf -t -4 -l -2 -r4 -o .55 -D2 --backend glx --glx-use-copysubbufferme
 
 devmon --no-gui &
 
+
 dunst &

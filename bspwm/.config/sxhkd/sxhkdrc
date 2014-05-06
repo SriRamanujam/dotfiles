@@ -6,7 +6,7 @@
 
 # Quit bspwm (aka logout)
 super + alt + Escape
-    bspc quit
+    killall panel.sh; bspc quit
 
 # Close the highlighted window
 super + w
@@ -16,23 +16,23 @@ super + w
 super + q
     bspc desktop -l next
 
-# Balance the ratio of the splits so that all 
+# Balance the ratio of the splits so that all
 # windows occupy the same area on the screen.
 super + b
     bspc desktop -B
 
-# super+s toggles the window to be floating
-# super+t toggles the window to be fullscreen.
+# super+f toggles the window to be floating
+# super+r toggles the window to be fullscreen.
 # Neither of these are probably what you'd want
 # for a fullscreen window, ironically. You'd want
 # to use the monocle layout for that. But what do I know.
-super + {f,r}
-    bspc window -t {floating,fullscreen}
+super + alt + ctrl + t
+    bspc window -t pseudo_tiled
 
 # super+grave switches to the last selected window, 
 # no matter what desktop it was on.
 # super+Tab switches to the last desktop.
-super + {grave,Tab}
+super + {Tab, grave}
     bspc {window,desktop} -f last
 
 # Swaps the currently selected window with
@@ -40,7 +40,7 @@ super + {grave,Tab}
 super + apostrophe
     bspc window -s last
 
-# Okay, so these two commands go backwards and 
+# Okay, so these two commands go backwards and
 # forwards in your window selection history. The
 # reason they're wrapped in the --record-history
 # flags is because you don't want the re-selections to
@@ -63,10 +63,10 @@ super + m
     bspc window -s biggest
 
 # Okay, so this block handles window selection
-# and swapping. super+{h,j,k,l} will focus the
+# and swapping. super+{h,n,t,s} will focus the
 # window to the left, top, bottom, right.
 #
-# super+shift+{h,j,k,l} will swap the window with
+# super+shift+{h,n,t,s} will swap the window with
 # the one to its left, top, bottom, right.
 super + {_,shift + }{h,n,t,s}
     bspc window -{f,s} {left,down,up,right}
@@ -162,6 +162,10 @@ super + @button{1-3}
 {XF86AudioMute, ctrl + alt + shift + m}
     pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle
 
+# MPD toggle settings
+super + {p,j,k}
+    mpc {toggle,prev,next}
+
 # Monitor switching
 super + alt + {F1,F2}
     xrandr --output {LVDS,HDMI-0} --off --output {HDMI-0,LVDS} --auto; \
@@ -173,7 +177,7 @@ super + Return
 
 # Runs dmenu
 super + space
-    dmenu_run
+    dmenu_run -b  -fn "Meslo LG M for Powerline-8" -nb \#262626 -nf \#f8f8f2 -sb \#262626 -sf \#66d9ef
 
 super + l
     ~/bin/lock
