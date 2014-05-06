@@ -1,6 +1,9 @@
+# We are testing shit
+#out_to_x no
+#out_to_console yes
+
 #avoid flicker
 double_buffer yes
-
 #own window to run simultaneous 2 or more conky instances
 own_window yes
 own_window_transparent no

@@ -68,7 +68,8 @@ URxvt*foreground: #F8F8F2
 ! URxvt*borderColor: colour
 
 ! Select the fonts to be used. This is a comma separated list of font names that are checked in
-urxvt*font: xft:Droid Sans Mono for Powerline:pixelsize=9
+urxvt*font: xft:Meslo LG M DZ for Powerline:pixelsize=9
+! urxvt*font: xft:Droid Sans Mono for Powerline:size=7
 ! URxvt*boldFont: fontlist
 
 ! 

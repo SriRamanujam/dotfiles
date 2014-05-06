@@ -68,7 +68,7 @@
     # Don't remove messages, if the user is idle (no mouse or keyboard input)
     # for longer than idle_threshold seconds.
     # Set to 0 to disable.
-    idle_threshold = 120
+    idle_threshold = 600
 
     # Which monitor should the notifications be displayed on.
     monitor = 0
@@ -121,7 +121,7 @@
     dmenu = /usr/bin/dmenu -p dunst:
 
     # browser for opening urls in context menu
-    browser = /usr/bin/firefox -new-tab
+    browser = /usr/bin/firefox-nightly -new-tab
 
 [frame]
     width = 2
@@ -141,7 +141,7 @@
 
     # redisplay last message(s)
     # On the US keyboard layout 'grave' is normally above TAB and left of '1'.
-    history = mod4+grave
+    history = mod4+shift+grave
 
     # context menu
     context = mod4+shift+period
