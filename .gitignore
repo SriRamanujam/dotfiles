@@ -2,3 +2,5 @@ mpdscribble*
 vim/.vim/bundle*
 !vim/.vim/bundle/vundle
 .netrwhist
+*/scratchpad.txt
+*.xbm
