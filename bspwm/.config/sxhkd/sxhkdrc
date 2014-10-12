@@ -26,12 +26,17 @@ super + b
 # Neither of these are probably what you'd want
 # for a fullscreen window, ironically. You'd want
 # to use the monocle layout for that. But what do I know.
+
+# This configures the pseudo_tiled state of a window.
+# Pseudo-tiling basically means that the window has a freeform
+# size but is still constrained by the tiling layout. It moves
+# around as new windows are opened around it, etc.
 super + alt + ctrl + t
     bspc window -t pseudo_tiled
 
-# super+grave switches to the last selected window, 
+# super+Tab switches to the last selected window, 
 # no matter what desktop it was on.
-# super+Tab switches to the last desktop.
+# super+grave switches to the last desktop.
 super + {Tab, grave}
     bspc {window,desktop} -f last
 
@@ -80,24 +85,32 @@ super + {_,shift + }c
 super + {comma,period}
     bspc desktop -C {backward,forward}
 
+# Rotates the leaves of the tree
+super + shift + {comma, period}
+    bspc desktop -R {90, 270}
+
 # Moves one desktop left or right.
 super + bracket{left,right}
     bspc desktop -f {prev,next}
 
+# Moves window to the next or previous desktop
+super + shift + bracket{left,right}
+    bspc window -d {prev,next}
+
 # Preselect the splitting area of the selected window.
-# So if you wanted to create a new window on top of the 
+# So if you wanted to create a new window on top of the
 # current one, instead of the default which is to rejigger
-# the whole arrangement, then you say super+ctrl+k (which 
+# the whole arrangement, then you say super+ctrl+k (which
 # highlights the top half of the window, you will note), then
-# launch the program you want. It will tile exactly like you 
+# launch the program you want. It will tile exactly like you
 # asked.
 super + ctrl + {h,n,t,s}
     bspc window -p {left,down,up,right}
 
-# Clears preselections. 
+# Clears preselections.
 # super+ctrl+space cancels presels on the highlighted
 # window.
-# super+ctrl+shift+space cancels all presels on the 
+# super+ctrl+shift+space cancels all presels on the
 # visible desktop.
 super + ctrl + {_,shift + }space
     bspc {window -p cancel,desktop -c}
@@ -113,13 +126,13 @@ super + alt + shift + {h,n,t,s}
     bspc window -e {right -10,up +10,down -10,left +10}
 
 # Sets the window splitting ratio with super+ctrl+{1,9}
-# where 1-9 are increments of 0.1. 
+# where 1-9 are increments of 0.1.
 super + ctrl + {1-9}
     bspc window -r 0.{1-9}
 
 # Desktop manipulation. super+{1-9,0} switches
 # the active desktop to the one specified.
-# super+shift+{1-9,0} moves the highlighted 
+# super+shift+{1-9,0} moves the highlighted
 # window to that desktop.
 super + {_,shift + }{1-9,0}
     bspc {desktop -f,window -d} ^{1-9,10}
@@ -131,7 +144,7 @@ super + {_,shift + }{1-9,0}
 ~button1
     bspc pointer -g focus
 
-# Mouse-driven move and resize commands. Move is 
+# Mouse-driven move and resize commands. Move is
 # bound to button1, resize_side to button2, resize_corner
 # to button3
 super + button{1-3}
@@ -168,19 +181,25 @@ super + {p,j,k}
 
 # Monitor switching
 super + alt + {F1,F2}
-    xrandr --output {LVDS,HDMI-0} --off --output {HDMI-0,LVDS} --auto; \
-    ~/.fehbg
+    xrandr --output {LVDS,HDMI-0} --off --output {HDMI-0,LVDS} --auto;\
+    /home/sri/.fehbg;\
+    killall panel.sh;\
+    /home/sri/dotfiles/panel.sh
 
-# Launches urxvt
+# Launches termite
 super + Return
-    urxvt
+    termite
 
-# Runs dmenu
+# Suspends the system
+XF86Sleep
+    systemctl suspend
+
+# Runs dmenu, requires dmenu2
 super + space
-    dmenu_run -b  -fn "Meslo LG M for Powerline-8" -nb \#262626 -nf \#f8f8f2 -sb \#262626 -sf \#66d9ef
+    ~/dotfiles/bin/dmenuwrapper
 
 super + l
-    ~/bin/lock
+    light-locker-command -l
 
 # make sxhkd reload its configuration files:
 super + Escape

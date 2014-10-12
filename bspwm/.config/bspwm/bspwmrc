@@ -2,13 +2,17 @@
 
 bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 
-bspc config border_width        2
-bspc config top_padding         20
-bspc config window_gap          12
-bspc config split_ratio         0.50
-bspc config borderless_monocle  true
-bspc config gapless_monocle     true
-bspc config remove_disabled_monitor true
+bspc config border_width                2
+bspc config top_padding                 20
+bspc config window_gap                  12
+bspc config split_ratio                 0.50
+bspc config borderless_monocle          true
+bspc config gapless_monocle             true
+bspc config remove_unplugged_monitors   true
+bspc config remove_disabled_monitors    true
+
+bspc desktop ^10 -l monocle
+bspc rule -a quasselclient desktop=^10
 
 ~/dotfiles/dzen/panel.sh &
 

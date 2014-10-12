@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ~/.profile
+
 ~/.fehbg &
 
 redshift -l 39.98389:-75.14986 -t 6500:5000 &
@@ -8,5 +10,10 @@ compton -CGcf -t -4 -l -2 -r4 -o .55 -D2 --backend glx --glx-use-copysubbufferme
 
 devmon --no-gui &
 
+light-locker &
+
+# urxvtd &
+
+# pulseaudio --daemon
 
 dunst &
