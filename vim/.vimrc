@@ -4,7 +4,6 @@ set t_Co=256
 syntax on
 colo Monokai
 
-
 " Line number settings
 set ruler
 set number
@@ -35,17 +34,27 @@ set noswapfile
 set foldenable
 set showmatch
 set laststatus=2
-set foldmethod=syntax
+set foldmethod=indent
 set foldlevelstart=99
+set hidden
+set wildmenu
+set showcmd
+set digraph
+set esckeys
 
+" Text options
+set fo=cqrt
+set ls=2
+set textwidth=80
+set cc=80
 
-"Training myself to be a better vimmer
-" inoremap <Esc> <NOP>
-" inoremap jj <Esc>
+""" KEYBINDINGS
 " Make cursor move as expected with wrapped lines
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
-
+" Set up buffer movement hotkeys
+map <Leader>j :bprev<Enter>
+map <Leader>k :bnext<Enter>
 
 set wrapscan
 "set spell
@@ -53,6 +62,7 @@ set wrapscan
 
 " Filetype-specific settings
 autocmd BufRead, BufNewFile *.py setlocal foldmethod=indent
+autocmd BufRead, BufNewFile *.less set filetype=less
 
 " Vundle settings
 set rtp+=~/.vim/bundle/vundle
@@ -61,22 +71,24 @@ call vundle#rc()
 "let vundle manage vundle, REQUIRED!!
 Plugin 'gmarik/vundle'
 " other bundles
-Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'majutsushi/tagbar'
 Plugin 'bling/vim-airline'
 Plugin 'kien/ctrlp.vim'
+Plugin 'wellle/targets.vim'
+Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-scripts/Gundo'
-Plugin 'Lokaltog/vim-easymotion'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'plasticboy/vim-markdown'
-" Plugin 'ajh17/VimCompletesMe'
+Plugin 'groenewege/vim-less'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'Townk/vim-autoclose'
+Plugin 'tpope/vim-vinegar'
 
 " NERDTree settings
-autocmd vimenter * NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-map <C-n> :NERDTreeToggle<CR>
+"autocmd vimenter * NERDTree
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"map <C-n> :NERDTreeToggle<CR>
 
 " Tagbar settings
 nmap <F8> :TagbarToggle<CR>
@@ -88,6 +100,7 @@ let g:ctrlp_working_path_mode= 'ra'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_extensions = ['buffertag', 'dir']
 
+filetype off
 filetype plugin indent on
 
 " Airline symbols
@@ -100,8 +113,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_auto_loc_list = 1
 
 " Easymotion settings
-let g:EasyMotion_do_mapping = 0 "Disable default mapping
-nmap <Leader><Leader> <Plug>(easymotion-jumptoanywhere)
+"let g:EasyMotion_do_mapping = 0 "Disable default mapping
+"nmap <Leader><Leader> <Plug>(easymotion-jumptoanywhere)
 
 " Tagbar settings
 let g:tagbar_show_linenumbers = 1
