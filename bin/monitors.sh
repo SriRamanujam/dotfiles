@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-xrandr_output=$(xrandr -q | grep "HDMI-0 connected")
+xrandr_output=$(xrandr -q | grep "VGA1 connected")
 
-if [[ $(xrandr -q | grep "HDMI-0 connected") ]]
+if [[ $(xrandr -q | grep "VGA1 connected") ]]
 then
-    $(xrandr --output LVDS --off --output HDMI-0 --auto)
+    $(xrandr --output VGA1 --auto --output LVDS1 --off)
 else
-    $(xrandr --output LVDS --auto --output HDMI-0 --off --output VGA-0 --off)
+    $(xrandr --output LVDS1 --auto --output VGA1 --off)
 fi
-
