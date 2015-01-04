@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 PANEL_FIFO=/tmp/panel-fifo
-PANEL_HEIGHT=20
+PANEL_HEIGHT=22
 
 if [ $(pgrep -cx panel) -gt 1 ] ; then
     printf "%s\n" "The panel is already running." >&2
@@ -18,19 +18,51 @@ bspc config top_padding $PANEL_HEIGHT
 # We begin piping things to the named pipe here.
 
 # Next, date(1) is piped into the fifo.
-while true; do date_var=$(date +"%I:%M%P %D") && date_var="Q${date_var}" && echo $date_var && sleep 1; done > "$PANEL_FIFO" &
+while true; do
+    date_var=$(date +"%I:%M%P %D") && date_var="Q${date_var}"
+    if [[ $date_var == $date_var_old ]]
+    then
+        sleep 1
+    else
+        echo $date_var && date_var_old=${date_var} && sleep 1
+    fi
+done > "$PANEL_FIFO" &
 
 # RAM output, formatted in human-readable units using free(1)
-while true; do ram_var=$(free -h) && echo "R$(echo $ram_var | awk '{print $16}') / $(echo $ram_var | awk '{print $8}')" && sleep 1; done > "$PANEL_FIFO" &
+#while true; do ram_var=$(free -h) && echo "R$(echo $ram_var | awk '{print $16}') / $(echo $ram_var | awk '{print $8}')" && sleep 1; done > "$PANEL_FIFO" &
 
 # ACPI battery output using acpi(1)
-while true; do echo $(acpi -b | awk '{print $3, $4, $5}') && sleep 3; done > "$PANEL_FIFO" &
+while true; do echo $(acpi -b | awk '{print $3, $4, $5}') && sleep 10; done > "$PANEL_FIFO" &
 
 # CPU using mpstat(1)
-while true; do echo $(mpstat 2 1 | awk '$3 ~ /CPU/ { for(i=1;i<=NF;i++) { if ($i ~ /%idle/) field=i } } $3 ~ /all/ { printf"U%s%", 100 - $field}'); done > "$PANEL_FIFO" &
+#while true; do echo $(mpstat 2 1 | awk '$3 ~ /CPU/ { for(i=1;i<=NF;i++) { if ($i ~ /%idle/) field=i } } $3 ~ /all/ { printf"U%s%", 100 - $field}'); done > "$PANEL_FIFO" &
 
 # Volume using ponymix
-while true; do curvol=$(ponymix 2>/dev/null | grep "Avg" | cut -d" " -f5 | head -1) && curvol="V${curvol}" && echo $curvol && sleep 1; done > "$PANEL_FIFO" &
+while true; do
+    curvol=$(ponymix 2>/dev/null | grep "Avg" | awk '{print $3, $4}' | head -1)
+    curvol="V${curvol}"
+    if [[ $curvol == $curvol_old  ]]
+    then
+        /usr/bin/sleep 0.5s
+    else
+    echo $curvol && curvol_old=${curvol} && /usr/bin/sleep 0.5s
+    fi
+done > "$PANEL_FIFO" &
+
+# network monitor using dstat
+# dstat -n --nocolor --noheaders | awk '{print " NDown: " $1 " Up: " $2}' > "$PANEL_FIFO" &
+
+# network monitor using iw
+while true; do
+    netstat=$(iw dev wlp3s0b1 link | grep SSID | awk '{print $2}')
+    netstat="N${netstat}"
+    if [[ $netstat == $netstat_old  ]]
+    then
+        sleep 5
+    else
+        echo $netstat && netstat_old=${netstat} && sleep 5
+    fi
+done > "$PANEL_FIFO" &
 
 # sends mpd status changes into the fifo
 mpc idleloop player playlist > "$PANEL_FIFO" &
