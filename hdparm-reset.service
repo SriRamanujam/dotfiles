@@ -6,7 +6,7 @@ After=hybrid-sleep.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/hdparm -B254 /dev/sda
+ExecStart=/usr/bin/hdparm -B254 /dev/sdb
 
 [Install]
 WantedBy=suspend.target
