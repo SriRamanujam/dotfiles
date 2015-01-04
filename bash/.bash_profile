@@ -1,10 +1,6 @@
 #
 # ~/.bash_profile
 #
-
-if [ -n "$DISPLAY" ]; then 
-	BROWSER=google-chrome
-fi
-
+eval $(dircolors ~/.dircolors)
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
