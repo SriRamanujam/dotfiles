@@ -14,5 +14,7 @@ bspc config remove_disabled_monitors    true
 bspc desktop ^10 -l monocle
 bspc rule -a quasselclient desktop=^10
 
+wmname LG3D
+
 ~/dotfiles/dzen/panel.sh &
 
