@@ -97,6 +97,10 @@ super + bracket{left,right}
 super + shift + bracket{left,right}
     bspc window -d {prev,next}
 
+# Moves window to the next or previous monitor
+super + {backslash,equal}
+    bspc window -m {prev,next}
+
 # Preselect the splitting area of the selected window.
 # So if you wanted to create a new window on top of the
 # current one, instead of the default which is to rejigger
@@ -179,12 +183,21 @@ super + @button{1-3}
 super + {p,j,k}
     mpc {toggle,prev,next}
 
+XF86AudioPlay
+    mpc toggle
+
+XF86AudioPrev
+    mpc prev
+
+XF86AudioNext
+    mpc next
+
 # Monitor switching
 super + alt + {F1,F2}
-    xrandr --output {LVDS,HDMI-0} --off --output {HDMI-0,LVDS} --auto;\
-    /home/sri/.fehbg;\
-    killall panel.sh;\
-    /home/sri/dotfiles/panel.sh
+    xrandr --output {HDMI-0, LVDS} --auto --output {LVDS, HDMI-0} --off; \
+    /home/sri/.fehbg; \
+    killall panel.sh; \
+    /home/sri/dotfiles/dzen/panel.sh
 
 # Launches termite
 super + Return
