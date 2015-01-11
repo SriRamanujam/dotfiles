@@ -54,7 +54,7 @@ done > "$PANEL_FIFO" &
 
 # network monitor using iw
 while true; do
-    netstat=$(iw dev wlp3s0b1 link | grep SSID | awk '{print $2}')
+    netstat=$(iw dev wlp2s0 link | grep SSID | awk '{print $2}')
     netstat="N${netstat}"
     if [[ $netstat == $netstat_old  ]]
     then

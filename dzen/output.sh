@@ -20,7 +20,7 @@ WORKSPACE_URGENT_COLOR="#ff5362"
 SIGNAL_GOOD_COLOR="#9d5"
 SIGNAL_MEDIUM_COLOR="#ffe1a0"
 SIGNAL_BAD_COLOR=$WORKSPACE_URGENT_FOCUSED_COLOR
-LINK_NAME="wlp3s0b1"
+LINK_NAME="wlp2s0"
 
 SCREEN_WIDTH=$(sres -W)
 PADDING=$(printf '%0.1s' " "{1..3000})
@@ -76,10 +76,10 @@ while read -r line ; do
                     ;;
                 [L]*)
                     case ${item#?} in
-                        T*)
+                        t*)
                             tile_type=" "
                             ;;
-                        M*)
+                        m*)
                             tile_type="⧫"
                             ;;
                     esac
