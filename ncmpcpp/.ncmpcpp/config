@@ -1,0 +1,4 @@
+user_interface="alternative"
+ignore_leading_the="yes"
+
+mpd_music_dir="~/Music"
