@@ -7,7 +7,7 @@
 
 export GTK_RC_FILES=$HOME/.gtkrc-2.0
 export EDITOR=vim
-export BROWSER=firefox
+export BROWSER=firefox-nightly
 export PAGER="/usr/bin/most -s"
 
 # Source dircolors, because nothing ever works right out of the box
