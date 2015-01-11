@@ -1,6 +1,6 @@
 ## This rule regulates the automagic symlink switching that happens when I plug the external drive
 ## into this computer.
 
-ACTION=="add", SUBSYSTEM=="block", ENV{ID_WWN}=="0x50014ee2038e38c7", RUN+="/usr/bin/ln -sfT /media/Passport /media/External"
+ACTION=="add|change", SUBSYSTEM=="block", ATTRS{serial}=="57442D575833304141393335353531", RUN+="/usr/bin/ln -sfT /run/media/sri/Passport/Music /home/sri/Music"
 
-ACTION=="remove", SUBSYSTEM=="block", ENV{ID_WWN}=="0x50014ee2038e38c7", RUN+="/usr/bin/ln -sfT /media/ssh/hm.hacked.jp /media/External"
+ACTION=="remove", SUBSYSTEM=="block", ATTRS{serial}=="57442D575833304141393335353531", RUN+="/usr/bin/ln -sfT /mnt/remote /home/sri/Music"
