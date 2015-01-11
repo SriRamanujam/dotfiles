@@ -65,11 +65,12 @@ autocmd BufRead, BufNewFile *.py setlocal foldmethod=indent
 autocmd BufRead, BufNewFile *.less set filetype=less
 
 " Vundle settings
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 "let vundle manage vundle, REQUIRED!!
-Plugin 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 " other bundles
 Plugin 'scrooloose/syntastic'
 Plugin 'majutsushi/tagbar'
@@ -85,6 +86,8 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'Townk/vim-autoclose'
 Plugin 'tpope/vim-vinegar'
 
+call vundle#end()
+filetype plugin indent on
 " NERDTree settings
 "autocmd vimenter * NERDTree
 "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -99,9 +102,6 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode= 'ra'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_extensions = ['buffertag', 'dir']
-
-filetype off
-filetype plugin indent on
 
 " Airline symbols
 let g:airline_powerline_fonts = 1
