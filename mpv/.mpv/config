@@ -5,10 +5,10 @@ ao=pulse
 
 #hwdec doesn't work on big files, sadly.
 #because that is where it would make the
-#most sense to be used. 
+#most sense to be used.
 hwdec=vdpau
 
-#Why is it not using vdpau?
+#Intel drivers say use opengl. Intel drivers are wrong.
 vo=vdpau
 #for the subtitles
 double=yes #double buffering
