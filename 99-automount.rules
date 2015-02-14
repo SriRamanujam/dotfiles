@@ -1,6 +1,6 @@
 ## This rule regulates the automagic symlink switching that happens when I plug the external drive
 ## into this computer.
 
-ACTION=="add|change", SUBSYSTEM=="block", ATTRS{serial}=="57442D575833304141393335353531", RUN+="/usr/bin/ln -sfT /run/media/sri/Passport/Music /home/sri/Music"
+ACTION=="add|change", SUBSYSTEM=="block", ATTRS{serial}=="57442D575833304141393335353531", RUN+="/usr/bin/ln -sfT /run/media/sri/Passport/Music /home/sri/Music", RUN+="/usr/bin/ln -sfT /run/media/sri/Passport/Wallpapers /home/sri/Wallpapers"
 
-ACTION=="remove", SUBSYSTEM=="block", ATTRS{serial}=="57442D575833304141393335353531", RUN+="/usr/bin/ln -sfT /mnt/remote /home/sri/Music"
+ACTION=="remove", SUBSYSTEM=="block", ATTRS{serial}=="57442D575833304141393335353531", RUN+="/usr/bin/ln -sfT /mnt/remote/Music /home/sri/Music", RUN+="/usr/bin/ln -sfT /mnt/remote/Wallpapers /home/sri/Wallpapers"
