@@ -45,7 +45,7 @@ set esckeys
 " Text options
 set fo=cqrt
 set ls=2
-set textwidth=80
+"set textwidth=80
 set cc=80
 
 """ KEYBINDINGS
