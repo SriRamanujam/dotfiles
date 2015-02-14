@@ -194,7 +194,7 @@ XF86AudioNext
 
 # Monitor switching
 super + alt + {F1,F2}
-    xrandr --output {HDMI-0, LVDS} --auto --output {LVDS, HDMI-0} --off; \
+    xrandr --output {HDMI1, eDP1} --auto --output {eDP1, HDMI1} --off; \
     /home/sri/.fehbg; \
     killall panel.sh; \
     /home/sri/dotfiles/dzen/panel.sh
@@ -203,13 +203,17 @@ super + alt + {F1,F2}
 super + Return
     termite
 
+# Brightness control settings
+{XF86MonBrightnessDown,XF86MonBrightnessUp}
+    xbacklight {-dec,-inc} 10%
+
 # Suspends the system
 XF86Sleep
     systemctl suspend
 
-# Runs dmenu, requires dmenu2
+# Runs rofi launcher, requires rofi from aur
 super + space
-    ~/dotfiles/bin/dmenuwrapper
+    rofi -rnow -font "Meslo LG M DZ for Powerline 9" -fg "#f8f8f2" -bg "#262626" -hlfg "#262626" -hlbg "#66d9ef" -terminal "termite"
 
 super + l
     light-locker-command -l
