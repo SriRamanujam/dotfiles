@@ -1,5 +1,7 @@
 mpdscribble*
 vim/.vim/bundle*
+vim/.vim/plugged*
+vim/.vim/autoload*
 !vim/.vim/bundle/vundle
 .netrwhist
 */scratchpad.txt
