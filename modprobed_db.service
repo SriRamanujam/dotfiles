@@ -1,0 +1,11 @@
+[Unit]
+Description=Collect data about loaded modules
+Documentation=man:modprobed-db(8)
+
+[Service]
+Type=oneshot
+User=sri
+Nice=19
+IOSchedulingClass=2
+IOSchedulingPriority=7
+ExecStart=/usr/bin/modprobed_db store

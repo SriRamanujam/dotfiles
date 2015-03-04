@@ -1,0 +1,8 @@
+[Unit]
+Description=Update modprobed-db database
+
+[Timer]
+OnUnitActiveSec=20m
+
+[Install]
+WantedBy=timers.target
