@@ -35,7 +35,12 @@ device_path = stream.Get('org.PulseAudio.Core1.Stream', "Device", dbus_interface
 device = conn.get_object(object_path=device_path)
 print("Current volume is: " + str(round(device.Get('org.PulseAudio.Core1.Device', "Volume", dbus_interface=dbus.PROPERTIES_IFACE)[0] / 65537 * 100)))
 
-device.connect_to_signal("MuteUpdated", volume_update_cb)
+print("Debug Output follows:")
+print("device_path: {}, type is {}".format(device_path, type(device_path)))
+print("device: {}, type is {}".format(device, type(device)))
+print("PROPERTIES_IFACE: {}, type is {}".format(dbus.PROPERTIES_IFACE, type(dbus.PROPERTIES_IFACE)))
+
+device.connect_to_signal("VolumeUpdated", volume_update_cb)
 
 mainloop = gobject.MainLoop()
 mainloop.run()

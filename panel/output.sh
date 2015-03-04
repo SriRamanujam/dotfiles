@@ -126,15 +126,23 @@ while read -r line ; do
         cpu_string=${line#?}
         ;;
     N*)
-        net_string=${line#?}
-        signal_strength=$(iw dev wlp3s0 link | grep signal | awk '{print $2}')
-        if [[ $signal_strength -gt -68 ]]; then
-            net_color=$SIGNAL_GOOD_COLOR
-        elif [[ $signal_strength -gt -75 ]]; then
-            net_color=$SIGNAL_MEDIUM_COLOR
-        else
-            net_color=$SIGNAL_BAD_COLOR
-        fi
+        net_input_string=${line#?}
+        case $net_input_string in
+            S*)
+                signal_strength=$(echo $net_input_string | awk -F ': ' '{print $2}')
+                if [[ $signal_strength -gt 68 ]]; then
+                    net_color=$SIGNAL_GOOD_COLOR
+                elif [[ $signal_strength -gt 40 ]]; then
+                    net_color=$SIGNAL_MEDIUM_COLOR
+                else
+                    net_color=$SIGNAL_BAD_COLOR
+                fi
+                ;;
+            A*)
+                ssid_string=$(echo $net_input_string | awk -F ': ' '{print $2}')
+                ;;
+        esac
+        net_string="${ssid_string}"
         net_colored_string="^ca(1, ${wifi_command})^fg(${net_color})"${net_string}"^fg()^ca()"
         ;;
     V*)

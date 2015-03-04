@@ -1,14 +1,24 @@
 #! /usr/bin/env python3
 
 import logging
+import sys
+
+logger = logging.getLogger()
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 import subprocess
 from threading import Thread
 from queue import Queue, Empty, Full
 
-import dbus
-from gi.repository import GObject as gobject
-from dbus.mainloop.glib import DBusGMainLoop
+try:
+    import dbus
+    from gi.repository import GObject as gobject
+    from dbus.mainloop.glib import DBusGMainLoop
+except ImportError:
+    logger.error("Forgot a dependency, make sure that dbus, python-gobject, and python-glib are installed")
+    sys.exit(1);
+
 
 def call_subprocess(cmd, queue):
     s = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -40,12 +50,19 @@ def nm_dbus_loop(queue):
                             'org.freedesktop.NetworkManager.Connection.Active',
                             'SpecificObject',
                             dbus_interface=dbus.PROPERTIES_IFACE)
-        except KeyError:
-            log.error("ERROR: hit a keyerror, {}".format(e.strerror))
+        except KeyError as e:
+            log.error("ERROR: hit a keyerror, {}".format(e))
             return
         except TypeError as e:
-            log.error("ERROR: hit a typeerror, {}".format(e.strerror))
+            log.error("ERROR: hit a typeerror, {}".format(e))
             return
+        except AttributeError:
+            log.error("Not connected to the internet, thread aborting.")
+            return
+        except IndexError:
+            log.error("Not connected to the internet, thread aborting.")
+            return
+
         current_active_ap = new_access_point
         log.info("New access point is: {}".format(str(currrent_active_ap)))
         mainloop.quit()
@@ -76,7 +93,7 @@ def nm_dbus_loop(queue):
                           'SpecificObject',
                           dbus_interface=dbus.PROPERTIES_IFACE)
         except IndexError as e:
-            log.error("ERROR: hit an indexerror, {}".format(e.strerror))
+            log.error("ERROR: hit an indexerror, {}".format(e))
             return None
         return access_point
 
@@ -94,7 +111,7 @@ def nm_dbus_loop(queue):
 
 def upower_dbus_loop(queue):
     battery_state_map = {0: 'Unknown', 1: 'Charging', 2: 'Discharging', 3: 'Empty', 4: 'Fully Charged', 5:'Pending Charge', 6:'Pending Discharge' }
-
+    log = logging.getLogger("upower")
     def power_notify_cb(device_name, signal_props, signature_array):
         percent = signal_props['Percentage']
         bat_state = battery_state_map[int(signal_props['State'])]
@@ -102,22 +119,20 @@ def upower_dbus_loop(queue):
             m, s = divmod(signal_props['TimeToEmpty'], 60)
             h, m = divmod(m, 60)
             time_to_empty = "%d:%02d:%02d" % (h, m, s)
-            #queue.put("{}, {}% and {} until empty".format(bat_state, percent, time_to_empty))
+            queue.put("{}, {}% and {} until empty".format(bat_state, percent, time_to_empty))
         elif (bat_state == "Charging"):
             m, s = divmod(signal_props['TimeToFull'], 60)
             h, m = divmod(m, 60)
             time_to_full = "%d:%02d:%02d" % (h, m, s)
-            #queue.put("{}, {}% and {} until full".format(bat_state, percent, time_to_full))
+            queue.put("{}, {}% and {} until full".format(bat_state, percent, time_to_full))
         elif (bat_state == "Fully Charged"):
-            pass
-            #queue.put("Fully Charged")
+            queue.put("Fully Charged")
         else:
-            pass
-            #queue.put("Something went wrong")
+            queue.put("Unknown")
 
     DBusGMainLoop(set_as_default=True)
     bus = dbus.SystemBus()
-
+    log.debug("Testing whether this has worked")
     upower = bus.get_object(
             'org.freedesktop.UPower',
             '/org/freedesktop/UPower/devices/DisplayDevice')
@@ -131,19 +146,21 @@ def upower_dbus_loop(queue):
 if __name__ == "__main__":
     commands_array = [
             ['bspc', 'control', '--subscribe'],
-            ['mpc', 'idleloop', 'player', 'playlist'],
             ]
     q = Queue()
     gobject.threads_init()
     for cmd in commands_array:
         thread = Thread(target=call_subprocess, args=[cmd, q])
+        logger.debug("Starting command {}".format(" ".join(cmd)))
         thread.start()
 
     # starts dbus loops. I will figure out a nicer way to do this later.
+    #
+    logger.debug("Starting dbus loops...")
     thread = Thread(target=nm_dbus_loop, args=[q])
     thread.start()
-    thread = Thread(target=upower_dbus_loop, args=[q])
-    thread.start()
+    thread2 = Thread(target=upower_dbus_loop, args=[q])
+    thread2.start()
 
     while True:
         print(q.get())

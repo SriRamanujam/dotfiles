@@ -31,8 +31,10 @@ done > "$PANEL_FIFO" &
 # RAM output, formatted in human-readable units using free(1)
 #while true; do ram_var=$(free -h) && echo "R$(echo $ram_var | awk '{print $16}') / $(echo $ram_var | awk '{print $8}')" && sleep 1; done > "$PANEL_FIFO" &
 
-# ACPI battery output using acpi(1)
-python upower.py > "$PANEL_FIFO" &
+# ACPI battery output using UPower and Python
+python upower.py &> "$PANEL_FIFO" &
+# Initial battery status seeding
+acpi -b > "$PANEL_FIFO" &
 
 # CPU using mpstat(1)
 #while true; do echo $(mpstat 2 1 | awk '$3 ~ /CPU/ { for(i=1;i<=NF;i++) { if ($i ~ /%idle/) field=i } } $3 ~ /all/ { printf"U%s%", 100 - $field}'); done > "$PANEL_FIFO" &
@@ -45,15 +47,18 @@ while true; do
     then
         /usr/bin/sleep 0.5s
     else
-    echo $curvol && curvol_old=${curvol} && /usr/bin/sleep 0.5s
+        echo $curvol && curvol_old=${curvol} && /usr/bin/sleep 0.5s
     fi
 done > "$PANEL_FIFO" &
 
 # network monitor using dstat
 # dstat -n --nocolor --noheaders | awk '{print " NDown: " $1 " Up: " $2}' > "$PANEL_FIFO" &
 
-# network monitor using iw
-python nm.py > "$PANEL_FIFO" &
+# network monitor using the power of python and Dbus
+python nm.py &> "$PANEL_FIFO" &
+
+# Python script
+#python producer1.py >"$PANEL_FIFO" &
 
 # sends mpd status changes into the fifo
 mpc idleloop player playlist > "$PANEL_FIFO" &
@@ -62,6 +67,7 @@ bspc control --subscribe > "$PANEL_FIFO" &
 
 /usr/bin/sleep 0.5s
 
-#cat "$PANEL_FIFO" | $HOME/dotfiles/dzen/output.sh | dzen2 -p -fn "Meslo LG M DZ for Powerline":pixelsize=9 -bg "#262626" -h $PANEL_HEIGHT -fg "#f8f8f2" -e '' &
+#cat "$PANEL_FIFO" | $HOME/dotfiles/panel/output.sh
+cat "$PANEL_FIFO" | $HOME/dotfiles/panel/output.sh | dzen2 -p -fn "Meslo LG M DZ for Powerline":pixelsize=9 -bg "#262626" -h $PANEL_HEIGHT -fg "#f8f8f2" -e '' &
 
 wait
