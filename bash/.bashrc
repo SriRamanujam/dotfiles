@@ -11,8 +11,7 @@ export BROWSER=firefox-nightly
 export PAGER="/usr/bin/most -s"
 
 # Source dircolors, because nothing ever works right out of the box
-eval $(dircolors $HOME/.dircolors)
-
+source $HOME/.dircolors
 # set PATH so it includes ~/bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
