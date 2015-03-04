@@ -2,7 +2,6 @@
 set nocompatible
 set t_Co=256
 syntax on
-colo Monokai
 
 " Line number settings
 set ruler
@@ -32,14 +31,14 @@ set noswapfile
 
 " UI settings
 set foldenable
-set showmatch
+"set showmatch this is broken with Luna theme, unfortunately :(
 set laststatus=2
 set foldmethod=indent
 set foldlevelstart=99
 set hidden
 set wildmenu
 set showcmd
-set digraph
+" set digraph not necessary, use CTRL-K
 set esckeys
 
 " Text options
@@ -64,29 +63,30 @@ set wrapscan
 autocmd BufRead, BufNewFile *.py setlocal foldmethod=indent
 autocmd BufRead, BufNewFile *.less set filetype=less
 
-" Vundle settings
+" vim-plug settings
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-"let vundle manage vundle, REQUIRED!!
-Plugin 'gmarik/Vundle.vim'
-" other bundles
-Plugin 'scrooloose/syntastic'
-Plugin 'majutsushi/tagbar'
-Plugin 'bling/vim-airline'
-Plugin 'kien/ctrlp.vim'
-Plugin 'wellle/targets.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-scripts/Gundo'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'groenewege/vim-less'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'Townk/vim-autoclose'
-Plugin 'tpope/vim-vinegar'
+Plug 'scrooloose/syntastic'
+Plug 'majutsushi/tagbar', {'for': 'c'}
+Plug 'bling/vim-airline'
+Plug 'pychimp/vim-luna'
+Plug 'kien/ctrlp.vim'
+Plug 'wellle/targets.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-scripts/Gundo'
+Plug 'airblade/vim-gitgutter'
+Plug 'groenewege/vim-less'
+Plug 'kchmck/vim-coffee-script'
+Plug 'Townk/vim-autoclose'
+Plug 'tpope/vim-vinegar'
+Plug 'Matt-Deacalion/vim-systemd-syntax'
+Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 
-call vundle#end()
+call plug#end()
 filetype plugin indent on
 " NERDTree settings
 "autocmd vimenter * NERDTree
@@ -105,9 +105,8 @@ let g:ctrlp_extensions = ['buffertag', 'dir']
 
 " Airline symbols
 let g:airline_powerline_fonts = 1
-let AirlineTheme="molokai"
 let g:airline#extensions#tabline#enabled = 1
-
+let g:airline_theme="luna"
 " Syntastic settings
 let g:syntastic_check_on_open = 1
 let g:syntastic_auto_loc_list = 1
@@ -118,3 +117,6 @@ let g:syntastic_auto_loc_list = 1
 
 " Tagbar settings
 let g:tagbar_show_linenumbers = 1
+
+" need to put colorscheme after plugin load
+colorscheme luna-term
