@@ -134,7 +134,7 @@ while read -r line ; do
                     net_color=$SIGNAL_GOOD_COLOR
                 elif [[ $signal_strength -gt 40 ]]; then
                     net_color=$SIGNAL_MEDIUM_COLOR
-                else
+                elif [[ $signal_strength -gt 0 ]]; then
                     net_color=$SIGNAL_BAD_COLOR
                 fi
                 ;;
@@ -142,8 +142,7 @@ while read -r line ; do
                 ssid_string=$(echo $net_input_string | awk -F ': ' '{print $2}')
                 ;;
         esac
-        net_string="${ssid_string}"
-        net_colored_string="^ca(1, ${wifi_command})^fg(${net_color})"${net_string}"^fg()^ca()"
+        net_colored_string="^ca(1, ${wifi_command})^fg(${net_color})"${ssid_string}"^fg()^ca()"
         ;;
     V*)
         current_volume="(${line#?})"
@@ -175,18 +174,18 @@ while read -r line ; do
     # This keeps the workspace string exactly at the center of the screen at all times. hooray padding!
     #
     # But seriously, this took ages to figure out, I hope you use this forever.
-    string1=" ${date_string} C ${net_string} "
-    string2=" A |||||||||| B ${current_volume} ♫ ${paused_state} ${now_playing} "
+    string1=" ${date_string} ${ssid_string} "
+    string2=" |||||||||| ${current_volume} ♫ ${paused_state} ${now_playing} "
     borderstring1=""
     borderstring2=""
     borderstring3=""
     borderstring4=""
-    borderstring5="^i(/home/sri/dotfiles/dzen/arch.xbm)"
+    borderstring5=""
     borderstring6=""
     borderstring7=""
-    borderstring8="^i(/home/sri/dotfiles/dzen/bat_full_01.xbm)"
+    borderstring8=""
     borderstring9=""
-    borderstring10="^i(/home/sri/dotfiles/dzen/spkr.xbm)"
+    borderstring10=""
     borderstring11=""
     borderstring12=""
 

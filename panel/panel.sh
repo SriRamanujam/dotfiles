@@ -2,6 +2,8 @@
 
 PANEL_FIFO=/tmp/panel-fifo-2
 PANEL_HEIGHT=22
+WORKING_DIR=$(dirname "$(readlink -f "$0")")
+echo $WORKING_DIR
 
 if [ $(pgrep -cx panel) -gt 1 ] ; then
     printf "%s\n" "The panel is already running." >&2
@@ -32,9 +34,7 @@ done > "$PANEL_FIFO" &
 #while true; do ram_var=$(free -h) && echo "R$(echo $ram_var | awk '{print $16}') / $(echo $ram_var | awk '{print $8}')" && sleep 1; done > "$PANEL_FIFO" &
 
 # ACPI battery output using UPower and Python
-python upower.py &> "$PANEL_FIFO" &
-# Initial battery status seeding
-acpi -b > "$PANEL_FIFO" &
+python ${WORKING_DIR}/upower.py &> "$PANEL_FIFO" &
 
 # CPU using mpstat(1)
 #while true; do echo $(mpstat 2 1 | awk '$3 ~ /CPU/ { for(i=1;i<=NF;i++) { if ($i ~ /%idle/) field=i } } $3 ~ /all/ { printf"U%s%", 100 - $field}'); done > "$PANEL_FIFO" &
@@ -55,7 +55,7 @@ done > "$PANEL_FIFO" &
 # dstat -n --nocolor --noheaders | awk '{print " NDown: " $1 " Up: " $2}' > "$PANEL_FIFO" &
 
 # network monitor using the power of python and Dbus
-python nm.py &> "$PANEL_FIFO" &
+python ${WORKING_DIR}/nm.py &> "$PANEL_FIFO" &
 
 # Python script
 #python producer1.py >"$PANEL_FIFO" &
