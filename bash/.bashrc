@@ -12,10 +12,17 @@ export PAGER="/usr/bin/most -s"
 
 # Source dircolors, because nothing ever works right out of the box
 source $HOME/.dircolors
+
+# Set up ruby gems path
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
 # set PATH so it includes ~/bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+
 
 # Copying variables from Ubuntu because they make life easier
 # don't put duplicate lines or lines starting with space in the history.
@@ -31,6 +38,16 @@ shopt -s checkwinsize
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories
 shopt -s globstar
+# extended pattern matching fun
+shopt -s extglob
+# include .dotfiles when globbing
+shopt -s dotglob
+# when a glob expands to nothing, make it an empty string instead of the literal
+#shopt -s nullglob
+# when you type a directory as a command, treat it like cd
+shopt -s autocd
+# basic error correction for cd
+shopt -s cdspell
 # Use lesspipe for some reason, mainly because ubuntu ships it
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -38,7 +55,16 @@ shopt -s globstar
 alias ls='ls --color=auto'
 
 # set the PS1
-PS1='[\u@\h:\w]\$ '
+function prompt {
+    local __user_and_host="\[\033[00;37m\]\u@\h"
+    local __cur_location="\[\033[00;34m\]\w"
+    local __git_color="\[\033[00;33m\]"
+    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+    local __newline_and_prompt="\n\[\033[00;36m\]❯ "
+    local __color_reset="\[\033[00m\]"
+    export PS1="$__user_and_host $__cur_location $__git_branch$__newline_and_prompt$__color_reset"
+}
+prompt
 
 # Some user-defined exports and sources here
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk/
@@ -46,7 +72,7 @@ export WORKON_HOME=/home/sri/.venvs
 export PROJECT_HOME=/home/sri/Documents/Projects
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv2
-source /usr/bin/virtualenvwrapper.sh
+#source /usr/bin/virtualenvwrapper.sh
 
 # Not strictly necessary, but here anyway
 case "$TERM" in
@@ -90,3 +116,10 @@ alias containerboot='sudo systemd-nspawn -bD'
 
 # Fucking java
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel' 
+
+
+PATH="/home/sri/perl5/bin${PATH+:}${PATH}"; export PATH;
+PERL5LIB="/home/sri/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/sri/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/sri/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/sri/perl5"; export PERL_MM_OPT;
