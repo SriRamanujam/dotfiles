@@ -11,27 +11,18 @@ hwdec=vdpau
 #Intel drivers say use opengl. Intel drivers are wrong.
 vo=vdpau
 #for the subtitles
-double=yes #double buffering
-sub-fuzziness=1 #and also find any subtitle files
-font=/home/sri/.fonts/calibri.ttf #sets the font
-subpos=90
-subalign=2
+sub-auto #and also find any subtitle files
+osd-font=/home/sri/.fonts/calibri.ttf #sets the font
+sub-pos=90
 #unicode=yes
 #utf8=yes
-subfont-encoding=unicode
-ffactor=1
-subfont-autoscale=2
-subfont-outline=2.0
-subfont-text-scale=4.4
+sub-scale=4.4
 
 #default aspect ratio
 #monitoraspect=16:9
 
 #always use english subtitles
 slang=en
-
-#minimum cache percent before starting playback
-cache-min=15.0
 
 #deinterlace settings
 # this should be passed to files that need it via the command line, rather than
@@ -44,6 +35,6 @@ softvol=yes
 #softvol-max=70
 volume=30
 
-stop-xscreensaver=yes
+stop-screensaver=yes
 
-forceidx=yes
+index=default
