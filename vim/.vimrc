@@ -1,7 +1,6 @@
 " Basic settings
 set nocompatible
 set t_Co=256
-syntax on
 
 " Line number settings
 set ruler
@@ -31,7 +30,7 @@ set noswapfile
 
 " UI settings
 set foldenable
-"set showmatch this is broken with Luna theme, unfortunately :(
+set showmatch
 set laststatus=2
 set foldmethod=indent
 set foldlevelstart=99
@@ -47,20 +46,32 @@ set ls=2
 "set textwidth=80
 set cc=80
 
+" Tab and split settings
+set splitbelow
+set splitright
+
+
 """ KEYBINDINGS
+" set mapleader
+let mapleader = " "
 " Make cursor move as expected with wrapped lines
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 " Set up buffer movement hotkeys
 map <Leader>j :bprev<Enter>
 map <Leader>k :bnext<Enter>
+map <Leader>h <C-w>h
+map <Leader>t <C-w>j
+map <Leader>n <C-w>k
+map <Leader>s <C-w>l
+
 
 set wrapscan
 "set spell
 "set spelllang=en
 
 " Filetype-specific settings
-autocmd BufRead, BufNewFile *.py setlocal foldmethod=indent
+"autocmd BufRead, BufNewFile *.py setlocal foldmethod=indent
 autocmd BufRead, BufNewFile *.less set filetype=less
 
 " vim-plug settings
@@ -70,24 +81,31 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar', {'for': 'c'}
 Plug 'bling/vim-airline'
-Plug 'pychimp/vim-luna'
 Plug 'kien/ctrlp.vim'
-Plug 'wellle/targets.vim'
+"Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/Gundo'
 Plug 'airblade/vim-gitgutter'
-Plug 'groenewege/vim-less'
-Plug 'kchmck/vim-coffee-script'
+Plug 'groenewege/vim-less', {'for': 'less'}
+Plug 'kchmck/vim-coffee-script', {'for': 'coffeescript'}
 Plug 'Townk/vim-autoclose'
 Plug 'tpope/vim-vinegar'
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
-Plug 'pangloss/vim-javascript'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'mxw/vim-jsx'
+Plug 'sickill/vim-monokai'
+
+Plug 'godlygeek/tabular', {'for' : 'mkd'}
+Plug 'plasticboy/vim-markdown', {'for': 'mkd'}
 
 call plug#end()
 filetype plugin indent on
+
+" turn syntax highlighting on after plugins load
+syntax on
 " NERDTree settings
 "autocmd vimenter * NERDTree
 "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -106,7 +124,7 @@ let g:ctrlp_extensions = ['buffertag', 'dir']
 " Airline symbols
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme="luna"
+let g:airline_theme="hybridline"
 " Syntastic settings
 let g:syntastic_check_on_open = 1
 let g:syntastic_auto_loc_list = 1
@@ -118,5 +136,12 @@ let g:syntastic_auto_loc_list = 1
 " Tagbar settings
 let g:tagbar_show_linenumbers = 1
 
+" Gundo mapping
+nmap <F12> :GundoToggle<CR>
+
+" Markdown settings
+let g:vim_markdown_frontmatter=1
+
 " need to put colorscheme after plugin load
-colorscheme luna-term
+colorscheme monokai
+
