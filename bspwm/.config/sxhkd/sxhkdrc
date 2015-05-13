@@ -21,11 +21,11 @@ super + q
 super + b
     bspc desktop -B
 
-# super+f toggles the window to be floating
-# super+r toggles the window to be fullscreen.
-# Neither of these are probably what you'd want
-# for a fullscreen window, ironically. You'd want
-# to use the monocle layout for that. But what do I know.
+# This configures the floating state of a window.
+# Floating takes a window out of the tiling tree
+# and places it above the tiled windows.
+super + alt + ctrl + f
+    bspc window -t floating
 
 # This configures the pseudo_tiled state of a window.
 # Pseudo-tiling basically means that the window has a freeform
@@ -165,7 +165,9 @@ super + !button{1-3}
 super + @button{1-3}
     bspc pointer -u
 
-#
+# A special hotkey to reach desktop 11, because I need access to it sometimes.
+super + ctrl + alt + shift + backslash
+    bspc desktop -f 11
 # wm independent hotkeys
 #
 
@@ -213,7 +215,7 @@ XF86Sleep
 
 # Runs rofi launcher, requires rofi from aur
 super + space
-    rofi -rnow -font "Meslo LG M DZ for Powerline 9" -fg "#f8f8f2" -bg "#262626" -hlfg "#262626" -hlbg "#66d9ef" -terminal "termite"
+    rofi -modi "run,ssh" -show run -font "Meslo LG M DZ for Powerline 9" -fg "#f8f8f2" -bg "#262626" -hlfg "#262626" -hlbg "#66d9ef" -terminal "termite" 
 
 super + l
     light-locker-command -l
