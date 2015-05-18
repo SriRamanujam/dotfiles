@@ -1,7 +1,5 @@
-#
-# ~/.bashrc
-#
 
+<<<<<<< HEAD
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -21,6 +19,8 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+
 
 # Copying variables from Ubuntu because they make life easier
 # don't put duplicate lines or lines starting with space in the history.
@@ -53,32 +53,16 @@ shopt -s cdspell
 alias ls='ls --color=auto'
 
 # set the PS1
-source /usr/share/git/completion/git-prompt.sh
-
-# Git prompt control variables
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWUPSTREAM="auto name"
-GIT_PS1_DESCRIBE_STYLE="branch"
-GIT_PS1_SHOWCOLORHINTS=1
-function get_sha {
-    git rev-parse --short HEAD 2> /dev/null
-}
-
 function prompt {
-    local last_command_status=$?
-    PS1=""
-    PS1+="\[\033[00;37m\]\u@\h " # set user and host
-    PS1+="\[\033[00;34m\]\w " # set current location
-    PS1+="\[\033[00;33m\]" # set git color
-    PS1+='$(__git_ps1 "(%s $(get_sha))")' # call __git_ps1 to get git information
-    if [[ $last_command_status == 0 ]]; then
-        PS1+="\n\[\033[00;36m\]❯ " # set newline and prompt
-    else
-        PS1+="\n\[\033[00;31m\]❯ " # set newline and prompt
-    fi
-    PS1+="\[\033[00m\]" # reset color
+    local __user_and_host="\[\033[00;37m\]\u@\h"
+    local __cur_location="\[\033[00;34m\]\w"
+    local __git_color="\[\033[00;33m\]"
+    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+    local __newline_and_prompt="\n\[\033[00;36m\]❯ "
+    local __color_reset="\[\033[00m\]"
+    export PS1="$__user_and_host $__cur_location $__git_branch$__newline_and_prompt$__color_reset"
 }
-PROMPT_COMMAND='prompt'
+prompt
 
 # Some user-defined exports and sources here
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk/
@@ -137,3 +121,5 @@ PERL5LIB="/home/sri/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/sri/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/sri/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sri/perl5"; export PERL_MM_OPT;
+=======
+>>>>>>> 2ef559d5fa1c32298eb412df44bf85f8c9807807
