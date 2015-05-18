@@ -14,8 +14,8 @@ set shiftwidth=4
 set expandtab
 set autoindent
 set preserveindent
-set listchars=tab:>─,trail:·,extends:┐
-set list
+set listchars=tab:>─,trail:·
+"set list
 set smarttab
 
 " Search settings
