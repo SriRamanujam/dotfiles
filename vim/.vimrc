@@ -97,7 +97,7 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'mxw/vim-jsx'
 Plug 'sickill/vim-monokai'
-
+Plug 'saltstack/salt-vim', {'for': 'sls'}
 Plug 'godlygeek/tabular', {'for' : 'mkd'}
 Plug 'plasticboy/vim-markdown', {'for': 'mkd'}
 
