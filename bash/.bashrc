@@ -6,12 +6,11 @@
 [[ $- != *i* ]] && return
 
 export GTK_RC_FILES=$HOME/.gtkrc-2.0
-export EDITOR=vim
+export EDITOR=nvim
 export BROWSER=firefox-nightly
 export PAGER="/usr/bin/most -s"
-
-# Source dircolors, because nothing ever works right out of the box
-source $HOME/.dircolors
+export SYSTEMD_PAGER="/usr/bin/less"
+export TERM=xterm-256color
 
 # Set up ruby gems path
 if which ruby >/dev/null && which gem >/dev/null; then
@@ -24,9 +23,18 @@ fi
 
 # Copying variables from Ubuntu because they make life easier
 # don't put duplicate lines or lines starting with space in the history.
-HISTCONTROL=ignoreboth
+HISTCONTROL="erasedups:ignoreboth"
+# Don't record some commands in history
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+# Use standard ISO 8601 timestamp
+HISTTIMEFORMAT="%F %T "
 # append to the history file, don't overwrite it
 shopt -s histappend
+# Enable incemental history search with up/down arrows
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+bind '"\e[C": forward-char'
+bind '"\e[D": backward-char'
 # History file sizes
 HISTSIZE=100000
 HISTFILESIZE=100000
@@ -46,6 +54,12 @@ shopt -s dotglob
 shopt -s autocd
 # basic error correction for cd
 shopt -s cdspell
+# basic error completion when tabbing
+shopt -s dirspell
+# Perform file completion in a case-insensitive fashion
+bind "set completion-ignore-case on"
+# Display matches for ambiguous pattertns at first tab press
+bind "set show-all-if-ambiguous on"
 # Use lesspipe for some reason, mainly because ubuntu ships it
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -53,7 +67,7 @@ shopt -s cdspell
 alias ls='ls --color=auto'
 
 # set the PS1
-source /usr/share/git/completion/git-prompt.sh
+source /usr/share/git-core/contrib/completion/git-prompt.sh
 
 # Git prompt control variables
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -69,6 +83,11 @@ function prompt {
     PS1=""
     PS1+="\[\033[00;37m\]\u@\h " # set user and host
     PS1+="\[\033[00;34m\]\w " # set current location
+    if [[ -n "$VIRTUAL_ENV"  ]]; then
+        PS1+="\[\033[00;32m\]" # set virtualenv color
+        PS1+="<$(echo $VIRTUAL_ENV | awk -F "/" '{print $(NF-1)}')> "
+        PS1+="\[\033[00m\]" # reset color
+    fi
     PS1+="\[\033[00;33m\]" # set git color
     PS1+='$(__git_ps1 "(%s $(get_sha))")' # call __git_ps1 to get git information
     if [[ $last_command_status == 0 ]]; then
@@ -86,6 +105,7 @@ export WORKON_HOME=/home/sri/.venvs
 export PROJECT_HOME=/home/sri/Documents/Projects
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv2
+export VAGRANT_DEFAULT_PROVIDER=libvirt
 #source /usr/bin/virtualenvwrapper.sh
 
 # Not strictly necessary, but here anyway
@@ -105,9 +125,10 @@ alias l='ls -CF'
 
 alias df='df -Tha --total'
 alias free='free -mt'
+alias vim='nvim'
 
 # Need to figure out a good diff alias. 
-# alias diff='diff -ys --suppress-common-lines'
+alias diff='diff -u'
 
 # This is so that I get bash completion with sudo
 complete -cf sudo
@@ -129,7 +150,7 @@ alias livestreamer='livestreamer --player=/usr/bin/mpv'
 alias containerboot='sudo systemd-nspawn -bD'
 
 # Fucking java
-export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel' 
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
 
 
 PATH="/home/sri/perl5/bin${PATH+:}${PATH}"; export PATH;
@@ -137,3 +158,4 @@ PERL5LIB="/home/sri/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/sri/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/sri/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sri/perl5"; export PERL_MM_OPT;
+source ~/bin/nvm/nvm.sh
