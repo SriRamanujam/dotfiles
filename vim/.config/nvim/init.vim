@@ -1,7 +1,3 @@
-" Basic settings
-set nocompatible
-set t_Co=256
-
 " Line number settings
 set ruler
 set number
@@ -81,19 +77,25 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar', {'for': 'c'}
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/ctrlp.vim'
 "Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/Gundo'
 Plug 'airblade/vim-gitgutter'
 Plug 'groenewege/vim-less', {'for': 'less'}
+Plug 'rust-lang/rust.vim'
 Plug 'kchmck/vim-coffee-script', {'for': 'coffeescript'}
 Plug 'Townk/vim-autoclose'
 Plug 'tpope/vim-vinegar'
+Plug 'justinmk/vim-syntax-extra'
 Plug 'Matt-Deacalion/vim-systemd-syntax'
-Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
+Plug 'rking/ag.vim'
+Plug 'ludovicchabant/vim-gutentags'
+"Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
 Plug 'jelera/vim-javascript-syntax'
+Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'mxw/vim-jsx'
 Plug 'sickill/vim-monokai'
@@ -110,6 +112,9 @@ syntax on
 "autocmd vimenter * NERDTree
 "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 "map <C-n> :NERDTreeToggle<CR>
+
+" Ag.vim settings
+let g:ag_working_path_mode="r"
 
 " Tagbar settings
 nmap <F8> :TagbarToggle<CR>
