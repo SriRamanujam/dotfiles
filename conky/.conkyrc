@@ -7,21 +7,19 @@ double_buffer yes
 #own window to run simultaneous 2 or more conky instances
 own_window yes
 own_window_transparent no
-own_window_type override
-own_window_hints undecorate,sticky,skip_taskbar,skip_pager
+own_window_type panel
+own_window_hints sticky,above
 
 #borders
 draw_borders no
 
-#shades
+#shade
 draw_shades no
 
 #override_utf8_locale yes
 
 #position
-#gap_x 370
-gap_y 6
-alignment top_left
+alignment bottom_left
 
 
 #behaviour
@@ -34,16 +32,16 @@ own_window_colour 262626
 
 #font
 use_xft yes
-xftfont Droid Sans:pixelsize=9
+xftfont Droid Sans:pixelsize=24
 
+minimum_size 1920 216
 #to prevent window from moving
-use_spacer no 
-minimum_size 1920 0
-#maximum_width 1366 0
-
-#mpd
-mpd_host localhost
-mpd_port 6600
+#use_spacer no 
+lua_load ~/dotfiles/conky/conky.lua
+lua_draw_hook_post main
 
 TEXT
-Kernel: ${color e0e0e0}$kernel   |   ${time %d %B} ${color e0e0e0}${time  %I:%M %P}  |  ${color} Up: ${color e0e0e0}${uptime_short}   |   ${color}Processes: ${color e0e0e0}$processes  ${color}Running: ${color e0e0e0}$running_processes   |  ${color}Cpu: ${color e0e0e0}${cpu}%   ${color}${cpugraph 6,80} ${color e0e0e0}    |   ${color }Mem: ${color e0e0e0}$mem/$memmax - $memperc% ${color} ${membar 6,80}${color e0e0e0}    |   ${color }Net: ${if_existing /sys/class/net/wlp3s0/operstate up}${color e0e0e0}${font}${downspeed wlp3s0} ${color}  ${downspeedgraph wlp3s0 6,80}  ${color} ${totaldown wlp3s0} down   |   ${color e0e0e0}${upspeed wlp3s0} ${color} ${upspeedgraph wlp3s0 6,80}  ${color}${totalup wlp3s0} up${endif}${if_existing /sys/class/net/enp2s0/operstate up}${color e0e0e0}${font}${downspeed enp2s0} ${color}  ${downspeedgraph enp2s0 6,80}  ${color} ${totaldown enp2s0} down   |   ${color e0e0e0}${upspeed enp2s0} ${color} ${upspeedgraph enp2s0 6,80}  ${color}${totalup enp2s0} up${endif}  |  ${color }Root: ${color e0e0e0}${font}${fs_used /}  / ${fs_size /} - ${fs_used_perc /}%   |  ${color} Home: ${color e0e0e0}${fs_used /home}  / ${fs_size /home}  - ${fs_used_perc /home}%   | ${color} Arch-pkg: ${color e0e0e0}${font}${execi 120 yaourt -Qua | wc -l} to update  |  ${color}Now playing:  ${color e0e0e0}${font Droid Sans Fallback:size=7}${mpd_artist}-${mpd_title}
+${voffset 125}${alignc}${color e0e0e0}${time %A, %B %d} ${time  %I:%M %P}
+${alignc}${color}Battery: ${color e0e0e0}${battery}, ${battery_time}
+${alignc}${color}Network: ${color e0e0e0}${wireless_essid wlp2s0} ${wireless_link_bar 10,100 wlp2s0}
+#${color}Arch-pkg: ${color e0e0e0}${font}${execi 120 yaourt -Qua | wc -l} to update

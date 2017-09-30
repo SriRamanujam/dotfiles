@@ -11,7 +11,7 @@ set expandtab
 set autoindent
 set preserveindent
 set listchars=tab:>─,trail:·
-"set list
+set list
 set smarttab
 
 " Search settings
@@ -67,19 +67,20 @@ set wrapscan
 "set spelllang=en
 
 " Filetype-specific settings
-"autocmd BufRead, BufNewFile *.py setlocal foldmethod=indent
+autocmd BufRead, BufNewFile *.py set cc=120
 autocmd BufRead, BufNewFile *.less set filetype=less
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
 
 " vim-plug settings
 filetype off
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 Plug 'majutsushi/tagbar', {'for': 'c'}
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/ctrlp.vim'
-"Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/Gundo'
@@ -92,26 +93,24 @@ Plug 'tpope/vim-vinegar'
 Plug 'justinmk/vim-syntax-extra'
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 Plug 'rking/ag.vim'
-Plug 'ludovicchabant/vim-gutentags'
-"Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
-Plug 'jelera/vim-javascript-syntax'
+"Plug 'jelera/vim-javascript-syntax'
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'mxw/vim-jsx'
-Plug 'sickill/vim-monokai'
+Plug 'justinmk/molokai'
 Plug 'saltstack/salt-vim', {'for': 'sls'}
 Plug 'godlygeek/tabular', {'for' : 'mkd'}
 Plug 'plasticboy/vim-markdown', {'for': 'mkd'}
+Plug 'solarnz/thrift.vim'
+Plug 'posva/vim-vue'
 
 call plug#end()
 filetype plugin indent on
 
 " turn syntax highlighting on after plugins load
+set termguicolors
+colorscheme molokai
 syntax on
-" NERDTree settings
-"autocmd vimenter * NERDTree
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-"map <C-n> :NERDTreeToggle<CR>
 
 " Ag.vim settings
 let g:ag_working_path_mode="r"
@@ -129,14 +128,11 @@ let g:ctrlp_extensions = ['buffertag', 'dir']
 " Airline symbols
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#ale#enabled = 1 
 let g:airline_theme="hybridline"
 " Syntastic settings
-let g:syntastic_check_on_open = 1
-let g:syntastic_auto_loc_list = 1
-
-" Easymotion settings
-"let g:EasyMotion_do_mapping = 0 "Disable default mapping
-"nmap <Leader><Leader> <Plug>(easymotion-jumptoanywhere)
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_auto_loc_list = 1
 
 " Tagbar settings
 let g:tagbar_show_linenumbers = 1
@@ -147,6 +143,9 @@ nmap <F12> :GundoToggle<CR>
 " Markdown settings
 let g:vim_markdown_frontmatter=1
 
-" need to put colorscheme after plugin load
-colorscheme monokai
+
+" testing
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 

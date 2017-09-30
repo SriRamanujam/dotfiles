@@ -21,6 +21,11 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+# set PATH so it includes Rust toolchain stuff
+if [ -f "$HOME/.cargo/env" ] ; then
+    source "$HOME/.cargo/env"
+fi
+
 # Copying variables from Ubuntu because they make life easier
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL="erasedups:ignoreboth"
@@ -119,9 +124,7 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-alias ll='ls -alFhk --group-directories-first'
-alias la='ls -A'
-alias l='ls -CF'
+alias ll='ls -alFhks --group-directories-first'
 
 alias df='df -Tha --total'
 alias free='free -mt'
@@ -143,6 +146,11 @@ fehbg() {
     echo "feh --bg-fill /usr/share/backgrounds/wallpaper" > ~/.fehbg
 }
 
+buildscripts() {
+    time ./build.sh "$@" | tee build-results.txt
+}
+alias buildit=buildscripts
+
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e'\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 alias livestreamer='livestreamer --player=/usr/bin/mpv'
@@ -158,4 +166,4 @@ PERL5LIB="/home/sri/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/sri/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/sri/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sri/perl5"; export PERL_MM_OPT;
-source ~/bin/nvm/nvm.sh
+#source ~/bin/nvm/nvm.sh

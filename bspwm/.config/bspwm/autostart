@@ -13,6 +13,3 @@ light-locker &
 dunst &
 
 pulseaudio --daemon
-
-# I'm so annoyed that this doesn't just stick goddammit
-synclient MaxSpeed=1.00

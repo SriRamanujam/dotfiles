@@ -6,7 +6,7 @@
 
 # Quit bspwm (aka logout)
 super + alt + Escape
-    killall panel.sh; bspc quit
+    bspc quit
 
 # Close the highlighted node
 super + w
@@ -25,14 +25,14 @@ super + b
 # Floating takes a node out of the tiling tree
 # and places it above the tiled nodes.
 super + alt + ctrl + f
-    bspc node -t floating
+    bspc node -t ~floating
 
 # This configures the pseudo_tiled state of a node.
 # Pseudo-tiling basically means that the node has a freeform
 # size but is still constrained by the tiling layout. It moves
 # around as new nodes are opened around it, etc.
-super + alt + ctrl + t
-    bspc node -t pseudo_tiled
+super + alt + ctrl + {_,shift} + t
+    bspc node -t ~{pseudo_tiled,tiled}
 
 # super+Tab switches to the last selected node, 
 # no matter what desktop it was on.
@@ -200,10 +200,16 @@ XF86Sleep
 
 # Runs rofi launcher, requires rofi from aur
 super + space
-    rofi -modi "run,ssh" -show run -font "Meslo LG M DZ for Powerline 9" -fg "#f8f8f2" -bg "#262626" -hlfg "#262626" -hlbg "#66d9ef" -terminal "termite" 
+    rofi -modi "window,run,ssh" -show run -font "Meslo LG M DZ for Powerline 9" -fg "#f8f8f2" -bg "#262626" -hlfg "#262626" -hlbg "#66d9ef" -terminal "termite" 
 
 super + l
     light-locker-command -l
+
+# show conky
+super + shift + backslash
+    xdotool search --onlyvisible --classname 'Conky' windowunmap \
+    || xdotool search --classname 'Conky' windowmap && xdotool search --classname 'Conky' windowraise \
+    || conky -q &
 
 # make sxhkd reload its configuration files:
 super + Escape
