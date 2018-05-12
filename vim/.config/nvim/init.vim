@@ -34,7 +34,7 @@ set hidden
 set wildmenu
 set showcmd
 " set digraph not necessary, use CTRL-K
-set esckeys
+"set esckeys
 
 " Text options
 set fo=cqrt
@@ -80,13 +80,14 @@ Plug 'w0rp/ale'
 Plug 'majutsushi/tagbar', {'for': 'c'}
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'kien/ctrlp.vim'
+"Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/Gundo'
 Plug 'airblade/vim-gitgutter'
 Plug 'groenewege/vim-less', {'for': 'less'}
 Plug 'rust-lang/rust.vim'
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'kchmck/vim-coffee-script', {'for': 'coffeescript'}
 Plug 'Townk/vim-autoclose'
 Plug 'tpope/vim-vinegar'
@@ -103,6 +104,7 @@ Plug 'godlygeek/tabular', {'for' : 'mkd'}
 Plug 'plasticboy/vim-markdown', {'for': 'mkd'}
 Plug 'solarnz/thrift.vim'
 Plug 'posva/vim-vue'
+Plug 'ervandew/supertab'
 
 call plug#end()
 filetype plugin indent on
@@ -143,9 +145,25 @@ nmap <F12> :GundoToggle<CR>
 " Markdown settings
 let g:vim_markdown_frontmatter=1
 
+" Racer settings
+let g:racer_experimental_completion = 1
+let g:racer_cmd = "~/.cargo/bin/racer"
+au FileType rust nmap <leader>] <Plug>(rust-def)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+" Supertab
+let g:SuperTabDefaultCompletionType = "context"
 
 " testing
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+" language client
+let g:LanguageClient_serverCommands = {
+    \ 'rust' : ['rustup', 'run', 'nightly', 'rls']
+    \ }
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
