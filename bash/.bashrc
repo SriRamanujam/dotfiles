@@ -3,7 +3,10 @@
 #
 
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+case $- in
+    *i*) ;;
+    *) return;
+esac
 
 export GTK_RC_FILES=$HOME/.gtkrc-2.0
 export EDITOR=nvim
@@ -12,10 +15,13 @@ export PAGER="/usr/bin/most -s"
 export SYSTEMD_PAGER="/usr/bin/less"
 export TERM=xterm-256color
 
+PATH="$HOME/.local/bin:$PATH"
+
 # Set up ruby gems path
 if which ruby >/dev/null && which gem >/dev/null; then
     PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
+
 # set PATH so it includes ~/bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
@@ -25,6 +31,9 @@ fi
 if [ -f "$HOME/.cargo/env" ] ; then
     source "$HOME/.cargo/env"
 fi
+
+# setup auto completion for fzf
+[[ $- == *i* ]] && source "/home/sramanujam/Documents/fzf/shell/completion.bash" 2> /dev/null
 
 # Copying variables from Ubuntu because they make life easier
 # don't put duplicate lines or lines starting with space in the history.
@@ -65,14 +74,13 @@ shopt -s dirspell
 bind "set completion-ignore-case on"
 # Display matches for ambiguous pattertns at first tab press
 bind "set show-all-if-ambiguous on"
-# Use lesspipe for some reason, mainly because ubuntu ships it
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# Set ls to make the pretty colors
-alias ls='ls --color=auto'
 
 # set the PS1
-source /usr/share/git-core/contrib/completion/git-prompt.sh
+if [[ $(grep -q "Ubuntu" /etc/os-release) ]]; then
+    source /etc/bash_completion.d/git-prompt
+elif [[ $(grep -qi -e "centos" -e "fedora" /etc/os-release) ]]; then
+    source /usr/share/git-core/contrib/completion/git-prompt.sh
+fi
 
 # Git prompt control variables
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -105,26 +113,29 @@ function prompt {
 PROMPT_COMMAND='prompt'
 
 # Some user-defined exports and sources here
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk/
 export WORKON_HOME=/home/sri/.venvs
 export PROJECT_HOME=/home/sri/Documents/Projects
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv2
 export VAGRANT_DEFAULT_PROVIDER=libvirt
+export MOZ_USE_XINPUT2=1
 #source /usr/bin/virtualenvwrapper.sh
 
-# Not strictly necessary, but here anyway
+# Set up colors
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
-    rvxt-unicode-256color) color_prompt=yes;;
-    xterm-termite) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
+
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-alias ll='ls -alFhks --group-directories-first'
+alias ls='ls --color=auto'
+alias ll='ls -alFhks --color=auto --group-directories-first'
 
 alias df='df -Tha --total'
 alias free='free -mt'
@@ -132,6 +143,9 @@ alias vim='nvim'
 
 # Need to figure out a good diff alias. 
 alias diff='diff -u'
+
+# I do this a lot
+alias mimetype='file --mime-type'
 
 # This is so that I get bash completion with sudo
 complete -cf sudo
@@ -160,6 +174,12 @@ alias containerboot='sudo systemd-nspawn -bD'
 # Fucking java
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
 
+shasums() {
+    for x in sha1sum sha256sum md5sum; do
+        $x $1
+    done
+    ls -l $1
+}
 
 PATH="/home/sri/perl5/bin${PATH+:}${PATH}"; export PATH;
 PERL5LIB="/home/sri/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
@@ -167,3 +187,7 @@ PERL_LOCAL_LIB_ROOT="/home/sri/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROO
 PERL_MB_OPT="--install_base \"/home/sri/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sri/perl5"; export PERL_MM_OPT;
 #source ~/bin/nvm/nvm.sh
+
+oscbuild() {
+    osc build --root=$(realpath ./buildroot) --clean xUbuntu_18.04 x86_64 --local-package
+}
