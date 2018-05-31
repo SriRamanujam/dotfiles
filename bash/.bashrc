@@ -76,9 +76,9 @@ bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
 
 # set the PS1
-if [[ $(grep -q "Ubuntu" /etc/os-release) ]]; then
+if $(grep -q "Ubuntu" /etc/os-release); then
     source /etc/bash_completion.d/git-prompt
-elif [[ $(grep -qi -e "centos" -e "fedora" /etc/os-release) ]]; then
+elif $(grep -qi -e "centos" -e "fedora" /etc/os-release); then
     source /usr/share/git-core/contrib/completion/git-prompt.sh
 fi
 
