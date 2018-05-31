@@ -19,7 +19,7 @@ PATH="$HOME/.local/bin:$PATH"
 
 # Set up ruby gems path
 if which ruby >/dev/null && which gem >/dev/null; then
-    PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
 # set PATH so it includes ~/bin if it exists
