@@ -32,6 +32,7 @@ set foldmethod=indent
 set foldlevelstart=99
 set hidden
 set wildmenu
+set wildmode=longest:full,full
 set showcmd
 " set digraph not necessary, use CTRL-K
 "set esckeys
@@ -40,7 +41,7 @@ set showcmd
 set fo=cqrt
 set ls=2
 "set textwidth=80
-set cc=80
+set cc=100
 
 " Tab and split settings
 set splitbelow
@@ -104,7 +105,8 @@ Plug 'godlygeek/tabular', {'for' : 'mkd'}
 Plug 'plasticboy/vim-markdown', {'for': 'mkd'}
 Plug 'solarnz/thrift.vim'
 Plug 'posva/vim-vue'
-Plug 'ervandew/supertab'
+"Plug 'ervandew/supertab'
+Plug 'Shougo/deoplete.nvim', { 'do' : ':UpdateRemotePlugins' }
 
 call plug#end()
 filetype plugin indent on
@@ -151,13 +153,9 @@ let g:racer_cmd = "~/.cargo/bin/racer"
 au FileType rust nmap <leader>] <Plug>(rust-def)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
-" Supertab
-let g:SuperTabDefaultCompletionType = "context"
-
-" testing
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#complete_method = "complete"
 
 " language client
 let g:LanguageClient_serverCommands = {
@@ -167,3 +165,7 @@ let g:LanguageClient_serverCommands = {
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
+"let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
+"let g:LanguageClient_loggingLevel = 'INFO'
+"let g:LanguageClient_serverStderr = '/tmp/LanguageServer.log'

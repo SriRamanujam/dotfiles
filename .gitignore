@@ -2,6 +2,8 @@ mpdscribble*
 vim/.vim/bundle*
 vim/.vim/plugged*
 vim/.vim/autoload*
+vim/.config/nvim/plugged*
+vim/.config/nvim/autoload*
 !vim/.vim/bundle/vundle
 *.netrwhist*
 ncmpcpp/.ncmpcpp/error.log

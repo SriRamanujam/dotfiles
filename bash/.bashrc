@@ -75,6 +75,7 @@ bind "set completion-ignore-case on"
 # Display matches for ambiguous pattertns at first tab press
 bind "set show-all-if-ambiguous on"
 
+
 # set the PS1
 if $(grep -q "Ubuntu" /etc/os-release); then
     source /etc/bash_completion.d/git-prompt
@@ -135,7 +136,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias ls='ls --color=auto'
-alias ll='ls -alFhks --color=auto --group-directories-first'
+alias ll='ls -alFhksZ --color=auto --group-directories-first'
 
 alias df='df -Tha --total'
 alias free='free -mt'
