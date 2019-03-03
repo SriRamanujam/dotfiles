@@ -13,7 +13,10 @@ export EDITOR=nvim
 export BROWSER=firefox-nightly
 export PAGER="/usr/bin/most -s"
 export SYSTEMD_PAGER="/usr/bin/less"
-export TERM=xterm-256color
+export GIT_PAGER="/usr/bin/most -s"
+
+# let tmux take care of setting its own $TERM variable
+[[  -z "${TMUX}" ]] && export TERM=xterm-256color
 
 PATH="$HOME/.local/bin:$PATH"
 
@@ -165,12 +168,10 @@ buildscripts() {
     time ./build.sh "$@" | tee build-results.txt
 }
 alias buildit=buildscripts
-
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e'\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 alias livestreamer='livestreamer --player=/usr/bin/mpv'
-
 alias containerboot='sudo systemd-nspawn -bD'
+alias dathomirdev='ssh 192.168.39.2'
 
 # Fucking java
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
@@ -191,4 +192,19 @@ PERL_MM_OPT="INSTALL_BASE=/home/sri/perl5"; export PERL_MM_OPT;
 
 oscbuild() {
     osc build --root=$(realpath ./buildroot) --clean xUbuntu_18.04 x86_64 --local-package
+}
+
+# now for tmux shenanigans
+tmux-attach() {
+    if $(tmux list-sessions &>/dev/null); then
+        tmux attach -t "$(tmux list-sessions | fzf | cut -d':' -f1)"
+    else
+        tmux new
+    fi
+}
+
+cleanup-docker() {
+    docker volume rm $(docker volume ls -qf dangling=true)
+    docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+    docker rm $(docker ps -qa --no-trunc --filter "status=exited")
 }
