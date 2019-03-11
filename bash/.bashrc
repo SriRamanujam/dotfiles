@@ -15,8 +15,8 @@ export PAGER="/usr/bin/most -s"
 export SYSTEMD_PAGER="/usr/bin/less"
 export GIT_PAGER="/usr/bin/most -s"
 
-# let tmux take care of setting its own $TERM variable
-[[  -z "${TMUX}" ]] && export TERM=xterm-256color
+
+export TERM=xterm-256color
 
 PATH="$HOME/.local/bin:$PATH"
 
@@ -192,6 +192,10 @@ PERL_MM_OPT="INSTALL_BASE=/home/sri/perl5"; export PERL_MM_OPT;
 
 oscbuild() {
     osc build --root=$(realpath ./buildroot) --clean xUbuntu_18.04 x86_64 --local-package
+}
+
+new-tmux() {
+    tmux new -s $(basename $PWD)
 }
 
 # now for tmux shenanigans
