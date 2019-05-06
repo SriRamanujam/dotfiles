@@ -167,6 +167,9 @@ fehbg() {
 buildscripts() {
     time ./build.sh "$@" | tee build-results.txt
 }
+
+alias ssh='[ -n "$TMUX" ] && eval $(tmux showenv -s SSH_AUTH_SOCK); /usr/bin/ssh'
+
 alias buildit=buildscripts
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e'\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias livestreamer='livestreamer --player=/usr/bin/mpv'
@@ -195,7 +198,7 @@ oscbuild() {
 }
 
 new-tmux() {
-    tmux new -s $(basename $PWD)
+    tmux new -s $(basename "$PWD")
 }
 
 # now for tmux shenanigans
