@@ -98,7 +98,7 @@ function get_sha {
 function prompt {
     local last_command_status=$?
     PS1=""
-    PS1+="\[\033[00;37m\]\u@\h " # set user and host
+    PS1+="\[\033[00;37m\]\u@${HOSTNAME,,} " # set user and host
     PS1+="\[\033[00;34m\]\w " # set current location
     if [[ -n "$VIRTUAL_ENV"  ]]; then
         PS1+="\[\033[00;32m\]" # set virtualenv color
