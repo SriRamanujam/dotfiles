@@ -14,6 +14,7 @@ export BROWSER=firefox-nightly
 export PAGER="/usr/bin/most -s"
 export SYSTEMD_PAGER="/usr/bin/less"
 export GIT_PAGER="/usr/bin/most -s"
+export NVM_DIR="$HOME/.nvm"
 
 
 export TERM=xterm-256color
@@ -34,6 +35,9 @@ fi
 if [ -f "$HOME/.cargo/env" ] ; then
     source "$HOME/.cargo/env"
 fi
+
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # setup auto completion for fzf
 [[ $- == *i* ]] && source "/home/sramanujam/Documents/fzf/shell/completion.bash" 2> /dev/null
