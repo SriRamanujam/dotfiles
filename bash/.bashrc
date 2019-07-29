@@ -202,6 +202,8 @@ oscbuild() {
 }
 
 new-tmux() {
+    eval $(ssh-agent) &>/dev/null
+    ssh-add $(ls ~/.ssh/id_rsa* | grep -v '.pub$')
     tmux new -s $(basename "$PWD")
 }
 
