@@ -36,6 +36,11 @@ if [ -f "$HOME/.cargo/env" ] ; then
     source "$HOME/.cargo/env"
 fi
 
+# If system has podman installed, prefer that over docker
+if $(command -v podman &>/dev/null); then
+    alias docker='podman'
+fi
+
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
@@ -175,10 +180,8 @@ buildscripts() {
 alias ssh='[ -n "$TMUX" ] && eval $(tmux showenv -s SSH_AUTH_SOCK); /usr/bin/ssh'
 
 alias buildit=buildscripts
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e'\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias livestreamer='livestreamer --player=/usr/bin/mpv'
 alias containerboot='sudo systemd-nspawn -bD'
-alias dathomirdev='ssh 192.168.39.2'
 
 # Fucking java
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
@@ -195,15 +198,20 @@ PERL5LIB="/home/sri/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/sri/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/sri/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sri/perl5"; export PERL_MM_OPT;
-#source ~/bin/nvm/nvm.sh
+
+# set up ssh-agent
+export SSH_AUTH_SOCK="/run/user/$UID/ssh_auth.sock"
+if ! test $(pgrep -fx "ssh-agent -a $SSH_AUTH_SOCK"); then
+    eval $(ssh-agent -a "$SSH_AUTH_SOCK")
+    ssh-add $(ls ~/.ssh/id_rsa* | grep -v '.pub$')
+fi
+
 
 oscbuild() {
     osc build --root=$(realpath ./buildroot) --clean xUbuntu_18.04 x86_64 --local-package
 }
 
 new-tmux() {
-    eval $(ssh-agent) &>/dev/null
-    ssh-add $(ls ~/.ssh/id_rsa* | grep -v '.pub$')
     tmux new -s $(basename "$PWD")
 }
 
@@ -221,3 +229,4 @@ cleanup-docker() {
     docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
     docker rm $(docker ps -qa --no-trunc --filter "status=exited")
 }
+
