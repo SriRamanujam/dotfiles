@@ -93,6 +93,8 @@ if $(grep -q "Ubuntu" /etc/os-release); then
     source /etc/bash_completion.d/git-prompt
 elif $(grep -qi -e "centos" -e "fedora" /etc/os-release); then
     source /usr/share/git-core/contrib/completion/git-prompt.sh
+elif $(grep -qi -e "arch" /etc/os-release); then
+    source /usr/share/git/git-prompt.sh
 fi
 
 # Git prompt control variables
