@@ -208,6 +208,9 @@ if ! test $(pgrep -fx "ssh-agent -a $SSH_AUTH_SOCK"); then
     ssh-add $(ls ~/.ssh/id_rsa* | grep -v '.pub$')
 fi
 
+# setup go stuff
+export GOPATH="/home/sramanujam/Documents/Projects/go"
+export PATH=$PATH:$GOPATH/bin
 
 oscbuild() {
     osc build --root=$(realpath ./buildroot) --clean xUbuntu_18.04 x86_64 --local-package
@@ -227,7 +230,7 @@ tmux-attach() {
 }
 
 cleanup-docker() {
-    docker volume rm $(docker volume ls -qf dangling=true)
+    podman volume prune
     docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
     docker rm $(docker ps -qa --no-trunc --filter "status=exited")
 }
