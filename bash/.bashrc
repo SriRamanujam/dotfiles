@@ -22,7 +22,7 @@ export TERM=xterm-256color
 PATH="$HOME/.local/bin:$PATH"
 
 # Set up ruby gems path
-if which ruby >/dev/null && which gem >/dev/null; then
+if command -v ruby >/dev/null && command -v gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
@@ -37,9 +37,9 @@ if [ -f "$HOME/.cargo/env" ] ; then
 fi
 
 # If system has podman installed, prefer that over docker
-if $(command -v podman &>/dev/null); then
-    alias docker='podman'
-fi
+#if $(command -v podman &>/dev/null); then
+#    alias docker='podman'
+#fi
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -180,6 +180,7 @@ buildscripts() {
 }
 
 alias ssh='[ -n "$TMUX" ] && eval $(tmux showenv -s SSH_AUTH_SOCK); /usr/bin/ssh'
+alias sudo='sudo '
 
 alias buildit=buildscripts
 alias livestreamer='livestreamer --player=/usr/bin/mpv'

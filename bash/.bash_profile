@@ -10,3 +10,5 @@ if $(grep -q "Microsoft" /proc/version); then
 fi
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+
+export PATH="$HOME/.poetry/bin:$PATH"
