@@ -1,0 +1,3 @@
+openssh_client_pkg_name: openssh-clients
+xz_pkg_name: xz
+netcat_pkg_name: netcat

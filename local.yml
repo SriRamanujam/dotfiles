@@ -1,0 +1,11 @@
+- hosts: [localhost]
+  connection: local
+  tags: [always]
+  pre_tasks:
+    - name: End play if not on Ubuntu or Fedora
+      meta: end_host
+      when:
+        - ansible_facts['distribution'] != "Fedora" and ansible_facts['distribution'] != "Ubuntu"
+  roles:
+    - { role: base, tags: [base] }
+

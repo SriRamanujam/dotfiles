@@ -1,0 +1,20 @@
+- name: Install common base set of packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - htop
+      - neovim
+      - most
+      - openssh-server
+      - "{{ openssh_client_pkg_name }}"
+      - ripgrep
+      - rsync
+      - tmux
+      - unzip
+      - "{{ xz_pkg_name }}"
+      - curl
+      - wget
+      - "{{ netcat_pkg_name }}"
+      - ca-certificates
+      - ansible
+    state: latest
