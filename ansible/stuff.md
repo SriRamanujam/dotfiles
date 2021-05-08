@@ -3,42 +3,53 @@ Stuff to install on a new dev machine
 
 Graphical installs only:
 
-* Slack
-* Visual Studio Code
-* Quassel
-* Bitwarden
-* virt-manager
+* Slack (flathub)
+* Visual Studio Code (dnf + custom repo)
+* Quassel (dnf)
+* Bitwarden (flathub)
+* virt-manager (dnf)
 
 Graphical installs on fedora:
-    * Ubuntu GNOME theme (yaru)
+    * Ubuntu GNOME theme (yaru) (dnf)
 
 All installs:
 
 * htop
-* jq
-* podman
-    * enable podman.socket for docker compose
-* git
-* git lfs
 * neovim
+* most
 * openssh server
 * openssh client
 * ripgrep
 * rsync
-* composer
 * tmux
 * unzip
 * xz
+* curl
+* wget
+* nc
 * ansible + ansible-pull
 
 dev tooling
 * php
-* rustup + latest stable rust toolchain
+* rustup + latest stable rust toolchain (custom script)
 * python3
 * python3-virtualenv
 * poetry
-* nvm
-* rvm
+* nvm (custom script)
+* rvm (custom script)
+
+* podman
+    * enable podman.socket for docker compose
+* composer
+* jq
+* git
+* git lfs
+
+* latest versions of oc and kubectl from okd upstream
+    * alias/symlink kubectl -> k
+* terraform and packer using the hashicorp repo
+
+* openshift tooling (extract from container? fetch from github release?)
 
 If running under hyperv:
 * hyperv daemons
@@ -47,3 +58,43 @@ If running under hyperv:
 
 If ubuntu under hyperv:
 * azure tuned kernel
+
+Lay down dotfiles
+    * bashrc
+    * bash_profile
+    * tmux conf
+    * gitconfig
+    * vim
+
+** SET UP bashrc.d FOR SNIPPETS **
+
+If in WSL env:
+    * wsl config
+
+If _not_ in wsl env:
+    * ansible-pull service + timer
+
+If a laptop:
+    * Install and enable tlp
+    * Config snippets in tlp.d per model??
+
+======================================
+
+bashrc.d
+
+snippets to deploy:
+    * vim configuration
+    * ruby tooling env
+    * rust/cargo env
+    * podman config + aliases
+    * nvm configuration
+    * history options
+    * various shell opts
+    * bits and bobs of config
+    * $PS1 config
+    * term colors and dircolors
+    * all my aliases
+    * java options
+    * ssh-agent configuration
+    * go tooling
+    * tmux aliases
