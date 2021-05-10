@@ -1,0 +1,23 @@
+- name: Install Python 3
+  become: true
+  ansible.builtin.package:
+    name: python3
+    state: latest
+
+- name: Determine if Poetry is already installed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.poetry/bin/poetry"
+  register: poetry_binary
+
+- name: Fetch Poetry
+  ansible.builtin.uri:
+    url: https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+    return_content: yes
+  register: poetry_installer
+  when: not poetry_binary.stat.exists
+
+- name: Run Poetry installer
+  ansible.builtin.shell:
+    cmd: python3 - -y --no-modify-path
+    stdin: "{{ poetry_installer.content }}"
+  when: poetry_installer.content is defined

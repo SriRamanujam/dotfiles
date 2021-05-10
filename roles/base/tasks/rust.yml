@@ -1,0 +1,17 @@
+- name: Determine if Rust is already installed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+  register: rustc_binary
+
+- name: Fetch rustup
+  ansible.builtin.uri:
+    url: https://sh.rustup.rs
+    return_content: yes
+  register: rustup_installer
+  when: not rustc_binary.stat.exists
+
+- name: Run rustup installer
+  ansible.builtin.shell:
+    cmd: sh -s -- -y --no-modify-path
+    stdin: "{{ rustup_installer.content }}"
+  when: rustup_installer.content is defined

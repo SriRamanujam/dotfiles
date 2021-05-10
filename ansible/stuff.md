@@ -37,6 +37,7 @@ dev tooling
 * poetry
 * nvm (custom script)
 * rvm (custom script)
+* go
 
 * podman
     * enable podman.socket for docker compose

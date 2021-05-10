@@ -8,3 +8,7 @@
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
 
 - include: base.yml
+- include: php.yml
+- include: rust.yml
+- include: python.yml
+- include: podman.yml

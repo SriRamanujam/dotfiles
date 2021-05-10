@@ -17,4 +17,13 @@
       - "{{ netcat_pkg_name }}"
       - ca-certificates
       - ansible
+      - jq
+      - git
+      - git-lfs
     state: latest
+
+- name: Ensure local bin directory exists
+  ansible.builtin.file:
+    path: "{{ local_bin_dir }}"
+    state: directory
+    mode: '0755'

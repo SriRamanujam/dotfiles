@@ -1,2 +1,4 @@
 ---
 # vars file for base
+
+local_bin_dir: "{{ ansible_env.HOME }}/.local/bin/"
