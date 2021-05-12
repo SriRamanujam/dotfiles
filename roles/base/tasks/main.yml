@@ -12,3 +12,4 @@
 - include: rust.yml
 - include: python.yml
 - include: podman.yml
+- include: openshift.yml
