@@ -1,0 +1,10 @@
+cleanup-podman() {
+    podman volume prune
+    podman rmi $(podman images --filter "dangling=true" -q --no-trunc)
+    podman rm $(podman ps -qa --no-trunc --filter "status=exited")
+}
+
+# If system has podman installed, prefer that over docker
+if $(command -v podman &>/dev/null); then
+    alias docker='podman'
+fi

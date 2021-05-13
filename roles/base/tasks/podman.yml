@@ -29,3 +29,8 @@
     mode: 0755
     url: "{{ docker_compose_releases.json | json_query('[0].assets[?name==`docker-compose-Linux-x86_64`].browser_download_url') | first }}"
     checksum: "sha256:{{ docker_compose_checksum.content.split(' ')[0] }}"
+
+- name: Drop bashrc snippet for Podman
+  ansible.builtin.copy:
+    src: files/podman/07-podman
+    dest: "{{ bash_config_dropins_dir }}/"

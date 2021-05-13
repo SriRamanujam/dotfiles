@@ -1,5 +1,4 @@
-- hosts: [localhost]
-  connection: local
+- hosts: [all]
   tags: [always]
   pre_tasks:
     - name: End play if not on Ubuntu or Fedora

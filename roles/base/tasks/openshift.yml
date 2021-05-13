@@ -16,3 +16,8 @@
     remote_src: yes
     exclude:
       - README.md
+
+- name: Drop kubectl alias in bashrc snippet
+  ansible.builtin.copy:
+    src: files/openshift/08-kubectl-to-k
+    dest: "{{ bash_config_dropins_dir }}/"

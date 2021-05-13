@@ -1,0 +1,26 @@
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias ls='ls --color=auto'
+alias ll='ls -alFhksZ --color=auto --group-directories-first'
+
+alias df='df -Tha --total'
+alias free='free -mt'
+alias vim='nvim'
+
+# Need to figure out a good diff alias. 
+alias diff='diff -u'
+
+# I do this a lot
+alias mimetype='file --mime-type'
+
+# This is so that I get bash completion with sudo
+complete -cf sudo
+
+# if in a tmux session, make sure to pass on the SSH_AUTH_SOCK variable to ssh
+alias ssh='[ -n "$TMUX" ] && eval $(tmux showenv -s SSH_AUTH_SOCK); /usr/bin/ssh'
+
+# https://stackoverflow.com/questions/37209913/how-does-alias-sudo-sudo-work
+# from alias(1): "A trailing space in VALUE causes the next word to be checked for alias substitution when the alias is expanded.
+alias sudo='sudo '

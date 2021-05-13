@@ -21,3 +21,8 @@
     cmd: python3 - -y --no-modify-path
     stdin: "{{ poetry_installer.content }}"
   when: poetry_installer.content is defined
+
+- name: Drop bashrc snippet for Python
+  ansible.builtin.copy:
+    src: files/python/07-poetry
+    dest: "{{ bash_config_dropins_dir }}/"

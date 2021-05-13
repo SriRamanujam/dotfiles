@@ -15,3 +15,8 @@
     cmd: sh -s -- -y --no-modify-path
     stdin: "{{ rustup_installer.content }}"
   when: rustup_installer.content is defined
+
+- name: Drop bashrc snippet for Rust
+  ansible.builtin.copy:
+    src: files/rust/07-rust
+    dest: "{{ bash_config_dropins_dir }}/"
