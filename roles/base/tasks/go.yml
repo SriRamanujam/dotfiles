@@ -1,0 +1,4 @@
+- name: Ensure Go bashrc snippet is dropped in place
+  ansible.builtin.template:
+    src: go/08-gopath.j2
+    dest: "{{ bash_config_dropins_dir }}/08-gopath"

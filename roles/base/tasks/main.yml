@@ -13,3 +13,5 @@
 - include: python.yml
 - include: podman.yml
 - include: openshift.yml
+- include: tmux.yml
+- include: go.yml

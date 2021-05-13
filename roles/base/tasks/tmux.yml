@@ -1,0 +1,4 @@
+- name: Ensure tmux config is in place
+  ansible.builtin.copy:
+    src: tmux.conf
+    dest: "{{ ansible_env.HOME }}/.tmux.conf"
