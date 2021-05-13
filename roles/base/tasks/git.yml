@@ -1,0 +1,4 @@
+- name: Ensure gitconfig is in place
+  ansible.builtin.copy:
+    src: gitconfig
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
