@@ -1,0 +1,40 @@
+- name: Ensure motd messages don't show up.
+  become: true
+  ansible.builtin.file:
+    path: "/etc/update-motd.d"
+    state: directory
+    recurse: yes
+    mode: '0644'
+
+- name: Drop unattended upgrades config
+  become: true
+  ansible.builtin.file:
+    src: ubuntu/50unattended-upgrades
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+
+- name: Drop auto upgrades config
+  become: true
+  ansible.builtin.file:
+    src: ubuntu/20auto-upgrades
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+
+- name: Disable motd timer
+  become: true
+  ansible.builtin.systemd:
+    enabled: no
+    name: motd-news.timer
+    state: stopped
+
+- name: Disable fstrim timer
+  become: true
+  ansible.builtin.systemd:
+    enabled: no
+    name: fstrim.timer
+    state: stopped
+
+- name: Disable fwupd refresh timer
+  become: true
+  ansible.builtin.systemd:
+    enabled: no
+    state: stopped
+    name: fwupd-refresh.timer

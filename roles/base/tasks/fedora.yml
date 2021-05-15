@@ -1,0 +1,12 @@
+- name: Ensure dnf-automatic is installed
+  become: true
+  ansible.builtin.package:
+    name: dnf-automatic
+    state: latest
+
+- name: Ensure dnf-automatic timer unit is enabled
+  become: true
+  ansible.builtin.systemd:
+    enabled: yes
+    state: started
+    name: dnf-automatic-install.timer

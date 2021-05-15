@@ -16,3 +16,12 @@
 - include: tmux.yml
 - include: go.yml
 - include: git.yml
+
+# Distro-specific tasks
+- include: fedora.yml
+  when:
+    - ansible_facts['distribution'] == 'Fedora'
+
+- include: ubuntu.yml
+  when:
+    - ansible_facts['distribution'] == 'Ubuntu'
