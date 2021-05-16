@@ -21,6 +21,7 @@
 - include: tmux.yml
 - include: go.yml
 - include: git.yml
+- include: hashicorp.yml
 
 # Distro-specific tasks
 - include: fedora.yml
