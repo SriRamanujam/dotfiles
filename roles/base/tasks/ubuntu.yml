@@ -24,6 +24,7 @@
     enabled: no
     name: motd-news.timer
     state: stopped
+  when: ansible_service_mgr == 'systemd'
 
 - name: Disable fstrim timer
   become: true
@@ -31,6 +32,7 @@
     enabled: no
     name: fstrim.timer
     state: stopped
+  when: ansible_service_mgr == 'systemd'
 
 - name: Disable fwupd refresh timer
   become: true
@@ -38,3 +40,4 @@
     enabled: no
     state: stopped
     name: fwupd-refresh.timer
+  when: ansible_service_mgr == 'systemd'

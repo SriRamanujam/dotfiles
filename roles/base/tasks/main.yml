@@ -11,7 +11,11 @@
 - include: php.yml
 - include: rust.yml
 - include: python.yml
+
 - include: podman.yml
+  when:
+    - "'microsoft' not in ansible_kernel"
+
 - include: openshift.yml
 - include: tmux.yml
 - include: go.yml
