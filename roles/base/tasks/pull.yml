@@ -1,0 +1,19 @@
+- name: Ensure ansible-pull timer is available
+  ansible.builtin.copy:
+    src: pull/dotfiles-ansible-pull.timer
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
+  when: ansible_service_mgr == 'systemd'
+
+- name: Ensure ansible-pull service is available
+  ansible.builtin.copy:
+    src: pull/dotfiles-ansible-pull.service
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
+  when: ansible_service_mgr == 'systemd'
+
+- name: Ensure ansible-pull timer is started and enabled
+  ansible.builtin.systemd:
+    enabled: yes
+    state: started
+    name: dotfiles-ansible-pull.timer
+    scope: user
+  when: ansible_service_mgr == 'systemd'

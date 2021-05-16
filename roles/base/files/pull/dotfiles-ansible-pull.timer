@@ -1,0 +1,10 @@
+[Unit]
+Description=Apply updated dotfiles configuration once every two hours
+
+[Timer]
+OnUnitActiveSec=2h
+OnStartupSec=1m
+Persistent=true
+
+[Install]
+WantedBy=timers.target
