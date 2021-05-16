@@ -12,6 +12,7 @@
 - include: rust.yml
 - include: python.yml
 
+# Skip podman installation on WSL hosts
 - include: podman.yml
   when:
     - "'microsoft' not in ansible_kernel"

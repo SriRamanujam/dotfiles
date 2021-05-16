@@ -1,4 +1,9 @@
 - name: Ensure tmux config is in place
   ansible.builtin.copy:
-    src: tmux.conf
+    src: tmux/tmux.conf
     dest: "{{ ansible_env.HOME }}/.tmux.conf"
+
+- name: Ensure tmux dropin is in place
+  ansible.builtin.copy:
+    src: tmux/04-tmux
+    dest: "{{ bash_config_dropins_dir }}/"
