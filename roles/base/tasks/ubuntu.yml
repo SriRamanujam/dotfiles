@@ -33,14 +33,6 @@
     state: stopped
   when: ansible_service_mgr == 'systemd'
 
-- name: Disable fstrim timer
-  become: true
-  ansible.builtin.systemd:
-    enabled: no
-    name: fstrim.timer
-    state: stopped
-  when: ansible_service_mgr == 'systemd'
-
 - name: Disable fwupd refresh timer
   become: true
   ansible.builtin.systemd:
