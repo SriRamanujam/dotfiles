@@ -21,3 +21,17 @@
   ansible.builtin.copy:
     src: files/openshift/08-kubectl-to-k
     dest: "{{ bash_config_dropins_dir }}/"
+
+- name: Fetch Kustomize releases from Github
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/kubernetes-sigs/kustomize/releases
+    return_content: yes
+  register: kustomize_releases
+
+- name: Download and install latest kustomize release
+  ansible.builtin.unarchive:
+    dest: "{{ local_bin_dir }}"
+    keep_newer: yes
+    mode: '0755'
+    src: "{{ kustomize_releases.json | to_json | from_json | json_query('[?starts_with(name, `kustomize`)] | [0].assets[?contains(name, `linux_amd64`) == `true`].browser_download_url') | first }}"
+    remote_src: yes
