@@ -4,4 +4,4 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/ansible-pull --accept-host-key --checkout redux --url https://github.com/SriRamanujam/dotfiles.git --directory %h/.dotfiles --inventory "localhost," --connection=local --only-if-changed --private-key %h/.ssh/id_rsa
+ExecStart=/usr/bin/ansible-pull --accept-host-key --checkout redux --url https://github.com/SriRamanujam/dotfiles.git --directory %h/.dotfiles --inventory "localhost," --connection=local --private-key %h/.ssh/id_rsa
