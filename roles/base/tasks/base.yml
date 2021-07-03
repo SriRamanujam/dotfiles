@@ -26,6 +26,7 @@
       - jq
       - git
       - git-lfs
+      - zip
     state: latest
 
 - name: Ensure local bin directory exists
