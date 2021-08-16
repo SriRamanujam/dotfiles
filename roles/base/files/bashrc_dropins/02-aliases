@@ -24,3 +24,6 @@ alias ssh='[ -n "$TMUX" ] && eval $(tmux showenv -s SSH_AUTH_SOCK); /usr/bin/ssh
 # https://stackoverflow.com/questions/37209913/how-does-alias-sudo-sudo-work
 # from alias(1): "A trailing space in VALUE causes the next word to be checked for alias substitution when the alias is expanded.
 alias sudo='sudo '
+
+# This is the best
+alias codesearch="rg -F --no-heading --with-filename"
