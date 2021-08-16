@@ -4,6 +4,7 @@
     dest: "{{ bash_config_dropins_dir }}/08-gopath"
 
 - name: Ensure Go is installed
+  become: true
   ansible.builtin.package:
     name:
       - golang
