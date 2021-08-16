@@ -27,6 +27,7 @@
       - git
       - git-lfs
       - zip
+      - make
     state: latest
 
 - name: Ensure local bin directory exists
