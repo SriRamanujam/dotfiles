@@ -25,7 +25,7 @@
 
 - name: Fetch sha256sum of latest docker-compose release
   ansible.builtin.uri:
-    url: "{{ docker_compose_releases.json | json_query('[0].assets[?name==`docker-compose-Linux-x86_64.sha256`].browser_download_url') | first }}"
+    url: "{{ docker_compose_releases.json | json_query('[?prerelease==`false`] | [0].assets[?name==`docker-compose-Linux-x86_64.sha256`].browser_download_url') | first }}"
     return_content: yes
   register: docker_compose_checksum
 
@@ -33,7 +33,7 @@
   ansible.builtin.get_url:
     dest: "{{ local_bin_dir }}/docker-compose"
     mode: 0755
-    url: "{{ docker_compose_releases.json | json_query('[0].assets[?name==`docker-compose-Linux-x86_64`].browser_download_url') | first }}"
+    url: "{{ docker_compose_releases.json | json_query('[?prerelease==`false`] | [0].assets[?name==`docker-compose-Linux-x86_64`].browser_download_url') | first }}"
     checksum: "sha256:{{ docker_compose_checksum.content.split(' ')[0] }}"
 
 - name: Drop bashrc snippet for Podman
