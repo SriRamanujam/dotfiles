@@ -7,6 +7,17 @@
     - "{{ ansible_distribution | lower | replace(' ', '-') }}-{{ ansible_distribution_major_version | lower }}.yml"
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
 
+# Determine if current install is graphical and set a fact if so
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Set graphical fact
+  ansible.builtin.set_fact:
+    is_graphical: true
+  when: (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or
+        (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages)
+
 - include: base.yml
 - include: php.yml
 - include: rust.yml
@@ -22,6 +33,9 @@
 - include: go.yml
 - include: git.yml
 - include: hashicorp.yml
+
+- include: code.yml
+  when: is_graphical == True
 
 # Distro-specific tasks
 - include: fedora.yml
