@@ -34,6 +34,8 @@
 - include: go.yml
 - include: git.yml
 - include: hashicorp.yml
+  when:
+    - not (ansible_distribution == "Fedora" and ansible_distribution_version == "35")
 
 - include: code.yml
   when: is_graphical == True
