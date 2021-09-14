@@ -28,6 +28,7 @@
   when:
     - "'microsoft' not in ansible_kernel"
 
+- include: aws.yml
 - include: openshift.yml
 - include: tmux.yml
 - include: go.yml

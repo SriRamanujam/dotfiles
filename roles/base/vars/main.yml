@@ -1,7 +1,9 @@
 ---
 # vars file for base
 
-local_bin_dir: "{{ ansible_env.HOME }}/.local/bin/"
+local_dir: "{{ ansible_env.HOME }}/.local"
+
+local_bin_dir: "{{ local_dir }}/bin/"
 
 bash_config_dir: "{{ lookup('env', 'XDG_CONFIG_HOME') | default(lookup('env', 'HOME') + '/.config', True) }}/bash_config"
 

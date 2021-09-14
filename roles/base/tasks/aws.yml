@@ -1,0 +1,41 @@
+- name: Ensure aws package dependencies are installed
+  become: yes
+  ansible.builtin.package:
+    name:
+      - python
+      - unzip
+
+- name: Create temp directory for AWS
+  ansible.builtin.tempfile:
+    state: directory
+  register: aws_tempdir
+
+- name: Download latest AWS CLI zip
+  ansible.builtin.unarchive:
+    src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: "{{ aws_tempdir.path }}/"
+    remote_src: yes
+  register: awscli_path
+
+- name: Run the AWS installer
+  ansible.builtin.shell:
+    cmd: "{{ awscli_path.dest }}/aws/install --update -i {{ local_dir }} -b {{ local_bin_dir }}"
+
+- name: Fetch aws-vault releases from Github
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/99designs/aws-vault/releases
+    return_content: yes
+  register: aws_vault_releases
+
+- name: Fetch sha256sum of latest aws-vault release
+  ansible.builtin.uri:
+    url: "{{ aws_vault_releases.json | json_query('[?prerelease==`false`] | [0].assets[?name==`SHA256SUMS`].browser_download_url') | first }}"
+    return_content: yes
+  register: aws_vault_checksums
+
+- name: Download and install latest aws-vault release
+  ansible.builtin.get_url:
+    dest: "{{ local_bin_dir }}/aws-vault"
+    mode: 0755
+    url: "{{ aws_vault_releases.json | json_query('[?prerelease==`false`] | [0].assets[?name==`aws-vault-linux-amd64`].browser_download_url') | first }}"
+    checksum: "sha256:{{ aws_vault_checksums.content | regex_search('(\\w{64})  aws-vault-linux-amd64', '\\1') | first }}"
