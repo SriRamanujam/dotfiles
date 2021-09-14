@@ -28,6 +28,7 @@
       - git-lfs
       - zip
       - make
+      - "{{ development_tools }}"
     state: latest
 
 - name: Ensure local bin directory exists
