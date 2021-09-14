@@ -1,5 +1,0 @@
-- name: Install Firefox Nightly flatpak (Fedora)
-  community.general.flatpak:
-    name: https://gitlab.com/proletarius101/firefox-nightly-flatpak/raw/master/firefox-nightly.flatpakref
-    state: present
-  when: ansible_distribution == "Fedora"
