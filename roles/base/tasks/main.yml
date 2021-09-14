@@ -37,6 +37,9 @@
 - include: code.yml
   when: is_graphical == True
 
+- include: ff-nightly.yml
+  when: is_graphical == True
+
 # Distro-specific tasks
 - include: fedora.yml
   when:
