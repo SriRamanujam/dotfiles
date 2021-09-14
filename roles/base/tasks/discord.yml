@@ -1,0 +1,42 @@
+- name: Install RPMFusion (Fedora)
+  ansible.builtin.yum:
+    name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"
+    state: present
+  when: ansible_distribution == "Fedora"
+
+- name: Install RPMFusion Nonfree (Fedora)
+  ansible.builtin.yum:
+    name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"
+    state: present
+  when: ansible_distribution == "Fedora"
+
+- name: Install Discord (Fedora)
+  ansible.builtin.package:
+    name:
+      - discord
+    state: latest
+  when: ansible_distribution == "Fedora"
+
+- name: Create temp file for discord deb (Ubuntu)
+  ansible.builtin.tempfile:
+    state: file
+    suffix: deb
+  register: discord_tempfile
+  when: ansible_distribution == "Ubuntu"
+
+- name: Download latest Discord deb (Ubuntu)
+  ansible.builtin.get_url:
+    url: https://discord.com/api/download?platform=linux&format=deb
+    dest: "{{ discord_tempfile.path }}"
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Discord deb (Ubuntu)
+  ansible.builtin.apt:
+    deb: "{{ discord_tempfile.path }}"
+  when: ansible_distribution == "Ubuntu"
+
+- name: Remove temp deb (Ubuntu)
+  ansible.builtin.file:
+    path: "{{ discord_tempfile.path }}"
+    state: absent
+  when: discord_tempfile.path is defined

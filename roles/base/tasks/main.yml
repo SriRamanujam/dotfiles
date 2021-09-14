@@ -40,6 +40,9 @@
 - include: ff-nightly.yml
   when: is_graphical == True
 
+- include: discord.yml
+  when: is_graphical == True
+
 # Distro-specific tasks
 - include: fedora.yml
   when:
