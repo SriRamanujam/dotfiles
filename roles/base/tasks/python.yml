@@ -11,14 +11,14 @@
 
 - name: Fetch Poetry
   ansible.builtin.uri:
-    url: https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+    url: https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py
     return_content: yes
   register: poetry_installer
   when: not poetry_binary.stat.exists
 
 - name: Run Poetry installer
   ansible.builtin.shell:
-    cmd: python3 - -y --no-modify-path
+    cmd: python3 - --yes
     stdin: "{{ poetry_installer.content }}"
   when: poetry_installer.content is defined
 
