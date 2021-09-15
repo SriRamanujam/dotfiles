@@ -1,0 +1,15 @@
+- name: Enable fractional scaling for GDM
+  ansible.builtin.shell: dbus-run-session bash -c "dconf write /org/gnome/mutter/experimental-features \"['scale-monitor-framebuffer']\" "
+  become: yes
+  become_user: gdm
+  become_flags: ''
+  register: test
+
+- name: Drop fractional scaling configuration for GDM
+  become: yes
+  ansible.builtin.copy:
+    src: computers/framework/monitors.xml
+    dest: /var/lib/gdm/.config/monitors.xml
+    owner: gdm
+    group: gdm
+    mode: '0644'

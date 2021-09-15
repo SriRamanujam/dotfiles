@@ -52,5 +52,10 @@
   when:
     - ansible_facts['distribution'] == 'Ubuntu'
 
+# Per-computer configuration
+- include: framework.yml
+  when:
+    - ansible_system_vendor == "Framework" and ansible_product_name == "Laptop"
+
 # Finally, deploy a mechanism to automatically run ansible-pull every couple of hours.
 - include: pull.yml
