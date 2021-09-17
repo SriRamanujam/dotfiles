@@ -13,4 +13,5 @@
     - role: framework
       tags: [framework]
       when:
-        - ansible_system_vendor == "Framework" and ansible_product_name == "Laptop"
+        - ansible_system_vendor == "Framework"
+        - ansible_product_name == "Laptop"

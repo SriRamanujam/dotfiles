@@ -1,3 +1,9 @@
+- name: Ensure dbus-run-session binary is present
+  ansible.builtin.package:
+    name:
+      - "{{ dbus_run_session_package }}"
+    state: latest
+
 - name: Enable fractional scaling for GDM
   ansible.builtin.shell: dbus-run-session bash -c "dconf write /org/gnome/mutter/experimental-features \"['scale-monitor-framebuffer']\" "
   become: yes
