@@ -4,6 +4,7 @@
     name:
       - python
       - unzip
+    state: latest
 
 - name: Create temp directory for AWS
   ansible.builtin.tempfile:
