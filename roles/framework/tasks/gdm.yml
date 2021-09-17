@@ -1,4 +1,5 @@
 - name: Ensure dbus-run-session binary is present
+  become: yes
   ansible.builtin.package:
     name:
       - "{{ dbus_run_session_package }}"
