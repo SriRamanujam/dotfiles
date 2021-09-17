@@ -8,10 +8,6 @@
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
 
 # Determine if current install is graphical and set a fact if so
-- name: Gather package facts
-  ansible.builtin.package_facts:
-    manager: auto
-
 - name: Set graphical fact
   ansible.builtin.set_fact:
     is_graphical: true
@@ -51,11 +47,6 @@
 - include: ubuntu.yml
   when:
     - ansible_facts['distribution'] == 'Ubuntu'
-
-# Per-computer configuration
-- include: framework.yml
-  when:
-    - ansible_system_vendor == "Framework" and ansible_product_name == "Laptop"
 
 # Finally, deploy a mechanism to automatically run ansible-pull every couple of hours.
 - include: pull.yml
