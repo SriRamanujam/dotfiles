@@ -8,3 +8,5 @@
     state: latest
 
 - include: gnome.yml
+- include: discord.yml
+- include: code.yml

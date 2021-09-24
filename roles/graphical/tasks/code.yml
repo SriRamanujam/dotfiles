@@ -31,3 +31,13 @@
     name:
       - code
     state: latest
+
+- name: Ensure directory .local/share/applications is present
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/share/applications"
+    state: directory
+
+- name: Drop Code override .desktop file for Wayland
+  ansible.builtin.copy:
+    src: code.desktop
+    dest: "{{ ansible_env.HOME }}/.local/share/applications/code.desktop"
