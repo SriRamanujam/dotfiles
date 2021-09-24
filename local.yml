@@ -1,11 +1,12 @@
 - hosts: [all]
-  tags: [always]
   pre_tasks:
     - name: End play if not on Ubuntu or Fedora
       meta: end_host
+      tags: [always]
       when:
         - ansible_facts['distribution'] != "Fedora" and ansible_facts['distribution'] != "Ubuntu"
     - name: Gather package facts
+      tags: [always]
       ansible.builtin.package_facts:
         manager: auto
   roles:
