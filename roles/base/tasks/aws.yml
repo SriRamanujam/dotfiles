@@ -40,3 +40,8 @@
     mode: 0755
     url: "{{ aws_vault_releases.json | json_query('[?prerelease==`false`] | [0].assets[?name==`aws-vault-linux-amd64`].browser_download_url') | first }}"
     checksum: "sha256:{{ aws_vault_checksums.content | regex_search('(\\w{64})  aws-vault-linux-amd64', '\\1') | first }}"
+
+- name: Drop aws-vault config in bashrc snippet
+  ansible.builtin.copy:
+    src: files/aws/08-aws-vault-backend
+    dest: "{{ bash_config_dropins_dir }}/"
