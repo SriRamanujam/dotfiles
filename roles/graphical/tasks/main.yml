@@ -1,0 +1,10 @@
+---
+# tasks file for graphical
+
+- name: Install quassel client
+  become: yes
+  ansible.builtin.package:
+    name: quassel-client
+    state: latest
+
+- include: gnome.yml

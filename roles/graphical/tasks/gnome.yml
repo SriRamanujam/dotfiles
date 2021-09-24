@@ -1,0 +1,35 @@
+- name: Install Gnome Tweaks
+  become: yes
+  ansible.builtin.package:
+    name: gnome-tweaks
+    state: present
+
+- name: Install Gnome Extensions
+  become: yes
+  ansible.builtin.package:
+    name: gnome-extensions-app
+    state: present
+
+# A bunch of settings tweaks that normally would require Gnome Tweaks or spelunking in settings
+# but that we can do by hand since we know how to use dconf
+
+- name: Enable 12 hour clock in GNOME top bar
+  ansible.builtin.command: dconf write /org/gnome/desktop/interface/clock-format \"12h\"
+
+- name: Show weekday in GNOME top bar
+  ansible.builtin.command: dconf write /org/gnome/desktop/interface/clock-show-weekday true
+
+- name: Show battery percentage
+  ansible.builtin.command: dconf write /org/gnome/desktop/interface/show-battery-percentage true
+
+- name: Set caps lock to escape in GNOME
+  ansible.builtin.command: dconf write /org/gnome/desktop/input-sources/xkb-options "['lv3:ralt_switch', 'caps:escape']"
+
+- name: Set tap-to-click on
+  ansible.builtin.command: dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click true
+
+- name: Set two finger scrolling on
+  ansible.builtin.command: dconf write /org/gnome/desktop/peripherals/touchpad/two-finger-scrolling true
+
+- name: Show minimize button on windows
+  ansible.builtin.command: dconf write /org/gnome/desktop/wm/preferences/button-layout \"appmenu:minimize,close\"

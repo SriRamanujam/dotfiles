@@ -16,3 +16,7 @@
       when:
         - ansible_system_vendor == "Framework"
         - ansible_product_name == "Laptop"
+    - role: graphical
+      tags: [graphical]
+      when: (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or
+        (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages)
