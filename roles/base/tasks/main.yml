@@ -33,6 +33,8 @@
   when:
     - not (ansible_distribution == "Fedora" and ansible_distribution_version == "35")
 
+- include: dotnet.yml
+
 # Distro-specific tasks
 - include: fedora.yml
   when:
