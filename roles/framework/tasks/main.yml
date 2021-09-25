@@ -7,3 +7,6 @@
 
 - include: scaling.yml
   
+- name: Configure kernel to default to S3 suspend (S0ix idle is not efficient) (Fedora)
+  ansible.builtin.command: grubby --update-kernel=ALL --args=mem_sleep_default=deep
+  when: ansible_distribution == "Fedora"
