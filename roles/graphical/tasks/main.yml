@@ -10,3 +10,4 @@
 - include: gnome.yml
 - include: discord.yml
 - include: code.yml
+- include: ff-nightly.yml
