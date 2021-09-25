@@ -11,20 +11,14 @@
   become_user: gdm
   become_flags: ''
 
-- name: Drop fractional scaling configuration for GDM
-  become: yes
-  ansible.builtin.copy:
-    src: monitors.xml
-    dest: /var/lib/gdm/.config/monitors.xml
-    owner: gdm
-    group: gdm
-    mode: '0644'
-
 - name: Enable fractional scaling for ourselves
   ansible.builtin.command: dconf write /org/gnome/mutter/experimental-features "['scale-monitor-framebuffer']"
 
-- name: Drop fractional scaling configuration for ourselves
+- name: Copy our current monitor configuration to GDM config
+  become: yes
   ansible.builtin.copy:
-    src: monitors.xml
-    dest: "{{ ansible_env.HOME }}/.config/monitors.xml"
+    src: "{{ ansible_env.HOME}}/.config/monitors.xml"
+    dest: "/var/lib/gdm/.config/monitors.xml"
+    owner: gdm
+    group: gdm
     mode: '0644'
