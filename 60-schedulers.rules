@@ -1,2 +1,0 @@
-# set noop scheduler for ssd drives
-KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="noop"
