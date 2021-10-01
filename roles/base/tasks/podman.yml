@@ -40,3 +40,14 @@
   ansible.builtin.copy:
     src: files/podman/07-podman
     dest: "{{ bash_config_dropins_dir }}/"
+
+# When the home dir is set up to use btrfs, drop configuration to use btrfs as the podman driver. Hooray for COW!
+- name: home directory filesystem fact
+  ansible.builtin.set_fact:
+    homedir_fs: "{{ (ansible_mounts | selectattr('mount', 'in', '/home') | list | sort(attribute='mount'))[-1]['fstype'] }}"
+
+- name: Drop BTRFS container.conf configuration
+  ansible.builtin.copy:
+    src: podman/btrfs/storage.conf
+    dest: "{{ ansible_env.HOME }}/.config/containers/"
+  when: homedir_fs == 'btrfs'
