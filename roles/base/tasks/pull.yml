@@ -10,7 +10,8 @@
     src: pull/dotfiles-ansible-pull.service
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
   when: ansible_service_mgr == 'systemd'
-  register: pull_service
+  notify:
+    - Reload systemd user daemon
 
 - name: Ensure ansible-pull timer is started and enabled
   ansible.builtin.systemd:
@@ -19,9 +20,5 @@
     name: dotfiles-ansible-pull.timer
     scope: user
   when: ansible_service_mgr == 'systemd'
-
-- name: Reload systemd daemon if timer or service changed
-  ansible.builtin.systemd:
-    scope: user
-    daemon_reload: yes
-  when: pull_service.changed or pull_timer.changed
+  notify:
+    - Reload systemd user daemon

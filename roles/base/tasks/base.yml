@@ -50,7 +50,7 @@
 - name: Ensure .bashrc is present
   ansible.builtin.template:
     src: bashrc.j2
-    dest: "{{ bash_config_dir}}/bashrc"
+    dest: "{{ bash_config_dir }}/bashrc"
     mode: '0755'
 
 - name: Ensure .bashrc is symlinked out to home dir
@@ -63,12 +63,12 @@
 - name: Ensure base bashrc snippets are dropped into place
   ansible.builtin.copy:
     src: bashrc_dropins/
-    dest: "{{ bash_config_dropins_dir}}/"
+    dest: "{{ bash_config_dropins_dir }}/"
 
 - name: Ensure .bash_profile is present
   ansible.builtin.copy:
     src: bash_profile
-    dest: "{{ bash_config_dir}}/bash_profile"
+    dest: "{{ bash_config_dir }}/bash_profile"
 
 - name: Ensure .bash_profile is symlinked out to home dir
   ansible.builtin.file:

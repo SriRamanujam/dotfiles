@@ -1,2 +1,7 @@
 ---
 # handlers file for base
+
+- name: Reload systemd user daemon
+  ansible.builtin.systemd:
+    scope: user
+    daemon_reload: yes
