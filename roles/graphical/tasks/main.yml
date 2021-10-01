@@ -11,3 +11,4 @@
 - include: discord.yml
 - include: code.yml
 - include: ff-nightly.yml
+- include: systemd.yml

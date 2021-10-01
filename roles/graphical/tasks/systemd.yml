@@ -1,0 +1,5 @@
+- name: Drop logind drop-in to configure closing the lid as suspend-then-hibernate
+  become: yes
+  ansible.builtin.copy:
+    src: logind/00_suspend-then-hibernate.conf
+    dest: /etc/systemd/logind.conf.d/
