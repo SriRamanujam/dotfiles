@@ -14,6 +14,9 @@
   when: (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or
         (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages)
 
+# Finally, deploy a mechanism to automatically run ansible-pull every couple of hours.
+- include: pull.yml
+
 - include: base.yml
 - include: php.yml
 - include: rust.yml
@@ -41,6 +44,3 @@
 - include: ubuntu.yml
   when:
     - ansible_facts['distribution'] == 'Ubuntu'
-
-# Finally, deploy a mechanism to automatically run ansible-pull every couple of hours.
-- include: pull.yml
