@@ -1,7 +1,9 @@
 - name: Install Python 3
   become: true
   ansible.builtin.package:
-    name: python3
+    name:
+      - python3
+      - {{ python3_devel }}
     state: latest
 
 - name: Determine if Poetry is already installed
