@@ -4,23 +4,53 @@
     name:
       - python
       - unzip
-    state: latest
+    state: present
 
-- name: Create temp directory for AWS
-  ansible.builtin.tempfile:
-    state: directory
-  register: aws_tempdir
-
-- name: Download latest AWS CLI zip
-  ansible.builtin.unarchive:
-    src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
-    dest: "{{ aws_tempdir.path }}/"
-    remote_src: yes
-  register: awscli_path
-
-- name: Run the AWS installer
+- name: Register AWS CLI version
   ansible.builtin.shell:
-    cmd: "{{ awscli_path.dest }}/aws/install --update -i {{ local_dir }} -b {{ local_bin_dir }}"
+    cmd: aws --version | awk '{split($1,a,"/"); print a[2]}'
+  register: aws_version_cmd_output
+  ignore_errors: yes # we want the play to continue if the aws command is not present
+  changed_when: false
+
+- name: Set AWS CLI version fact
+  ansible.builtin.set_fact:
+    aws_version: "{{ aws_version_cmd_output.stdout }}" # this will be blank if the version doesn't exist, which means no aws cli has been installed yet.
+
+- name: Find latest upstream AWS CLI version
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/aws/aws-cli/tags?per_page=1
+    return_content: yes
+  register: aws_cli_releases
+
+- name: Set latest upstream AWS CLI version
+  ansible.builtin.set_fact:
+    upstream_aws_version: "{{ aws_cli_releases.json | json_query('[0].name') }}"
+
+- name: Install latest AWS CLI version
+  when: upstream_aws_version != aws_version
+  block:
+    - name: Create temp directory for AWS
+      ansible.builtin.tempfile:
+        state: directory
+      register: aws_tempdir
+
+    - name: Download latest AWS CLI zip
+      ansible.builtin.unarchive:
+        src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+        dest: "{{ aws_tempdir.path }}/"
+        remote_src: yes
+      register: awscli_path
+
+    - name: Run the AWS installer
+      ansible.builtin.command:
+        cmd: "{{ awscli_path.dest }}/aws/install --update -i {{ local_dir }} -b {{ local_bin_dir }}"
+
+    - name: Clean up temp directory
+      ansible.builtin.file:
+        path: "{{ aws_tempdir.path }}"
+        state: absent
+      when: aws_tempdir.path is defined
 
 - name: Fetch aws-vault releases from Github
   ansible.builtin.uri:
@@ -45,3 +75,4 @@
   ansible.builtin.copy:
     src: files/aws/08-aws-vault-backend
     dest: "{{ bash_config_dropins_dir }}/"
+    mode: '0644'
