@@ -3,7 +3,7 @@
   ansible.builtin.package:
     name:
       - "{{ dbus_run_session_package }}"
-    state: latest
+    state: present
 
 - name: Enable fractional scaling for GDM
   ansible.builtin.shell: dbus-run-session bash -c "dconf write /org/gnome/mutter/experimental-features \"['scale-monitor-framebuffer']\" "

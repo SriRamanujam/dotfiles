@@ -3,3 +3,4 @@
   ansible.builtin.copy:
     src: logind/00_suspend-then-hibernate.conf
     dest: /etc/systemd/logind.conf.d/
+    mode: '0644'

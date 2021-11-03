@@ -3,6 +3,7 @@
   ansible.builtin.copy:
     src: _copr:copr.fedorainfracloud.org:proletarius101:firefox-nightly.repo
     dest: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:proletarius101:firefox-nightly.repo
+    mode: '0644'
   when: ansible_distribution == "Fedora"
 
 - name: Install media dependencies for firefox-nightly (Fedora)

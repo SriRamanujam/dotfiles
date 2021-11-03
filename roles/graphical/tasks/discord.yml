@@ -17,7 +17,7 @@
   ansible.builtin.package:
     name:
       - discord
-    state: latest
+    state: present
   when: ansible_distribution == "Fedora"
 
 - name: Create temp file for discord deb (Ubuntu)

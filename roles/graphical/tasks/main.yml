@@ -5,7 +5,7 @@
   become: yes
   ansible.builtin.package:
     name: quassel-client
-    state: latest
+    state: present
 
 - include: gnome.yml
 - include: discord.yml

@@ -2,7 +2,7 @@
   become: true
   ansible.builtin.package:
     name: podman
-    state: latest
+    state: present
 
 - name: Ensure podman.socket is enabled and started
   ansible.builtin.systemd:

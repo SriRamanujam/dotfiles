@@ -2,6 +2,7 @@
   ansible.builtin.copy:
     src: pull/dotfiles-ansible-pull.timer
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
+    mode: '0644'
   when: ansible_service_mgr == 'systemd'
   register: pull_timer
 
@@ -9,6 +10,7 @@
   ansible.builtin.copy:
     src: pull/dotfiles-ansible-pull.service
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
+    mode: '0644'
   when: ansible_service_mgr == 'systemd'
   notify:
     - Reload systemd user daemon

@@ -29,7 +29,7 @@
       - zip
       - make
       - "{{ development_tools }}"
-    state: latest
+    state: present
 
 - name: Ensure local bin directory exists
   ansible.builtin.file:
@@ -41,11 +41,13 @@
   ansible.builtin.file:
     path: "{{ bash_config_dir }}"
     state: directory
+    mode: '0755'
 
 - name: Ensure bash dropins directory is present
   ansible.builtin.file:
     path: "{{ bash_config_dropins_dir }}"
     state: directory
+    mode: '0755'
 
 - name: Ensure .bashrc is present
   ansible.builtin.template:
@@ -64,11 +66,13 @@
   ansible.builtin.copy:
     src: bashrc_dropins/
     dest: "{{ bash_config_dropins_dir }}/"
+    mode: preserve
 
 - name: Ensure .bash_profile is present
   ansible.builtin.copy:
     src: bash_profile
     dest: "{{ bash_config_dir }}/bash_profile"
+    mode: preserve
 
 - name: Ensure .bash_profile is symlinked out to home dir
   ansible.builtin.file:

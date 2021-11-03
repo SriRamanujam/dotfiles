@@ -2,7 +2,7 @@
   become: true
   ansible.builtin.package:
     name: dnf-automatic
-    state: latest
+    state: present
 
 - name: Ensure dnf-automatic timer unit is enabled
   become: true

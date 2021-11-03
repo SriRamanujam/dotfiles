@@ -4,7 +4,7 @@
   ansible.builtin.package:
     name:
       - dotnet-sdk-5.0
-    state: latest
+    state: present
 
 - name: Install Microsoft signing key and repository (Ubuntu)
   when: ansible_distribution == "Ubuntu"
@@ -19,4 +19,4 @@
     update_cache: yes
     name:
       - dotnet-sdk-5.0
-    state: latest
+    state: present

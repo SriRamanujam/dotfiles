@@ -13,23 +13,23 @@
 # A bunch of settings tweaks that normally would require Gnome Tweaks or spelunking in settings
 # but that we can do by hand since we know how to use dconf
 
-- name: Enable 12 hour clock in GNOME top bar
+- name: Enable 12 hour clock in GNOME top bar # noqa no-changed-when
   ansible.builtin.command: dconf write /org/gnome/desktop/interface/clock-format \"12h\"
 
-- name: Show weekday in GNOME top bar
+- name: Show weekday in GNOME top bar # noqa no-changed-when
   ansible.builtin.command: dconf write /org/gnome/desktop/interface/clock-show-weekday true
 
-- name: Show battery percentage
+- name: Show battery percentage # noqa no-changed-when
   ansible.builtin.command: dconf write /org/gnome/desktop/interface/show-battery-percentage true
 
-- name: Set caps lock to escape in GNOME
+- name: Set caps lock to escape in GNOME # noqa no-changed-when
   ansible.builtin.command: dconf write /org/gnome/desktop/input-sources/xkb-options "['lv3:ralt_switch', 'caps:escape']"
 
-- name: Set tap-to-click on
+- name: Set tap-to-click on # noqa no-changed-when
   ansible.builtin.command: dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click true
 
-- name: Set two finger scrolling on
+- name: Set two finger scrolling on # noqa no-changed-when
   ansible.builtin.command: dconf write /org/gnome/desktop/peripherals/touchpad/two-finger-scrolling true
 
-- name: Show minimize button on windows
+- name: Show minimize button on windows # noqa no-changed-when
   ansible.builtin.command: dconf write /org/gnome/desktop/wm/preferences/button-layout \"appmenu:minimize,close\"

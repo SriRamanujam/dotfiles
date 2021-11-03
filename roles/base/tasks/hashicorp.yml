@@ -44,4 +44,4 @@
     name:
       - terraform
       - packer
-    state: latest
+    state: present

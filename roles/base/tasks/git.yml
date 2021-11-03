@@ -2,3 +2,4 @@
   ansible.builtin.copy:
     src: gitconfig
     dest: "{{ ansible_env.HOME }}/.gitconfig"
+    mode: '0644'

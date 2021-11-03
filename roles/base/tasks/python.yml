@@ -19,7 +19,7 @@
   when: not poetry_binary.stat.exists
 
 - name: Run Poetry installer
-  ansible.builtin.shell:
+  ansible.builtin.shell: # noqa command-instead-of-shell
     cmd: python3 - --yes
     stdin: "{{ poetry_installer.content }}"
   when: poetry_installer.content is defined
@@ -28,3 +28,4 @@
   ansible.builtin.copy:
     src: files/python/07-poetry
     dest: "{{ bash_config_dropins_dir }}/"
+    mode: '0644'

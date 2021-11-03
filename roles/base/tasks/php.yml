@@ -2,4 +2,4 @@
   become: true
   ansible.builtin.package:
     name: composer
-    state: latest
+    state: present
