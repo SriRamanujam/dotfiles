@@ -1,12 +1,14 @@
-- name: Ensure dnf-automatic is installed
+- name: Ensure dnf-automatic is installed (Only on headless systems)
   become: true
   ansible.builtin.package:
     name: dnf-automatic
     state: present
+  when: not is_graphical
 
-- name: Ensure dnf-automatic timer unit is enabled
+- name: Ensure dnf-automatic timer unit is enabled ()
   become: true
   ansible.builtin.systemd:
     enabled: yes
     state: started
     name: dnf-automatic-install.timer
+  when: not is_graphical

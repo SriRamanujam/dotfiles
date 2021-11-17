@@ -9,6 +9,9 @@
       tags: [always]
       ansible.builtin.package_facts:
         manager: auto
+    - name: Set is_graphical fact
+      ansible.builtin.set_fact:
+        is_graphical: "{{ (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages) }}"
   roles:
     - { role: base, tags: [base] }
     - role: framework
@@ -18,5 +21,4 @@
         - ansible_product_name == "Laptop"
     - role: graphical
       tags: [graphical]
-      when: (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or
-        (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages)
+      when: is_graphical
