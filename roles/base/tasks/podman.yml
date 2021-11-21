@@ -16,6 +16,7 @@
   ansible.builtin.copy:
     src: files/podman/001-gcr-mirror.conf
     dest: /etc/containers/registries.conf.d/
+    mode: '0644'
 
 - name: Fetch docker-compose releases from Github
   ansible.builtin.uri:
@@ -40,6 +41,7 @@
   ansible.builtin.copy:
     src: files/podman/07-podman
     dest: "{{ bash_config_dropins_dir }}/"
+    mode: '0644'
 
 # When the home dir is set up to use btrfs, drop configuration to use btrfs as the podman driver. Hooray for COW!
 - name: home directory filesystem fact
@@ -50,4 +52,5 @@
   ansible.builtin.copy:
     src: podman/btrfs/storage.conf
     dest: "{{ ansible_env.HOME }}/.config/containers/"
+    mode: '0644'
   when: homedir_fs == 'btrfs'
