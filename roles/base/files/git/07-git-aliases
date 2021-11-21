@@ -39,6 +39,6 @@ __bare_checkout() {
     local clone_url=$1
     mkdir -p $INTERNAL__CLONE_BARE_DIR
     pushd $INTERNAL__CLONE_BARE_DIR
-    git clone --bare $clone_url
+    git clone --mirror $clone_url
     popd
 }
