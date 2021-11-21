@@ -1,0 +1,44 @@
+# This file contains various functions meant to make working with Git
+# easier and to help enforce my workflow.
+
+declare -r INTERNAL__CLONE_BARE_DIR="$HOME/Documents/.repos"
+
+# Clones a repo
+clone-repo() {
+    # get the repository name from the git url
+    local clone_url="$1"
+    local repo_name=$(__parse_repository_url $clone_url)
+
+    # if the repo does not exist in the dir, do a bare checkout of it
+    if [[ ! -d "$INTERNAL__CLONE_BARE_DIR/$repo_name" ]]; then
+        __bare_checkout $clone_url
+    fi
+
+    # at this point we are guaranteed that the clone exists in the bare dir.
+    local bare_checkout_dir="$INTERNAL__CLONE_BARE_DIR/$repo_name"
+
+    # Create a worktree with the specified branch name off of the main branch name (master or main) into the current directory
+    pushd $bare_checkout_dir
+    local normalized_path=$(dirs +1 | sed "s,^~,$HOME,")
+    git worktree add --detach "$normalized_path/$(basename $repo_name .git)" HEAD
+    popd
+}
+
+__parse_repository_url() {
+    local repository_url=$1
+
+    # this might look odd, but it's because some repos don't copy the '.git' part at the end of the url.
+    # however, bare checkouts always put .git at the end. So this always does the right thing.
+    local repo_name=$(basename "$repository_url" .git) # "https://github.com/SriRamanujam/dotfiles.git" -> "dotfiles"
+
+    echo "$repo_name.git"
+}
+
+__bare_checkout() {
+    # Perform a bare checkout into a new folder. Assumes the directory will not exist.
+    local clone_url=$1
+    mkdir -p $INTERNAL__CLONE_BARE_DIR
+    pushd $INTERNAL__CLONE_BARE_DIR
+    git clone --bare $clone_url
+    popd
+}
