@@ -21,6 +21,7 @@ clone-repo() {
     pushd $bare_checkout_dir
     local normalized_path=$(dirs +1 | sed "s,^~,$HOME,")
     git worktree add --detach "$normalized_path/$(basename $repo_name .git)" HEAD
+    git config --unset remote.origin.mirror
     popd
 }
 
