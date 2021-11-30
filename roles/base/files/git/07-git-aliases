@@ -22,6 +22,7 @@ clone-repo() {
     local normalized_path=$(dirs +1 | sed "s,^~,$HOME,")
     git worktree add --detach "$normalized_path/$(basename $repo_name .git)" HEAD
     git config --unset remote.origin.mirror
+    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     popd
 }
 
