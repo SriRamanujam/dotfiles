@@ -21,3 +21,8 @@
     src: files/rust/07-rust
     dest: "{{ bash_config_dropins_dir }}/"
     mode: '0644'
+
+- name: Try to update Rust installation if installed
+  ansible.builtin.command:
+    cmd: rustup update
+  when: rustc_binary.stat.exists
