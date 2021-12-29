@@ -3,6 +3,38 @@
 
 declare -r INTERNAL__CLONE_BARE_DIR="$HOME/Documents/.repos"
 
+# Creates a new repo
+new-repo() {
+    local clone_name="$1"
+    local name=$(__parse_repository_url "$1")
+
+    # if the repo already exists in the bare dir, abort
+    if [[ -d "$INTERNAL__CLONE_BARE_DIR/$name" ]]; then
+        echo "Repo with name $clone_name already exists"
+        return 1
+    fi
+
+    local working_dir="$PWD"
+
+    mkdir -p "$INTERNAL__CLONE_BARE_DIR/$name"
+    pushd "$INTERNAL__CLONE_BARE_DIR/$name"
+        git init --bare
+        git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+        local tmp_dir=$(mktemp -d)
+        pushd $tmp_dir
+            git clone "$INTERNAL__CLONE_BARE_DIR/$name" .
+            echo "$clone_name" >> README.md
+            echo "--" >> README.md
+            git config user.name "Sri Ramanujam"
+            git config user.email $MY_GIT_EMAIL
+            git add .
+            git commit -m "Initial commit"
+            git push --set-upstream origin main
+        popd
+        git worktree add --detach "$working_dir/$clone_name" main
+    popd
+}
+
 # Clones a repo
 clone-repo() {
     # get the repository name from the git url
