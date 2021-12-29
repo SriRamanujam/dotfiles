@@ -25,12 +25,12 @@ new-repo() {
             git clone "$INTERNAL__CLONE_BARE_DIR/$name" .
             echo "$clone_name" >> README.md
             echo "--" >> README.md
-            git config user.name "Sri Ramanujam"
             git config user.email $MY_GIT_EMAIL
             git add .
             git commit -m "Initial commit"
             git push --set-upstream origin main
         popd
+        rm -rf $tmp_dir
         git worktree add --detach "$working_dir/$clone_name" main
     popd
 }
