@@ -1,0 +1,12 @@
+# See https://blog.cloudflare.com/speeding-up-linux-disk-encryption/ for motivation.
+# tl;dr these queues were implemented to benefit synchronous crypto APIs and spinning disks.
+# Both of these are no longer the case.
+- name: Ensure that encrypted disks are fast by dropping unneeded workqueues when processing encrypted blocks
+  become: yes
+  ansible.builtin.lineinfile:
+    backup: yes
+    state: present
+    path: /etc/crypttab
+    backrefs: yes
+    regexp: 'luks-([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}) UUID=(\1) none discard'
+    line: 'luks-\1 UUID=\1 none discard,no-read-workqueue,no-write-workqueue'
