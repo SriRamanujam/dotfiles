@@ -24,5 +24,5 @@
 
 - name: Try to update Rust installation if installed
   ansible.builtin.command:
-    cmd: rustup update
+    cmd: "{{ ansible_env.HOME }}/.cargo/bin/rustup update"
   when: rustc_binary.stat.exists
