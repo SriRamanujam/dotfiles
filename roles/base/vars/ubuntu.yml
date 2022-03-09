@@ -3,3 +3,4 @@ xz_pkg_name: xz-utils
 netcat_pkg_name: netcat-openbsd
 development_tools: build-essential
 python3_devel: python3-dev
+p7zip_pkg_name: 7zip-full

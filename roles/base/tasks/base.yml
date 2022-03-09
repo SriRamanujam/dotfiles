@@ -29,6 +29,7 @@
       - zip
       - make
       - "{{ development_tools }}"
+      - "{{ p7zip_pkg_name }}"
     state: present
 
 - name: Ensure local bin directory exists
