@@ -14,7 +14,7 @@ user interaction, and it'll keep everything up-to-date with the remote repositor
 
 ## Prerequisites
 
-This playbook is designed to run on either Ubuntu or Fedora. It will gracefully fail to run on any other distribution.
+This playbook is designed to run on either Ubuntu, Fedora, or MacOS. It will gracefully fail to run on any other distribution.
 
 This playbook is designed to be run as the user account you're gonna use in your day-to-day work. So don't run this as root or with sudo! For remote deployment, make sure you have passwordless SSH set up prior
 to running the playbook otherwise it won't work. 
@@ -29,6 +29,11 @@ User sramanujam@sriramanujam.lan may run the following commands on hapes:
     (ALL : ALL) NOPASSWD: ALL
 ```
 Anything less permissive than this is not supported and may fail to deploy.
+
+### MacOS
+
+For MacOS specifically, you will need to have Homebrew installed and configured prior to invoking the playbook. It is recommended to then install Ansible via Homebrew.
+You will also need the `community.general` collection installed at the global scope for this playbook on Mac hosts. Install it with `ansible-galaxy collection install community.general`.
 
 ## Deployment
 
