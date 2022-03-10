@@ -1,6 +1,6 @@
 export EDITOR=nvim
-export PAGER="/usr/bin/most -s"
-export SYSTEMD_PAGER="/usr/bin/less"
+export PAGER="most -s"
+export SYSTEMD_PAGER="less"
 
 # Copying variables from Ubuntu because they make life easier
 # don't put duplicate lines or lines starting with space in the history.

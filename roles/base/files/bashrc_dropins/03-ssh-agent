@@ -1,6 +1,9 @@
 # set up ssh-agent upon login
-export SSH_AUTH_SOCK="/run/user/$UID/ssh_auth.sock"
-if ! test $(pgrep -fx "ssh-agent -a $SSH_AUTH_SOCK"); then
-    eval $(ssh-agent -a "$SSH_AUTH_SOCK")
-    ssh-add $(ls ~/.ssh/id_rsa* | grep -v '.pub$')
+# We don't necessarily want to do this in macos land
+if [[ $(uname -a | grep -qi -e "Darwin") -ne 0 ]]; then
+    export SSH_AUTH_SOCK="/run/user/$UID/ssh_auth.sock"
+    if ! test $(pgrep -fx "ssh-agent -a $SSH_AUTH_SOCK"); then
+        eval $(ssh-agent -a "$SSH_AUTH_SOCK")
+        ssh-add $(ls ~/.ssh/id_rsa* | grep -v '.pub$')
+    fi
 fi
