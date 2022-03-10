@@ -1,17 +1,19 @@
 - hosts: [all]
   pre_tasks:
-    - name: End play if not on Ubuntu or Fedora
+    - name: End play if not on MacOS, Ubuntu or Fedora
       meta: end_host
       tags: [always]
       when:
-        - ansible_facts['distribution'] != "Fedora" and ansible_facts['distribution'] != "Ubuntu"
+        - ansible_system != 'Darwin' and ansible_facts['distribution'] != "Fedora" and ansible_facts['distribution'] != "Ubuntu"
     - name: Gather package facts
       tags: [always]
       ansible.builtin.package_facts:
         manager: auto
+      when: ansible_system == 'Linux'
     - name: Set is_graphical fact
       ansible.builtin.set_fact:
         is_graphical: "{{ (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages) }}"
+      when: ansible_system == 'Linux'
   roles:
     - { role: base, tags: [base] }
     - role: framework

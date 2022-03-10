@@ -7,7 +7,8 @@
     return_content: yes
   register: okd_releases
 
-- name: Download and install latest oc + kubectl release
+- name: Download and install latest oc + kubectl release (Linux)
+  when: ansible_system == 'Linux'
   ansible.builtin.unarchive:
     dest: "{{ local_bin_dir }}"
     keep_newer: yes
@@ -16,6 +17,18 @@
     remote_src: yes
     exclude:
       - README.md
+
+- name: Download and install latest oc + kubectl release (MacOS)
+  when: ansible_system == 'Darwin'
+  ansible.builtin.unarchive:
+    dest: "{{ local_bin_dir }}"
+    keep_newer: yes
+    mode: '0755'
+    src: "{{ okd_releases.json | to_json | from_json | json_query('[0].assets[?starts_with(name, `openshift-client-mac`)].browser_download_url') | first }}"
+    remote_src: yes
+    exclude:
+      - README.md
+
 
 - name: Drop kubectl alias in bashrc snippet
   ansible.builtin.copy:
@@ -29,10 +42,20 @@
     return_content: yes
   register: kustomize_releases
 
-- name: Download and install latest kustomize release
+- name: Download and install latest kustomize release (Linux)
+  when: ansible_system == 'Linux'
   ansible.builtin.unarchive:
     dest: "{{ local_bin_dir }}"
     keep_newer: yes
     mode: '0755'
     src: "{{ kustomize_releases.json | to_json | from_json | json_query('[?starts_with(name, `kustomize`)] | [0].assets[?contains(name, `linux_amd64`) == `true`].browser_download_url') | first }}"
+    remote_src: yes
+
+- name: Download and install latest kustomize release (MacOS)
+  when: ansible_system == 'Darwin'
+  ansible.builtin.unarchive:
+    dest: "{{ local_bin_dir }}"
+    keep_newer: yes
+    mode: '0755'
+    src: "{{ kustomize_releases.json | to_json | from_json | json_query('[?starts_with(name, `kustomize`)] | [0].assets[?contains(name, `darwin_amd64`) == `true`].browser_download_url') | first }}"
     remote_src: yes

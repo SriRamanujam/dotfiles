@@ -4,15 +4,19 @@
     update_cache: yes
   when: ansible_distribution == 'Ubuntu'
 
+- name: Refresh Homebrew
+  when: ansible_system == 'Darwin'
+  community.general.homebrew:
+    upgrade_all: yes
+
 - name: Install common base set of packages
   become: true
   ansible.builtin.package:
+    use: "homebrew"
     name:
       - htop
       - neovim
       - most
-      - openssh-server
-      - "{{ openssh_client_pkg_name }}"
       - ripgrep
       - rsync
       - tmux
@@ -27,10 +31,35 @@
       - git
       - git-lfs
       - zip
-      - make
-      - "{{ development_tools }}"
       - "{{ p7zip_pkg_name }}"
     state: present
+
+- name: Install SSH tools
+  become: true
+  when: ansible_system == 'Linux'
+  ansible.builtin.package:
+    state: present
+    name:
+      - openssh-server
+      - "{{ openssh_client_pkg_name }}"
+
+- name: Install development tools
+  become: true
+  when: ansible_system == 'Linux'
+  ansible.builtin.package:
+    state: present
+    name:
+      - make
+      - "{{ development_tools }}"
+
+- name: Install GNU coreutils
+  when: ansible_system == 'Darwin'
+  ansible.builtin.package:
+    state: present
+    name:
+      - binutils
+      - coreutils
+      - gnu-tar
 
 - name: Ensure local bin directory exists
   ansible.builtin.file:

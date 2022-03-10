@@ -1,28 +1,38 @@
-- name: Determine if Rust is already installed
-  ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
-  register: rustc_binary
+- name: Install Rust (Linux)
+  when: ansible_system == 'Linux'
+  block:
+    - name: Determine if Rust is already installed
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+      register: rustc_binary
 
-- name: Fetch rustup
-  ansible.builtin.uri:
-    url: https://sh.rustup.rs
-    return_content: yes
-  register: rustup_installer
-  when: not rustc_binary.stat.exists
+    - name: Fetch rustup
+      ansible.builtin.uri:
+        url: https://sh.rustup.rs
+        return_content: yes
+      register: rustup_installer
+      when: not rustc_binary.stat.exists
 
-- name: Run rustup installer
-  ansible.builtin.shell: # noqa command-instead-of-shell
-    cmd: sh -s -- -y --no-modify-path
-    stdin: "{{ rustup_installer.content }}"
-  when: rustup_installer.content is defined
+    - name: Run rustup installer
+      ansible.builtin.shell: # noqa command-instead-of-shell
+        cmd: sh -s -- -y --no-modify-path
+        stdin: "{{ rustup_installer.content }}"
+      when: rustup_installer.content is defined
 
-- name: Drop bashrc snippet for Rust
-  ansible.builtin.copy:
-    src: files/rust/07-rust
-    dest: "{{ bash_config_dropins_dir }}/"
-    mode: '0644'
+    - name: Drop bashrc snippet for Rust
+      ansible.builtin.copy:
+        src: files/rust/07-rust
+        dest: "{{ bash_config_dropins_dir }}/"
+        mode: '0644'
 
-- name: Try to update Rust installation if installed
-  ansible.builtin.command:
-    cmd: "{{ ansible_env.HOME }}/.cargo/bin/rustup update"
-  when: rustc_binary.stat.exists
+    - name: Try to update Rust installation if installed
+      ansible.builtin.command:
+        cmd: "{{ ansible_env.HOME }}/.cargo/bin/rustup update"
+      when: rustc_binary.stat.exists
+
+- name: Install Rust (Homebrew)
+  when: ansible_system == 'Darwin'
+  ansible.builtin.package:
+    state: present
+    name:
+      - rust

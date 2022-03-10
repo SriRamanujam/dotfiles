@@ -14,15 +14,21 @@
   when: (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or
         (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages)
 
+- name: Override become if on OSX
+  ansible.builtin.set_fact:
+    ansible_become: false
+  when: ansible_system == 'Darwin'
+
 - include: base.yml
 - include: php.yml
 - include: rust.yml
 - include: python.yml
 
-# Skip podman installation on WSL hosts
+# Skip podman installation on WSL hosts and OSX
 - include: podman.yml
   when:
     - "'microsoft' not in ansible_kernel"
+    - "ansible_os_family != 'Darwin'"
 
 - include: aws.yml
 - include: openshift.yml

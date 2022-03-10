@@ -24,3 +24,15 @@
   when: ansible_service_mgr == 'systemd'
   notify:
     - Reload systemd user daemon
+
+- name: Ensure ansible-pull cronjob is in place (MacOS)
+  when: ansible_system == 'Darwin'
+  ansible.builtin.cron:
+    name: ansible-pull
+    job: /usr/local/bin/ansible-pull --accept-host-key --checkout main --url https://github.com/SriRamanujam/dotfiles.git --directory %h/.dotfiles --inventory "localhost," --connection=local --private-key %h/.ssh/id_rsa
+    state: present
+    minute: "43"
+    hour: "*/2"
+    day: "*"
+    weekday: "*"
+    month: "*"

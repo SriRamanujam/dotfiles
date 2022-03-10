@@ -5,6 +5,8 @@ elif $(grep -qi -e "centos" -e "fedora" /etc/os-release); then
     source /usr/share/git-core/contrib/completion/git-prompt.sh
 elif $(grep -qi -e "arch" /etc/os-release); then
     source /usr/share/git/git-prompt.sh
+elif $(uname -a | grep -qi -e "darwin"); then
+    source /usr/local/etc/bash_completion.d/git-prompt.sh
 fi
 
 # Git prompt control variables

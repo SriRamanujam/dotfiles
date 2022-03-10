@@ -3,6 +3,13 @@
   ansible.builtin.package:
     name:
       - python3
+    state: present
+
+- name: Install Python 3 dev libraries (Linux)
+  become: true
+  when: ansible_system == 'Linux'
+  ansible.builtin.package:
+    name:
       - "{{ python3_devel }}"
     state: present
 
