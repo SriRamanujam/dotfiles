@@ -12,7 +12,6 @@
 - name: Install common base set of packages
   become: true
   ansible.builtin.package:
-    use: "homebrew"
     name:
       - htop
       - neovim
