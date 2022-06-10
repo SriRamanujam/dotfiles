@@ -1,22 +1,22 @@
-- name: Install dotnet SDK 5.0 (Fedora)
+- name: Install dotnet SDK 6.0 (Fedora)
   when: ansible_distribution == "Fedora"
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
-      - dotnet-sdk-5.0
+      - dotnet-sdk-6.0
     state: present
 
 - name: Install Microsoft signing key and repository (Ubuntu)
   when: ansible_distribution == "Ubuntu"
-  become: yes
+  become: true
   ansible.builtin.apt:
     deb: "https://packages.microsoft.com/config/ubuntu/{{ ansible_distribution_version }}/packages-microsoft-prod.deb"
 
-- name: Install Dotnet SDK 5.0 (Ubuntu)
+- name: Install Dotnet SDK 6.0 (Ubuntu)
   when: ansible_distribution == "Ubuntu"
-  become: yes
+  become: true
   ansible.builtin.apt:
     update_cache: yes
     name:
-      - dotnet-sdk-5.0
+      - dotnet-sdk-6.0
     state: present
