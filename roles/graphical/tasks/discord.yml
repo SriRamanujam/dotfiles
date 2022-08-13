@@ -1,20 +1,7 @@
-- name: Install RPMFusion (Fedora)
+- name: Install Discord Flatpak
   become: true
-  ansible.builtin.yum:
-    name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"
-    state: present
-  when: ansible_distribution == "Fedora"
-
-- name: Install RPMFusion Nonfree (Fedora)
-  become: true
-  ansible.builtin.yum:
-    name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"
-    state: present
-  when: ansible_distribution == "Fedora"
-
-- name: Install Discord (Fedora)
-  become: true
-  ansible.builtin.package:
+  community.general.flatpak:
+    method: user
     name:
       - discord
     state: present
