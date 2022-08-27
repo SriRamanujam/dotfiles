@@ -1,9 +1,9 @@
 - name: Install Discord Flatpak
   become: true
   community.general.flatpak:
-    method: user
+    method: system
     name:
-      - discord
+      - com.discordapp.Discord
     state: present
   when: ansible_distribution == "Fedora"
 
