@@ -1,5 +1,6 @@
 export EDITOR=nvim
-export PAGER="most -s"
+export PAGER="less -R"
+export MANPAGER="most -s"
 export SYSTEMD_PAGER="less"
 
 # Copying variables from Ubuntu because they make life easier
