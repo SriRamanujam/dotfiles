@@ -2,7 +2,7 @@
 # tasks file for graphical
 
 - name: Install quassel client
-  become: yes
+  become: true
   ansible.builtin.package:
     name: quassel-client
     state: present

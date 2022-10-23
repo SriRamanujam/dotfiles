@@ -1,5 +1,5 @@
 - name: Enable proletarius101/firefox-nightly COPR repository (Fedora)
-  become: yes
+  become: true
   ansible.builtin.copy:
     src: _copr:copr.fedorainfracloud.org:proletarius101:firefox-nightly.repo
     dest: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:proletarius101:firefox-nightly.repo
@@ -7,7 +7,7 @@
   when: ansible_distribution == "Fedora"
 
 - name: Install media dependencies for firefox-nightly (Fedora)
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - gstreamer1-libav
@@ -18,7 +18,7 @@
   when: ansible_distribution == "Fedora"
 
 - name: Install firefox-nightly package from COPR repository (Fedora)
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - firefox-nightly

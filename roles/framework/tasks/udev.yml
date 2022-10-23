@@ -1,5 +1,5 @@
 - name: Ensure custom power management udev rules are present
-  become: yes
+  become: true
   ansible.builtin.copy:
     src: 80-powerprofilesctl.rules
     dest: /etc/udev/rules.d/80-powerprofilesctl.rules

@@ -2,7 +2,7 @@
 # tl;dr these queues were implemented to benefit synchronous crypto APIs and spinning disks.
 # Both of these are no longer the case.
 - name: Ensure that encrypted disks are fast by dropping unneeded workqueues when processing encrypted blocks
-  become: yes
+  become: true
   ansible.builtin.lineinfile:
     backup: yes
     state: present

@@ -1,11 +1,11 @@
 - name: Install Gnome Tweaks
-  become: yes
+  become: true
   ansible.builtin.package:
     name: gnome-tweaks
     state: present
 
 - name: Install Gnome Extensions
-  become: yes
+  become: true
   ansible.builtin.package:
     name: gnome-extensions-app
     state: present

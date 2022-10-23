@@ -1,5 +1,5 @@
 - name: Ensure dbus-run-session binary is present
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - "{{ dbus_run_session_package }}"
@@ -7,7 +7,7 @@
 
 - name: Enable fractional scaling for GDM # noqa no-changed-when
   ansible.builtin.shell: dbus-run-session bash -c "dconf write /org/gnome/mutter/experimental-features \"['scale-monitor-framebuffer']\" "
-  become: yes
+  become: true
   become_user: gdm
   become_flags: ''
 
@@ -15,7 +15,7 @@
   ansible.builtin.command: dconf write /org/gnome/mutter/experimental-features "['scale-monitor-framebuffer']"
 
 - name: Copy our current monitor configuration to GDM config
-  become: yes
+  become: true
   ansible.builtin.copy:
     src: "{{ ansible_env.HOME }}/.config/monitors.xml"
     dest: "/var/lib/gdm/.config/monitors.xml"
