@@ -1,0 +1,10 @@
+/* -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*- */
+
+/*
+This dropin makes it so that Polkit respects the authority
+of domain admins on domain-joined machines.
+*/
+
+polkit.addAdminRule(function(action, subject) {
+    return ["unix-group:domain admins@sriramanujam.lan"];
+});

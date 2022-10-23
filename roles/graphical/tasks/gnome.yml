@@ -10,6 +10,13 @@
     name: gnome-extensions-app
     state: present
 
+- name: Drop Polkit rules file
+  become: true
+  ansible.builtin.copy:
+    src: polkit/45-domain-admins-have-root.rules
+    dest: /etc/polkit-1/rules.d/45-domain-admins-have-root.rules
+    mode: '0644'
+
 # A bunch of settings tweaks that normally would require Gnome Tweaks or spelunking in settings
 # but that we can do by hand since we know how to use dconf
 
