@@ -1,0 +1,20 @@
+- name: Install power management tooling
+  become: true
+  ansible.builtin.package:
+    name:
+      - tlp
+      - powertop
+
+- name: Disable powerprofiles daemon
+  become: true
+  ansible.builtin.systemd:
+    name: power-profiles-daemon
+    state: stopped
+    masked: true
+    enabled: false
+
+- name: Enable TLP
+  become: true
+  ansible.builtin.systemd:
+    name: tlp
+    enabled: true

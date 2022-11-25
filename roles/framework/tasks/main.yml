@@ -7,6 +7,7 @@
 
 - include: scaling.yml
 - include: dmcrypt.yml
+- include: pm.yml
 #- include: udev.yml
   
 - name: Configure kernel to use nvme.noacpi=1 (S0ix idle is not efficient unless this is set) (Fedora)
