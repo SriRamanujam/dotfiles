@@ -38,6 +38,8 @@
 - include: hashicorp.yml
 
 - include: dotnet.yml
+- include: atuin.yml
+  tags: [atuin]
 
 # Distro-specific tasks
 - include: fedora.yml

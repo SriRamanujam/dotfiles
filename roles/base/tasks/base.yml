@@ -109,3 +109,15 @@
     dest: "{{ ansible_env.HOME }}/.bash_profile"
     state: link
     force: yes
+
+- name: Ensure latest bash-preexec.sh is present
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh
+    dest: "{{ bash_config_dir }}/bash-preexec.sh"
+
+- name: Ensure bash-preexec.sh is symlinked out to home dir
+  ansible.builtin.file:
+    src: "{{ bash_config_dir }}/bash-preexec.sh"
+    dest: "{{ ansible_env.HOME }}/.bash-preexec.sh"
+    state: link
+    force: yes

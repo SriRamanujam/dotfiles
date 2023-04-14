@@ -11,3 +11,5 @@ if $(grep -q "Microsoft" /proc/version 2>/dev/null); then
 fi
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+
+[[ -f ~/.bash-preexec.sh ]] && . ~/.bash-preexec.sh
