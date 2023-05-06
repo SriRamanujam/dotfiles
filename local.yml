@@ -11,19 +11,20 @@
         manager: auto
       when: ansible_system == 'Linux'
     - name: Set is_graphical fact
+      tags: [always]
       ansible.builtin.set_fact:
         is_graphical: "{{ (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages) }}"
   tasks:
-    - include_role:
+    - import_role:
         name: base
       tags: [base]
-    - include_role:
+    - import_role:
         name: framework
       tags: [framework]
       when:
         - ansible_system_vendor == "Framework"
         - ansible_product_name == "Laptop"
-    - include_role:
+    - import_role:
         name: graphical
       tags: [graphical]
       when: is_graphical
