@@ -14,3 +14,4 @@ check-docker-ratelimit() {
 }
 
 export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock
+export DOCKER_SOCK=/run/user/$UID/podman/podman.sock
