@@ -7,5 +7,5 @@
 - name: Ensure git aliases are present
   ansible.builtin.copy:
     src: files/git/07-git-aliases
-    dest: "{{ bash_config_dropins_dir  }}/07-git-aliases"
+    dest: "{{ bash_config_dropins_dir }}/07-git-aliases"
     mode: '0644'
