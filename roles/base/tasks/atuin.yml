@@ -12,13 +12,13 @@
     dest: "{{ local_bin_dir }}"
     keep_newer: true
     mode: '0755'
-    src: "{{ atuin_releases.json | to_json | from_json | json_query('[0].assets[?ends_with(name, `unknown-linux-gnu.tar.gz`)].browser_download_url') | first }}"
+    src: "{{ atuin_releases.json | to_json | from_json | json_query('[0].assets[?ends_with(name, `x86_64-unknown-linux-gnu.tar.gz`)].browser_download_url') | first }}"
     remote_src: true
     extra_opts:
       - "--strip-components"
       - "1"
     include:
-      - "{{ atuin_releases.json | to_json | from_json | json_query('[0].assets[?ends_with(name, `unknown-linux-gnu.tar.gz`)].name') | first | splitext | first | splitext | first }}/atuin"
+      - "{{ atuin_releases.json | to_json | from_json | json_query('[0].assets[?ends_with(name, `x86_64-unknown-linux-gnu.tar.gz`)].name') | first | splitext | first | splitext | first }}/atuin"
 
 - name: Download and install latest atuin release (MacOS)
   when: ansible_system == 'Darwin'
