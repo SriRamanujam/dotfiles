@@ -1,0 +1,6 @@
+---
+# tasks file for pre-user
+
+## notes:
+# extra packages for sssd join:
+# oddjob oddjob-mkhomedir

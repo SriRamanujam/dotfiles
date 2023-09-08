@@ -1,30 +1,45 @@
 - hosts: [all]
   pre_tasks:
-    - name: End play if not on MacOS, Ubuntu or Fedora
+    - name: End play if not on MacOS or Fedora
       meta: end_host
       tags: [always]
       when:
-        - ansible_system != 'Darwin' and ansible_facts['distribution'] != "Fedora" and ansible_facts['distribution'] != "Ubuntu"
+        - ansible_system != 'Darwin' and ansible_facts['distribution'] != "Fedora" 
     - name: Gather package facts
       tags: [always]
       ansible.builtin.package_facts:
         manager: auto
       when: ansible_system == 'Linux'
-    - name: Set is_graphical fact
+    - name: Set variant fact
       tags: [always]
       ansible.builtin.set_fact:
-        is_graphical: "{{ (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages) }}"
-  tasks:
-    - import_role:
-        name: base
-      tags: [base]
-    - import_role:
-        name: framework
-      tags: [framework]
-      when:
-        - ansible_system_vendor == "Framework"
-        - ansible_product_name == "Laptop"
-    - import_role:
-        name: graphical
-      tags: [graphical]
-      when: is_graphical
+        variant: "{{ ansible_facts.packages | select('search', 'fedora-release-identity-') | first | split('-') | last }}"
+      when: ansible_distribution == 'Fedora'
+    - name: Group by distribution
+      tags: [always]
+      ansible.builtin.group_by:
+        key: "{{ ansible_distribution | lower | replace(' ', '-') }}"
+    - name: Group by distribution and version
+      tags: [always]
+      ansible.builtin.group_by:
+        key: "{{ ansible_distribution | lower | replace(' ', '-') }}-{{ ansible_distribution_major_version | lower }}"
+    - name: Group by variant
+      tags: [always]
+      ansible.builtin.group_by:
+        key: "fedora_variant_{{ variant }}"
+      when: ansible_distribution == 'Fedora'
+#  tasks:
+#    - import_role:
+#        name: base
+#      tags: [base]
+#    - import_role:
+#        name: framework
+#      tags: [framework]
+#      when:
+#        - ansible_system_vendor == "Framework"
+#        - ansible_product_name == "Laptop"
+#    - import_role:
+#        name: graphical
+#      tags: [graphical]
+#      when: is_graphical
+#

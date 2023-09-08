@@ -1,8 +1,8 @@
 - name: Install AWS CLI (Linux)
-  when: ansible_system == 'Linux'
+  when: ansible_system == 'Linux' and mutable_base
   block:
     - name: Ensure aws package dependencies are installed
-      become: yes
+      become: true
       ansible.builtin.package:
         name:
           - python
@@ -13,7 +13,7 @@
       ansible.builtin.shell:
         cmd: aws --version | awk '{split($1,a,"/"); print a[2]}'
       register: aws_version_cmd_output
-      ignore_errors: yes # we want the play to continue if the aws command is not present
+      ignore_errors: true # we want the play to continue if the aws command is not present
       changed_when: false
 
     - name: Set AWS CLI version fact

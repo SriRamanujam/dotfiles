@@ -1,9 +1,3 @@
-- name: Refresh package repositories
-  become: true
-  ansible.builtin.apt:
-    update_cache: yes
-  when: ansible_distribution == 'Ubuntu'
-
 - name: Refresh Homebrew
   when: ansible_system == 'Darwin'
   community.general.homebrew:
@@ -33,6 +27,15 @@
       - "{{ p7zip_pkg_name }}"
     state: present
 
+- name: Install GNU coreutils
+  when: ansible_system == 'Darwin'
+  ansible.builtin.package:
+    state: present
+    name:
+      - binutils
+      - coreutils
+      - gnu-tar
+
 - name: Install SSH tools
   become: true
   when: ansible_system == 'Linux'
@@ -44,80 +47,9 @@
 
 - name: Install development tools
   become: true
-  when: ansible_system == 'Linux'
+  when: ansible_system == 'Linux' and mutable_base is False
   ansible.builtin.package:
     state: present
     name:
       - make
       - "{{ development_tools }}"
-
-- name: Install GNU coreutils
-  when: ansible_system == 'Darwin'
-  ansible.builtin.package:
-    state: present
-    name:
-      - binutils
-      - coreutils
-      - gnu-tar
-
-- name: Ensure local bin directory exists
-  ansible.builtin.file:
-    path: "{{ local_bin_dir }}"
-    state: directory
-    mode: '0755'
-
-- name: Ensure bash config directory is present
-  ansible.builtin.file:
-    path: "{{ bash_config_dir }}"
-    state: directory
-    mode: '0755'
-
-- name: Ensure bash dropins directory is present
-  ansible.builtin.file:
-    path: "{{ bash_config_dropins_dir }}"
-    state: directory
-    mode: '0755'
-
-- name: Ensure .bashrc is present
-  ansible.builtin.template:
-    src: bashrc.j2
-    dest: "{{ bash_config_dir }}/bashrc"
-    mode: '0755'
-
-- name: Ensure .bashrc is symlinked out to home dir
-  ansible.builtin.file:
-    src: "{{ bash_config_dir }}/bashrc"
-    dest: "{{ ansible_env.HOME }}/.bashrc"
-    state: link
-    force: yes
-
-- name: Ensure base bashrc snippets are dropped into place
-  ansible.builtin.copy:
-    src: bashrc_dropins/
-    dest: "{{ bash_config_dropins_dir }}/"
-    mode: preserve
-
-- name: Ensure .bash_profile is present
-  ansible.builtin.copy:
-    src: bash_profile
-    dest: "{{ bash_config_dir }}/bash_profile"
-    mode: preserve
-
-- name: Ensure .bash_profile is symlinked out to home dir
-  ansible.builtin.file:
-    src: "{{ bash_config_dir }}/bash_profile"
-    dest: "{{ ansible_env.HOME }}/.bash_profile"
-    state: link
-    force: yes
-
-- name: Ensure latest bash-preexec.sh is present
-  ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh
-    dest: "{{ bash_config_dir }}/bash-preexec.sh"
-
-- name: Ensure bash-preexec.sh is symlinked out to home dir
-  ansible.builtin.file:
-    src: "{{ bash_config_dir }}/bash-preexec.sh"
-    dest: "{{ ansible_env.HOME }}/.bash-preexec.sh"
-    state: link
-    force: yes

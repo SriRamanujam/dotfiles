@@ -1,20 +1,4 @@
-- name: Ensure Hashicorp repository GPG key is imported (Ubuntu)
-  become: true
-  ansible.builtin.apt_key:
-    url: https://apt.releases.hashicorp.com/gpg
-    id: E8A032E094D8EB4EA189D270DA418C88A3219F7B
-    state: present
-  when: ansible_distribution == "Ubuntu"
-
-- name: Ensure Hashicorp repository is available (Ubuntu)
-  become: true
-  ansible.builtin.apt_repository:
-    state: present
-    update_cache: yes
-    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
-  when: ansible_distribution == "Ubuntu"
-
-- name: Ensure Hashicorp stable repository is available and enabled (Fedora)
+- name: Ensure Hashicorp stable repository is available and enabled
   become: true
   ansible.builtin.yum_repository:
     state: present
@@ -26,7 +10,7 @@
     gpgkey: https://rpm.releases.hashicorp.com/gpg
   when: ansible_distribution == "Fedora"
 
-- name: Ensure Hashicorp test repository is available (Fedora)
+- name: Ensure Hashicorp test repository is available
   become: true
   ansible.builtin.yum_repository:
     state: present
