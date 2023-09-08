@@ -18,11 +18,11 @@
     - name: Group by distribution
       tags: [always]
       ansible.builtin.group_by:
-        key: "{{ ansible_distribution | lower | replace(' ', '-') }}"
+        key: "{{ ansible_distribution | lower | replace(' ', '_') }}"
     - name: Group by distribution and version
       tags: [always]
       ansible.builtin.group_by:
-        key: "{{ ansible_distribution | lower | replace(' ', '-') }}-{{ ansible_distribution_major_version | lower }}"
+        key: "{{ ansible_distribution | lower | replace(' ', '_') }}_{{ ansible_distribution_major_version | lower }}"
     - name: Group by variant
       tags: [always]
       ansible.builtin.group_by:
