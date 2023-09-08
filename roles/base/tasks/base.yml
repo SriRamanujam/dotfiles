@@ -29,7 +29,7 @@
     state: present
 
 - name: Install common base set of packages
-  when: mutable_base is false
+  when: "'fedora_variant_silverblue' in group_names"
   community.general.rpm_ostree_pkg:
     name:
       - htop
@@ -63,8 +63,17 @@
 
 - name: Install SSH tools
   become: true
-  when: ansible_system == 'Linux'
+  when: ansible_system == 'Linux' and mutable_base is false
   ansible.builtin.package:
+    state: present
+    name:
+      - openssh-server
+      - "{{ openssh_client_pkg_name }}"
+
+- name: Install SSH tools
+  become: true
+  when: "'fedora_variant_silverblue' in group_names"
+  community.general.rpm_ostree_pkg:
     state: present
     name:
       - openssh-server
