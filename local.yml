@@ -1,10 +1,11 @@
 - hosts: [all]
+  name: Do the thing
   pre_tasks:
     - name: End play if not on MacOS or Fedora
-      meta: end_host
+      ansible.builtin.meta: end_host
       tags: [always]
       when:
-        - ansible_system != 'Darwin' and ansible_facts['distribution'] != "Fedora" 
+        - ansible_system != 'Darwin' and ansible_facts['distribution'] != "Fedora"
     - name: Gather package facts
       tags: [always]
       ansible.builtin.package_facts:
@@ -28,10 +29,11 @@
       ansible.builtin.group_by:
         key: "fedora_variant_{{ variant }}"
       when: ansible_distribution == 'Fedora'
-#  tasks:
-#    - import_role:
-#        name: base
-#      tags: [base]
+  tasks:
+    - name: Import and run base role
+      ansible.builtin.import_role:
+        name: base
+      tags: [base]
 #    - import_role:
 #        name: framework
 #      tags: [framework]
