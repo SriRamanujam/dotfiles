@@ -63,7 +63,7 @@
 
 - name: Install SSH tools
   become: true
-  when: ansible_system == 'Linux' and mutable_base is false
+  when: ansible_system == 'Linux' and mutable_base is true
   ansible.builtin.package:
     state: present
     name:
