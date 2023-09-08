@@ -3,6 +3,7 @@
   ansible.builtin.package:
     name: podman
     state: present
+  when: "'fedora_variant_silverblue' not in group_names" # Silverblue already has it
 
 - name: Ensure Podman is configured to prefer GCR mirror over Docker Hub
   become: true
