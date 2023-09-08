@@ -1,11 +1,36 @@
 - name: Refresh Homebrew
   when: ansible_system == 'Darwin'
   community.general.homebrew:
-    upgrade_all: yes
+    upgrade_all: true
 
 - name: Install common base set of packages
   become: true
+  when: mutable_base is True
   ansible.builtin.package:
+    name:
+      - htop
+      - neovim
+      - most
+      - ripgrep
+      - rsync
+      - tmux
+      - unzip
+      - "{{ xz_pkg_name }}"
+      - curl
+      - wget
+      - "{{ netcat_pkg_name }}"
+      - ca-certificates
+      - ansible
+      - jq
+      - git
+      - git-lfs
+      - zip
+      - "{{ p7zip_pkg_name }}"
+    state: present
+
+- name: Install common base set of packages
+  when: mutable_base is False
+  community.general.rpm_ostree_pkg:
     name:
       - htop
       - neovim
