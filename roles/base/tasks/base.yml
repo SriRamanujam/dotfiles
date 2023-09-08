@@ -44,12 +44,3 @@
     name:
       - openssh-server
       - "{{ openssh_client_pkg_name }}"
-
-- name: Install development tools
-  become: true
-  when: ansible_system == 'Linux' and mutable_base is False
-  ansible.builtin.package:
-    state: present
-    name:
-      - make
-      - "{{ development_tools }}"

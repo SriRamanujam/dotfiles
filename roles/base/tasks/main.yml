@@ -15,7 +15,7 @@
 - include: base.yml
 
 - name: Bootstrap base dev tooling on mutable systems
-  when: mutable_base
+  when: mutable_base is True
   block:
   - include: php.yml
   - include: rust.yml
@@ -24,6 +24,14 @@
   - include: go.yml
   - include: hashicorp.yml
   - include: dotnet.yml
+  - name: Install development tools
+    become: true
+    when: ansible_system == 'Linux' and mutable_base is True
+    ansible.builtin.package:
+      state: present
+      name:
+        - make
+        - "{{ development_tools }}"
 
 # Skip podman installation on WSL hosts and OSX
 - include: podman.yml
