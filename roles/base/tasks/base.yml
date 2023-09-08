@@ -5,7 +5,7 @@
 
 - name: Install common base set of packages
   become: true
-  when: mutable_base is True
+  when: mutable_base is true
   ansible.builtin.package:
     name:
       - htop
@@ -29,7 +29,7 @@
     state: present
 
 - name: Install common base set of packages
-  when: mutable_base is False
+  when: mutable_base is false
   community.general.rpm_ostree_pkg:
     name:
       - htop

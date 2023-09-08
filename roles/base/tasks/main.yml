@@ -15,7 +15,7 @@
 - include: base.yml
 
 - name: Bootstrap base dev tooling on mutable systems
-  when: mutable_base is True
+  when: mutable_base is true
   block:
   - include: php.yml
   - include: rust.yml
