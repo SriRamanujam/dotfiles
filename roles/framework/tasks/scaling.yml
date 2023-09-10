@@ -23,13 +23,13 @@
 - name: Enable fractional scaling for GDM
   ansible.builtin.copy:
     src: files/99-scale-monitor-framebuffer
-    dest: /etc/dconf/db/gdm.d/
+    dest: "{{ etc_dir }}/dconf/db/gdm.d/"
     mode: '0644'
 
 - name: Enable fractional scaling for users
   ansible.builtin.copy:
     src: files/99-scale-monitor-framebuffer
-    dest: /etc/dconf/db/local.d/
+    dest: "{{ etc_dir }}/dconf/db/local.d/"
     mode: '0644'
 
 #- name: Copy our current monitor configuration to GDM config

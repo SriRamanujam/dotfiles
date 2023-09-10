@@ -2,3 +2,5 @@ is_graphical: true
 mutable_base: false
 
 local_dir: "{{ ansible_env.HOME }}/.local"
+
+etc_dir: /usr/etc

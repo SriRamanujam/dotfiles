@@ -16,7 +16,6 @@
   become: true
   ansible.builtin.systemd:
     name: power-profiles-daemon
-    state: stopped
     masked: true
     enabled: false
 
