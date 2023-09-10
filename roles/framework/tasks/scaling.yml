@@ -21,13 +21,13 @@
 #  become_flags: ''
 
 - name: Enable fractional scaling for GDM
-  ansible.bulitin.copy:
+  ansible.builtin.copy:
     src: files/99-scale-monitor-framebuffer
     dest: /etc/dconf/db/gdm.d/
     mode: '0644'
 
 - name: Enable fractional scaling for users
-  ansible.bulitin.copy:
+  ansible.builtin.copy:
     src: files/99-scale-monitor-framebuffer
     dest: /etc/dconf/db/local.d/
     mode: '0644'
