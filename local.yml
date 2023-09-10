@@ -34,9 +34,9 @@
       ansible.builtin.import_role:
         name: base
       tags: [base]
-#    - import_role:
-#        name: framework
-#      tags: [framework]
+    - import_role:
+        name: framework
+      tags: [framework]
 #      when:
 #        - ansible_system_vendor == "Framework"
 #        - ansible_product_name == "Laptop"

@@ -6,10 +6,13 @@
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
 
 - include: scaling.yml
-- include: dmcrypt.yml
+#- include: dmcrypt.yml
 - include: pm.yml
-#- include: udev.yml
   
 - name: Configure kernel to use nvme.noacpi=1 (S0ix idle is not efficient unless this is set) (Fedora)
   ansible.builtin.command: grubby --update-kernel=ALL --args=nvme.noacpi=1
-  when: ansible_distribution == "Fedora"
+  when: "ansible_distribution == 'Fedora' and 'fedora_variant_workstation' in group_names" 
+
+- name: Configure kernel to use nvme.noacpi=1 (S0ix idle is not efficient unless this is set) (Silverblue)
+  ansible.builtin.command: rpm-ostree kargs --append='nvme.noacpi=1'
+  when: "ansible_distribution == 'Fedora' and 'fedora_variant_silverblue' in group_names" 

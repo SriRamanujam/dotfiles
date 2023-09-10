@@ -1,24 +1,42 @@
-- name: Ensure dbus-run-session binary is present
+- name: Ensure dbus-run-session binary is present (Fedora)
   become: true
+  when: "ansible_distribution == 'Fedora' and 'fedora_variant_workstation' in group_names" 
   ansible.builtin.package:
     name:
       - "{{ dbus_run_session_package }}"
     state: present
 
-- name: Enable fractional scaling for GDM # noqa no-changed-when
-  ansible.builtin.shell: dbus-run-session bash -c "dconf write /org/gnome/mutter/experimental-features \"['scale-monitor-framebuffer']\" "
+- name: Ensure dbus-run-session binary is present (Silverblue)
   become: true
-  become_user: gdm
-  become_flags: ''
+  when: "ansible_distribution == 'Fedora' and 'fedora_variant_silverblue' in group_names" 
+  community.general.rpm_ostree_pkg:
+    name:
+      - "{{ dbus_run_session_package }}"
+    state: present
 
-- name: Enable fractional scaling for ourselves # noqa no-changed-when
-  ansible.builtin.command: dconf write /org/gnome/mutter/experimental-features "['scale-monitor-framebuffer']"
+#- name: Enable fractional scaling for GDM # noqa no-changed-when
+#  ansible.builtin.shell: dbus-run-session bash -c "dconf write /org/gnome/mutter/experimental-features \"['scale-monitor-framebuffer']\" "
+#  become: true
+#  become_user: gdm
+#  become_flags: ''
 
-- name: Copy our current monitor configuration to GDM config
-  become: true
-  ansible.builtin.copy:
-    src: "{{ ansible_env.HOME }}/.config/monitors.xml"
-    dest: "/var/lib/gdm/.config/monitors.xml"
-    owner: gdm
-    group: gdm
+- name: Enable fractional scaling for GDM
+  ansible.bulitin.copy:
+    src: files/99-scale-monitor-framebuffer
+    dest: /etc/dconf/db/gdm.d/
     mode: '0644'
+
+- name: Enable fractional scaling for users
+  ansible.bulitin.copy:
+    src: files/99-scale-monitor-framebuffer
+    dest: /etc/dconf/db/local.d/
+    mode: '0644'
+
+#- name: Copy our current monitor configuration to GDM config
+#  become: true
+#  ansible.builtin.copy:
+#    src: "{{ ansible_env.HOME }}/.config/monitors.xml"
+#    dest: "/var/lib/gdm/.config/monitors.xml"
+#    owner: gdm
+#    group: gdm
+#    mode: '0644'

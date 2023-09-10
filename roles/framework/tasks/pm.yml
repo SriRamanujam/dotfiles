@@ -1,9 +1,16 @@
-- name: Install power management tooling
+- name: Install power management tooling (Fedora)
   become: true
+  when: "ansible_distribution == 'Fedora' and 'fedora_variant_workstation' in group_names" 
   ansible.builtin.package:
     name:
       - tlp
       - powertop
+
+- name: Install power management tooling (Silverblue)
+  when: "ansible_distribution == 'Fedora' and 'fedora_variant_silverblue' in group_names" 
+  community.general.rpm_ostree_pkg:
+    name:
+      - tlp
 
 - name: Disable powerprofiles daemon
   become: true
