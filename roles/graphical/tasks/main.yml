@@ -3,9 +3,10 @@
 
 - name: Install quassel client
   become: true
-  ansible.builtin.package:
-    name: quassel-client
+  community.general.flatpak:
+    name: org.quassel_irc.QuasselClient
     state: present
+    remote: flathub
 
 - include: gnome.yml
 - include: discord.yml
