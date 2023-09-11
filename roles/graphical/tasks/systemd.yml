@@ -2,5 +2,5 @@
   become: true
   ansible.builtin.copy:
     src: logind/00_suspend-then-hibernate.conf
-    dest: /etc/systemd/logind.conf.d/
+    dest: "{{ etc_dir }}/systemd/logind.conf.d/"
     mode: '0644'

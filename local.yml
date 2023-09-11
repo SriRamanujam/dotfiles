@@ -37,11 +37,7 @@
     - import_role:
         name: framework
       tags: [framework]
-#      when:
-#        - ansible_system_vendor == "Framework"
-#        - ansible_product_name == "Laptop"
-#    - import_role:
-#        name: graphical
-#      tags: [graphical]
-#      when: is_graphical
-#
+    - import_role:
+        name: graphical
+      tags: [graphical]
+      when: is_graphical

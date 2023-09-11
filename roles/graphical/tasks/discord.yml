@@ -5,29 +5,3 @@
     name:
       - com.discordapp.Discord
     state: present
-  when: ansible_distribution == "Fedora"
-
-- name: Create temp file for discord deb (Ubuntu)
-  ansible.builtin.tempfile:
-    state: file
-    suffix: deb
-  register: discord_tempfile
-  when: ansible_distribution == "Ubuntu"
-
-- name: Download latest Discord deb (Ubuntu)
-  ansible.builtin.get_url:
-    url: https://discord.com/api/download?platform=linux&format=deb
-    dest: "{{ discord_tempfile.path }}"
-  when: ansible_distribution == "Ubuntu"
-
-- name: Install Discord deb (Ubuntu)
-  become: true
-  ansible.builtin.apt:
-    deb: "{{ discord_tempfile.path }}"
-  when: ansible_distribution == "Ubuntu"
-
-- name: Remove temp deb (Ubuntu)
-  ansible.builtin.file:
-    path: "{{ discord_tempfile.path }}"
-    state: absent
-  when: discord_tempfile.path is defined

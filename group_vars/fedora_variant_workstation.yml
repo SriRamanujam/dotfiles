@@ -1,2 +1,4 @@
 is_graphical: true
 mutable_base: true
+
+etc_dir: /etc

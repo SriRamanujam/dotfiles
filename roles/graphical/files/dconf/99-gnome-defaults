@@ -1,0 +1,14 @@
+[org/gnome/desktop/interface]
+clock-format="12h"
+clock-show-weekday=true
+show-battery-percentage=true
+
+[org/gnome/desktop/input-sources]
+xkb-options=['lv3:ralt_switch', 'caps:escape']
+
+[org/gnome/desktop/peripherals/touchpad]
+tap-to-click=true
+two-finger-scrolling=true
+
+[org/gnome/desktop/wm/preferences]
+button-layout="appmenu:minimize,close"

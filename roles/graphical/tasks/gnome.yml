@@ -1,67 +1,32 @@
-- name: Install Gnome Tweaks
+- name: Install essenital Gnome apps
   become: true
+  when: is_mutable is true
   ansible.builtin.package:
-    name: gnome-tweaks
+    name:
+      - gnome-tweaks
+      - gnome-extensions-app
     state: present
 
-- name: Install Gnome Extensions
-  become: true
-  ansible.builtin.package:
-    name: gnome-extensions-app
-    state: present
+- name: Install essential Gnome apps
+  when: is_mutable is false
+  community.general.rpm_ostree_pkg:
+    name:
+      - gnome-extensions-app
+      - gnome-tweaks
 
 - name: Drop Polkit rules file
   become: true
   ansible.builtin.copy:
     src: polkit/45-domain-admins-have-root.rules
-    dest: /etc/polkit-1/rules.d/45-domain-admins-have-root.rules
+    dest: "{{ etc_dir }}/polkit-1/rules.d/45-domain-admins-have-root.rules"
     mode: '0644'
 
 # A bunch of settings tweaks that normally would require Gnome Tweaks or spelunking in settings
 # but that we can do by hand since we know how to use dconf
 
-- name: Enable 12 hour clock in GNOME top bar # noqa no-changed-when
-  ansible.builtin.command: dconf write /org/gnome/desktop/interface/clock-format \"12h\"
-
-- name: Show weekday in GNOME top bar # noqa no-changed-when
-  ansible.builtin.command: dconf write /org/gnome/desktop/interface/clock-show-weekday true
-
-- name: Show battery percentage # noqa no-changed-when
-  ansible.builtin.command: dconf write /org/gnome/desktop/interface/show-battery-percentage true
-
-- name: Set caps lock to escape in GNOME # noqa no-changed-when
-  ansible.builtin.command: dconf write /org/gnome/desktop/input-sources/xkb-options "['lv3:ralt_switch', 'caps:escape']"
-
-- name: Set tap-to-click on # noqa no-changed-when
-  ansible.builtin.command: dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click true
-
-- name: Set two finger scrolling on # noqa no-changed-when
-  ansible.builtin.command: dconf write /org/gnome/desktop/peripherals/touchpad/two-finger-scrolling true
-
-- name: Show minimize button on windows # noqa no-changed-when
-  ansible.builtin.command: dconf write /org/gnome/desktop/wm/preferences/button-layout \"appmenu:minimize,close\"
-
-- name: Set up Gnome Terminal the way we like it
-  block:
-    - name: Get default Terminal profile # noqa no-changed-when
-      ansible.builtin.command: gsettings get org.gnome.Terminal.ProfilesList default
-      register: gnome_terminal_default_profile
-
-      # Set the Tango color scheme
-    - name: Set palette # noqa line-length no-changed-when
-      ansible.builtin.command:
-        argv:
-          - gsettings
-          - set
-          - org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile.stdout | replace("'", "") | quote }}/
-          - palette
-          - ['rgb(46,52,54)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']
-
-    - name: Set login shell # noqa line-length no-changed-when
-      ansible.builtin.command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile.stdout | replace("'", "") | quote }}/ login-shell true
-
-    - name: Set theme colors on # noqa line-length no-changed-when
-      ansible.builtin.command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile.stdout | replace("'", "") | quote }}/ use-theme-colors true
-
-    - name: Set visible name # noqa line-length no-changed-when
-      ansible.builtin.command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile.stdout | replace("'", "") | quote }}/ visible-name 'Terminal default (dotfiles managed)'
+- name: Set up preferred Gnome settings
+  become: true
+  ansible.builtin.copy:
+    src: dconf/99-gnome-defaults
+    dest: "{{ etc_dir }}/dconf/db/local.d/"
+    mode: '0644'
