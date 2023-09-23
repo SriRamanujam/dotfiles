@@ -9,12 +9,12 @@
     name: flathub
     state: present
 
-- name: Install quassel client
-  become: true
-  community.general.flatpak:
-    name: org.quassel_irc.QuasselClient
-    state: present
-    remote: flathub
+#- name: Install quassel client
+#  become: true
+#  community.general.flatpak:
+#    name: org.quassel_irc.QuasselClient
+#    state: present
+#    remote: flathub
 
 - include: gnome.yml
 - include: discord.yml
