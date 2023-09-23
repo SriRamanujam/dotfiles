@@ -17,7 +17,7 @@
 - name: Ensure polkit rules directory exists
   become: true
   ansible.builtin.file:
-    src: "{{ etc_dir }}/polkit-1/rules.d"
+    path: "{{ etc_dir }}/polkit-1/rules.d"
     state: directory
     mode: '0755'
 
@@ -34,7 +34,7 @@
 - name: Ensure dconf db local.d directory exists
   become: true
   ansible.builtin.file:
-    src: "{{ etc_dir }}/dconf/db/local.d"
+    path: "{{ etc_dir }}/dconf/db/local.d"
     state: directory
     mode: '0755'
 
