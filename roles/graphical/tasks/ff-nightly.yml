@@ -24,13 +24,27 @@
 #      - firefox-nightly
 #  when: ansible_distribution == "Fedora"
 
+- name: Ensure Flatpak remotes directory is present
+  become: true
+  ansible.builtin.file:
+    path: "{{ etc_dir }}/flatpak/remotes.d"
+    state: directory
+    mode: '0755'
+
 - name: Add Firefox nightly flatpak repo
-  community.general.flatpak_remote:
-    name: firefox-nightly
-    state: present
-    flatpakrepo_url: https://proletarius101.gitlab.io/firefox-nightly-flatpak
+  ansible.builtin.copy:
+    src: ff-nightly/firefox-nightly.flatpakrepo
+    dest: "{{ etc_dir }}/flatpak/remotes.d/firefox-nightly.flatpakrepo"
+    mode: '0644'
+
+- name: Add Firefox nightly flatpak repo to /etc (Silverblue)
+  when: is_mutable is false
+  ansible.builtin.copy:
+    src: ff-nightly/firefox-nightly.flatpakrepo
+    dest: "/etc/flatpak/remotes.d/firefox-nightly.flatpakrepo"
+    mode: '0644'
   
-- name: Add Firefox nightly flatpak
+- name: Install Firefox nightly flatpak
   community.general.flatpak:
     name: org.mozilla.FirefoxNightly
     remote: firefox-nightly
