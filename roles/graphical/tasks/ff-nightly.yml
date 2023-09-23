@@ -38,7 +38,7 @@
     mode: '0644'
 
 - name: Add Firefox nightly flatpak repo to /etc (Silverblue)
-  when: is_mutable is false
+  when: "'fedora_variant_silverblue' in group_names"
   ansible.builtin.copy:
     src: ff-nightly/firefox-nightly.flatpakrepo
     dest: "/etc/flatpak/remotes.d/firefox-nightly.flatpakrepo"
