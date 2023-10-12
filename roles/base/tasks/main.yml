@@ -39,6 +39,9 @@
     - "'microsoft' not in ansible_kernel"
     - "ansible_os_family != 'Darwin'"
 
+- include: atuin.yml
+- include: openshift.yml
+
 # Distro-specific tasks
 #- include: fedora.yml
 #  when:

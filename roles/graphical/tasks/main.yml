@@ -1,6 +1,7 @@
 ---
 # tasks file for graphical
 
+# TODO: BUG does not enable even though enable:true is set
 - name: Ensure flathub remote is available
   community.general.flatpak_remote:
     flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo

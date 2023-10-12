@@ -1,32 +1,5 @@
 ---
 
-- name: Fetch Atuin releases from Github
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/ellie/atuin/releases
-    return_content: true
-  register: atuin_releases
-
-- name: Download and install latest atuin release (Linux)
-  when: ansible_system == 'Linux'
-  ansible.builtin.unarchive:
-    dest: "{{ local_bin_dir }}"
-    keep_newer: true
-    mode: '0755'
-    src: "{{ atuin_releases.json | to_json | from_json | json_query('[0].assets[?ends_with(name, `x86_64-unknown-linux-gnu.tar.gz`)].browser_download_url') | first }}"
-    remote_src: true
-    extra_opts:
-      - "--strip-components"
-      - "1"
-    include:
-      - "{{ atuin_releases.json | to_json | from_json | json_query('[0].assets[?ends_with(name, `x86_64-unknown-linux-gnu.tar.gz`)].name') | first | splitext | first | splitext | first }}/atuin"
-
-- name: Download and install latest atuin release (MacOS)
-  when: ansible_system == 'Darwin'
-  ansible.builtin.package:
-    state: present
-    name:
-      - atuin
-
 - name: Drop atuin config file
   ansible.builtin.copy:
     src: files/atuin/config.toml

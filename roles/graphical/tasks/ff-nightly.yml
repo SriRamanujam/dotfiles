@@ -44,6 +44,7 @@
     dest: "/etc/flatpak/remotes.d/firefox-nightly.flatpakrepo"
     mode: '0644'
   
+# TODO: BUG does not properly install within container env
 - name: Install Firefox nightly flatpak
   community.general.flatpak:
     name: org.mozilla.FirefoxNightly
