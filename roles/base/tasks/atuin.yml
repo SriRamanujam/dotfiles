@@ -9,7 +9,7 @@
 - name: Download and install latest atuin release (Linux)
   when: ansible_system == 'Linux'
   ansible.builtin.unarchive:
-    dest: "/usr/local/bin/"
+    dest: "/usr/bin/"
     keep_newer: true
     mode: '0755'
     src: "{{ atuin_releases.json | to_json | from_json | json_query('[0].assets[?ends_with(name, `x86_64-unknown-linux-gnu.tar.gz`)].browser_download_url') | first }}"

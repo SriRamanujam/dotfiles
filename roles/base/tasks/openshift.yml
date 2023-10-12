@@ -7,7 +7,7 @@
 - name: Download and install latest oc + kubectl release (Linux)
   when: ansible_system == 'Linux'
   ansible.builtin.unarchive:
-    dest: "/usr/local/bin"
+    dest: "/usr/bin/"
     keep_newer: yes
     mode: '0755'
     src: "{{ okd_releases.json | to_json | from_json | json_query('[0].assets[?starts_with(name, `openshift-client-linux`)].browser_download_url') | first }}"
@@ -35,7 +35,7 @@
 - name: Download and install latest kustomize release (Linux)
   when: ansible_system == 'Linux'
   ansible.builtin.unarchive:
-    dest: "/usr/local/bin"
+    dest: "/usr/bin/"
     keep_newer: yes
     mode: '0755'
     src: "{{ kustomize_releases.json | to_json | from_json | json_query('[?starts_with(name, `kustomize`)] | [0].assets[?contains(name, `linux_amd64`) == `true`].browser_download_url') | first }}"
