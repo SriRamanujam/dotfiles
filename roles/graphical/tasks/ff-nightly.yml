@@ -45,8 +45,9 @@
     mode: '0644'
   
 # TODO: BUG does not properly install within container env
-- name: Install Firefox nightly flatpak
-  community.general.flatpak:
-    name: org.mozilla.FirefoxNightly
-    remote: firefox-nightly
-    state: present
+#- name: Install Firefox nightly flatpak
+#  community.general.flatpak:
+#    name: org.mozilla.FirefoxNightly
+#    remote: firefox-nightly
+#    state: present
+#
