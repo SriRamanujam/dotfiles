@@ -6,8 +6,8 @@
     name: vscode
     description: Visual Studio Code
     baseurl: https://packages.microsoft.com/yumrepos/vscode
-    enabled: yes
-    gpgcheck: yes
+    enabled: true
+    gpgcheck: true
     gpgkey: https://packages.microsoft.com/keys/microsoft.asc
 
 - name: Install Visual Studio Code (Mutable)
@@ -19,7 +19,7 @@
     state: present
 
 - name: Install Visual Studio Code (Silverblue)
-  when: is_mutable is false and 'fedora_variant_silverblue' in group_vars
+  when: "'fedora_variant_silverblue' in group_vars"
   become: true
   community.general.rpm_ostree_pkg:
     name:
