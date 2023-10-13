@@ -1,10 +1,3 @@
-- name: Ensure Flatpak remotes directory is present
-  become: true
-  ansible.builtin.file:
-    path: "{{ etc_dir }}/flatpak/remotes.d"
-    state: directory
-    mode: '0755'
-
 - name: Add Firefox nightly flatpak repo
   ansible.builtin.copy:
     src: ff-nightly/firefox-nightly.flatpakrepo
@@ -15,6 +8,5 @@
   when: "'fedora_variant_silverblue' in group_names"
   ansible.builtin.copy:
     src: ff-nightly/firefox-nightly.flatpakrepo
-    dest: "/etc/flatpak/remotes.d/firefox-nightly.flatpakrepo"
+    dest: "{{ etc_dir }}/flatpak/remotes.d/firefox-nightly.flatpakrepo"
     mode: '0644'
-  

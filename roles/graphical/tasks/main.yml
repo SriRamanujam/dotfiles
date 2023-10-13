@@ -1,17 +1,20 @@
 ---
 # tasks file for graphical
 
-# TODO: BUG does not enable even though enable:true is set
+- name: Ensure Flatpak remotes directory is present
+  become: true
+  ansible.builtin.file:
+    path: "{{ etc_dir }}/flatpak/remotes.d"
+    state: directory
+    mode: '0755'
+
 - name: Ensure flathub remote is available
-  community.general.flatpak_remote:
-    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-    enabled: true
-    method: system
-    name: flathub
-    state: present
+  ansible.builtin.get_url:
+    dest: "{{ etc_dir }}/flatpak/remotes.d/flathub.flatpakrepo"
+    url: https://flathub.org/repo/flathub.flatpakrepo
+    mode: '0644'
 
 - include: gnome.yml
-- include: discord.yml
 - include: code.yml
 - include: ff-nightly.yml
 - include: systemd.yml

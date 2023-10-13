@@ -1,9 +1,0 @@
-# TODO: BUG does not install correctly in container env
-#- name: Install Discord Flatpak
-#  become: true
-#  community.general.flatpak:
-#    method: system
-#    name:
-#      - com.discordapp.Discord
-#    state: present
-#
