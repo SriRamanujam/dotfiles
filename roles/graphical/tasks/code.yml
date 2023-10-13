@@ -19,7 +19,7 @@
     state: present
 
 - name: Install Visual Studio Code (Silverblue)
-  when: "'fedora_variant_silverblue' in group_vars"
+  when: is_mutable is false
   become: true
   community.general.rpm_ostree_pkg:
     name:
