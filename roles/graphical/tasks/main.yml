@@ -10,14 +10,6 @@
     name: flathub
     state: present
 
-# TODO: BUG does not install correctly in container env
-#- name: Install quassel client
-#  become: true
-#  community.general.flatpak:
-#    name: org.quassel_irc.QuasselClient
-#    state: present
-#    remote: flathub
-
 - include: gnome.yml
 - include: discord.yml
 - include: code.yml

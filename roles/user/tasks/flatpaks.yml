@@ -1,0 +1,29 @@
+- name: Ensure flathub remote is available
+  community.general.flatpak_remote:
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    enabled: true
+    method: user
+    name: flathub
+    state: present
+
+- name: Install desired Flatpaks from flathub
+  community.general.flatpak:
+    name:
+      - com.bitwarden.desktop
+      - com.discordapp.Discord
+      - com.github.d4nj1.tlpui
+      - com.github.tchx84.Flatseal
+      - com.github.wwmm.easyeffects
+      - com.obsproject.Studio
+      - com.valvesoftware.Steam
+      - org.quassel_irc.QuasselClient
+    remote: flathub
+    method: user
+    state: present
+
+- name: Install Firefox Nightly flatpak
+  community.general.flatpak:
+    name: org.mozilla.FirefoxNightly
+    remote: firefox-nightly
+    method: user
+    state: present

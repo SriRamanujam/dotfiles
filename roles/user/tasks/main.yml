@@ -1,6 +1,16 @@
 ---
-# tasks file for pre-user
+# tasks file for user
 
 ## notes:
 # extra packages for sssd join:
 # oddjob oddjob-mkhomedir
+
+- include_tasks: bash.yml
+- include_tasks: atuin.yml
+- include_tasks: code.yml
+- include_tasks: flatpaks.yml
+- include_tasks: git.yml
+- include_tasks: gnome.yml
+- include_tasks: openshift.yml
+- include_tasks: podman.yml
+- include_tasks: tmux.yml
