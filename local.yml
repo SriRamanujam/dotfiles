@@ -30,14 +30,16 @@
         key: "fedora_variant_{{ variant }}"
       when: ansible_distribution == 'Fedora'
   tasks:
-    - name: Import and run base role
-      ansible.builtin.import_role:
+    - ansible.builtin.import_role: # noqa name[missing]
         name: base
       tags: [base]
-    - import_role:
+    - ansible.builtin.import_role: # noqa name[missing]
         name: framework
       tags: [framework]
-    - import_role:
+    - ansible.builtin.import_role: # noqa name[missing]
         name: graphical
       tags: [graphical]
       when: is_graphical
+    - ansible.builtin.import_role: # noqa name[missing]
+        name: user
+      tags: [user]
