@@ -25,5 +25,5 @@
   community.general.flatpak:
     name: org.mozilla.FirefoxNightly
     remote: firefox-nightly
-    method: user
+    method: system
     state: present
