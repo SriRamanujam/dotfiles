@@ -37,6 +37,12 @@
         dest: "{{ etc_dir }}/rpm-ostreed.conf"
         mode: '0644'
 
+    - name: Ensure times.target.wants is available
+      ansible.builtin.file:
+        path: "{{ etc_dir }}/systemd/system/timers.target.wants"
+        state: directory
+        mode: '0755'
+
     - name: ensure rpm-ostreed-automatic.timer is enabled
       ansible.builtin.file:
         src: /usr/lib/systemd/system/rpm-ostreed-automatic.timer
