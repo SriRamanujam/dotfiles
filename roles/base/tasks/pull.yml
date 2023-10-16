@@ -31,6 +31,12 @@
 - name: Ensure that rpm-ostree automatic updates are enabled
   when: "'fedora_variant_silverblue' in group_names"
   block:
+    - name: Ensure rpm-ostree configuration is present
+      ansible.builtin.copy:
+        src: pull/rpm-ostreed.conf
+        dest: "{{ etc_dir }}/rpm-ostreed.conf"
+        mode: '0644'
+
     - name: ensure rpm-ostreed-automatic.timer is enabled
       ansible.builtin.file:
         src: /usr/lib/systemd/system/rpm-ostreed-automatic.timer
