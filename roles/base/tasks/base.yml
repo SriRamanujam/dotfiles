@@ -26,6 +26,7 @@
       - git-lfs
       - zip
       - "{{ p7zip_pkg_name }}"
+      - distrobox
     state: present
 
 - name: Install common base set of packages
@@ -50,6 +51,11 @@
       - git-lfs
       - zip
       - "{{ p7zip_pkg_name }}"
+      - distrobox
+      - oddjob
+      - oddjob-mkhomedir
+      - sssd
+      - adcli
     state: present
 
 - name: Install GNU coreutils
