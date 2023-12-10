@@ -4,6 +4,7 @@
 
 [user]
 	name = Sri Ramanujam
+	email = 2983875+SriRamanujam@users.noreply.github.com
 [submodule]
 	recurse = true
 [filter "lfs"]
