@@ -16,10 +16,12 @@ user interaction, and it'll keep everything up-to-date with the remote repositor
 
 This playbook is designed to run on either Ubuntu, Fedora, or MacOS. It will gracefully fail to run on any other distribution.
 
-This playbook is designed to be run as the user account you're gonna use in your day-to-day work. So don't run this as root or with sudo! For remote deployment, make sure you have passwordless SSH set up prior
-to running the playbook otherwise it won't work. 
+This playbook is designed to be run during an OCI image build of Fedora Silverblue to slipstream in all necessary customizations. Don't try to run this outside of that environment,
+as it won't work.
 
-Note that this user account needs to again have passwordless sudo on the local computer. Check that you have the necessary permissions with `sudo -l` prior to deployment:
+Note that this playbook makes a ton of assumptions about the environment in which it is being run and is therefore unsuitable for general use.
+
+This is based _heavily_ off of the work done by Jim Campbell in his excellent (ansible-silverblue-oci)[https://github.com/j1mc/ansible-silverblue-oci] repository, thank you!
 
 ```sh
 ❯ sudo -l
