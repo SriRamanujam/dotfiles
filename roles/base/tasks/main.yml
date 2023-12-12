@@ -19,35 +19,35 @@
     ansible_become: false
   when: ansible_system == 'Darwin'
 
-- include: base.yml
-- include: php.yml
-- include: rust.yml
-- include: python.yml
+- include_tasks: base.yml
+- include_tasks: php.yml
+- include_tasks: rust.yml
+- include_tasks: python.yml
 
 # Skip podman installation on WSL hosts and OSX
-- include: podman.yml
+- include_tasks: podman.yml
   when:
     - "'microsoft' not in ansible_kernel"
     - "ansible_os_family != 'Darwin'"
 
-- include: aws.yml
-- include: openshift.yml
-- include: tmux.yml
-- include: go.yml
-- include: git.yml
-- include: hashicorp.yml
+- include_tasks: aws.yml
+- include_tasks: openshift.yml
+- include_tasks: tmux.yml
+- include_tasks: go.yml
+- include_tasks: git.yml
+- include_tasks: hashicorp.yml
 
-- include: dotnet.yml
-- include: atuin.yml
+- include_tasks: dotnet.yml
+- include_tasks: atuin.yml
 
 # Distro-specific tasks
-- include: fedora.yml
+- include_tasks: fedora.yml
   when:
     - ansible_facts['distribution'] == 'Fedora'
 
-- include: ubuntu.yml
+- include_tasks: ubuntu.yml
   when:
     - ansible_facts['distribution'] == 'Ubuntu'
 
 # Finally, deploy a mechanism to automatically run ansible-pull every couple of hours.
-- include: pull.yml
+- include_tasks: pull.yml
