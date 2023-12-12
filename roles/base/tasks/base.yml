@@ -142,3 +142,9 @@
         mode: 0755
         url: "{{ oh_my_posh_latest_release.json | json_query('assets[?name==`posh-linux-amd64`].browser_download_url') | first }}"
         checksum: "sha256:{{ oh_my_posh_latest_release_checksum.content }}"
+
+- name: Drop oh-my-posh config
+  ansible.builtin.copy:
+    src: omp.json
+    dest: "{{ bash_config_dir }}/omp.json"
+    mode: 0644

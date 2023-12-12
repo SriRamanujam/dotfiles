@@ -1,0 +1,119 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "console_title_template": "{{if .Root}}(Admin){{end}} {{.PWD}}",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "session",
+          "style": "plain",
+          "foreground": "#b15646",
+          "template": "{{ if .Root }}{{ .UserName }}{{ end }}{{ if .SSHSession }}@{{ .HostName }}{{ end }}"
+        },
+        {
+          "type": "session",
+          "style": "plain",
+          "foreground": "#eceb98",
+          "template": "{{ if .SSHSession }}@{{ .HostName }} {{ end }}"
+        },
+        {
+          "type": "path",
+          "style": "plain",
+          "foreground": "#729fcf",
+          "template": "{{ .Path }} ",
+          "foreground_templates": [
+            "{{ if .Writable }}#729fcf{{ end }}",
+            "{{ if not .Writable }}#a40000{{ end }}"
+          ],
+          "properties": {
+            "style": "full"
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "git",
+          "style": "plain",
+          "template": " {{ .Ref }} {{ .Working.String }} {{ .Upstream }} {{ substr 0 7 .Commit.Sha }}",
+          "foreground": "yellow",
+          "properties": {
+            "fetch_status": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "python",
+          "style": "plain",
+          "foreground": "green",
+          "template": "{{ if .Error }} \ue235 {{ .Error }}{{ else }}{{ if .Venv }} \ue235 {{ .Venv }}{{ end }}{{ end }}",
+          "properties": {
+            "display_mode": "context",
+            "fetch_version": false
+          }
+        },
+        {
+          "type": "go",
+          "style": "plain",
+          "foreground": "#00ADD8",
+          "template": "{{ if .Error }}{{ .Error }}{{ else }} \ue627 <b>go.mod {{ .Full }}</b>{{ end }}",
+          "properties": {
+            "parse_mod_file": true
+          },
+          "alias": "Modfile"
+        },
+        {
+          "type": "go",
+          "style": "plain",
+          "foreground": "#d88200",
+          "template": "{{ if ne .Segments.Modfile.Minor .Minor }} != {{ .Major }}.{{ .Minor }}{{ end }}"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "foreground": "#A3BE8C",
+          "template": " {{ .FormattedMs }}",
+          "properties": {
+            "style": "austin"
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "status",
+          "style": "plain",
+          "foreground": "cyan",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#BF616A{{ end }}"
+          ],
+          "template": "❯ ",
+          "properties": {
+            "always_enabled": true
+          }
+        }
+      ],
+      "newline": true
+    }
+  ]
+}
