@@ -84,3 +84,30 @@
     name:
       - openssh-server
       - "{{ openssh_client_pkg_name }}"
+
+- name: Install oh-my-posh
+  block:
+    - name: Fetch latest oh-my-posh release from Github
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/jandedobbeleer/oh-my-posh/releases/latest
+        return_content: yes
+      register: oh_my_posh_latest_release
+
+    - name: Fetch sha256sum of latest release
+      ansible.builtin.uri:
+        url: "{{ oh_my_posh_latest_release.json | json_query('assets[?name==`posh-linux-amd64.sha256`].browser_download_url') | first }}"
+        return_content: yes
+      register: oh_my_posh_latest_release_checksum
+
+    - name: Download and install latest oh-my-posh release
+      ansible.builtin.get_url:
+        dest: "{{ local_bin_dir }}/oh-my-posh"
+        mode: 0755
+        url: "{{ oh_my_posh_latest_release.json | json_query('assets[?name==`posh-linux-amd64`].browser_download_url') | first }}"
+        checksum: "sha256:{{ oh_my_posh_latest_release_checksum.content }}"
+
+- name: Drop oh-my-posh config
+  ansible.builtin.copy:
+    src: omp.json
+    dest: "{{ bash_config_dir }}/omp.json"
+    mode: 0644
