@@ -5,9 +5,9 @@
     - "{{ ansible_distribution | lower | replace(' ', '-') }}-{{ ansible_distribution_major_version | lower }}.yml"
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
 
-- include: scaling.yml
-- include: dmcrypt.yml
-- include: pm.yml
+- include_tasks: scaling.yml
+- include_tasks: dmcrypt.yml
+- include_tasks: pm.yml
 #- include: udev.yml
   
 - name: Configure kernel to use nvme.noacpi=1 (S0ix idle is not efficient unless this is set) (Fedora)
