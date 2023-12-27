@@ -1,5 +1,5 @@
 # If we are in a toolbox container, set the toolbox name as an env var.
-if [[ -z "${TOOLBOX_IMAGE}" ]]; then
+if test -f /run/.containerenv; then
     export TOOLBOX_CONTAINER_NAME=$(grep 'name=' /run/.containerenv | cut -d'"' -f2)
 fi
 
