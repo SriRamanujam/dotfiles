@@ -36,7 +36,7 @@
           "type": "text",
           "style": "plain",
           "foreground": "#b67ac9",
-          "template": "󱋩 {{ .Env.TOOLBOX_CONTAINER_NAME }}"
+          "template": "{{ if .Env.TOOLBOX_CONTAINER_NAME }}󱋩 {{ .Env.TOOLBOX_CONTAINER_NAME }}{{ end }}"
         }
       ]
     },
