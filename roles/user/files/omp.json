@@ -31,6 +31,12 @@
           "properties": {
             "style": "full"
           }
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "#b67ac9",
+          "template": "{{ if .Env.TOOLBOX_CONTAINER_NAME }}󱋩 {{ .Env.TOOLBOX_CONTAINER_NAME }}{{ end }}"
         }
       ]
     },

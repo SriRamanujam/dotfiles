@@ -14,7 +14,7 @@
     url: https://flathub.org/repo/flathub.flatpakrepo
     mode: '0644'
 
-- include: gnome.yml
-- include: code.yml
-- include: ff-nightly.yml
-- include: systemd.yml
+- include_tasks: gnome.yml
+- include_tasks: code.yml
+- include_tasks: ff-nightly.yml
+- include_tasks: systemd.yml

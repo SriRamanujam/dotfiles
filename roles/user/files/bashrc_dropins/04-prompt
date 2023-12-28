@@ -1,1 +1,6 @@
+# If we are in a toolbox container, set the toolbox name as an env var.
+if test -f /run/.containerenv; then
+    export TOOLBOX_CONTAINER_NAME=$(grep 'name=' /run/.containerenv | cut -d'"' -f2)
+fi
+
 eval "$(oh-my-posh init bash --config ~/.config/bash_config/omp.json)"

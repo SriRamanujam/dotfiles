@@ -7,11 +7,6 @@
     - "{{ ansible_distribution | lower | replace(' ', '-') }}-{{ ansible_distribution_major_version | lower }}.yml"
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
 
-- name: Override become if on OSX
-  ansible.builtin.set_fact:
-    ansible_become: false
-  when: ansible_system == 'Darwin'
-
 - include_tasks: base.yml
 
 - name: Bootstrap base dev tooling on mutable systems
@@ -33,11 +28,10 @@
         - make
         - "{{ development_tools }}"
 
-# Skip podman installation on WSL hosts and OSX
+# Skip podman installation on WSL hosts
 - include_tasks: podman.yml
   when:
     - "'microsoft' not in ansible_kernel"
-    - "ansible_os_family != 'Darwin'"
 
 - include_tasks: atuin.yml
 - include_tasks: openshift.yml
