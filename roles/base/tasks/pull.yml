@@ -43,7 +43,7 @@
         state: directory
         mode: '0755'
 
-    - name: ensure rpm-ostreed-automatic.timer is enabled
+    - name: Ensure rpm-ostreed-automatic.timer is enabled
       ansible.builtin.file:
         src: /usr/lib/systemd/system/rpm-ostreed-automatic.timer
         dest: "{{ etc_dir }}/systemd/system/timers.target.wants/rpm-ostreed-automatic.timer"
@@ -55,20 +55,8 @@
         state: directory
         mode: '0755'
 
-    - name: drop override configuration to ensure this only starts on unmetered connections
+    - name: Drop override configuration to ensure this only starts on unmetered connections
       ansible.builtin.copy:
         src: pull/10-override-rpm-ostreed-automatic.conf
         dest: "{{ etc_dir }}/systemd/system/rpm-ostreed-automatic.service.d/"
         mode: '0644'
-
-- name: Ensure ansible-pull cronjob is in place (MacOS)
-  when: ansible_system == 'Darwin'
-  ansible.builtin.cron:
-    name: ansible-pull
-    job: "/usr/local/bin/ansible-pull --accept-host-key --checkout main --tags base --url 'https://github.com/SriRamanujam/dotfiles.git' --directory {{ ansible_env.HOME }}/.dotfiles --inventory 'localhost,' --connection=local --private-key {{ ansible_env.HOME }}/.ssh/id_rsa"
-    state: present
-    minute: "43"
-    hour: "*/2"
-    day: "*"
-    weekday: "*"
-    month: "*"

@@ -1,8 +1,8 @@
 [Unit]
-Description=Apply updated dotfiles configuration once every two hours
+Description=Apply updated dotfiles configuration once every day
 
 [Timer]
-OnUnitActiveSec=2h
+OnUnitActiveSec=1d
 OnStartupSec=1m
 Persistent=true
 
