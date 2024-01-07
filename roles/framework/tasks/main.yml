@@ -8,7 +8,6 @@
 - include_tasks: scaling.yml
 - include_tasks: dmcrypt.yml
 - include_tasks: pm.yml
-#- include: udev.yml
   
 - name: Configure kernel to use nvme.noacpi=1 (S0ix idle is not efficient unless this is set) (Fedora)
   ansible.builtin.command: grubby --update-kernel=ALL --args=nvme.noacpi=1

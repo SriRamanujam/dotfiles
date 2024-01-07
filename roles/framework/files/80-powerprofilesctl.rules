@@ -1,2 +1,0 @@
-SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_STATUS}=="Charging", RUN+="/usr/bin/powerprofilesctl set balanced"
-SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_STATUS}=="Discharging", RUN+="/usr/bin/powerprofilesctl set power-saver"
