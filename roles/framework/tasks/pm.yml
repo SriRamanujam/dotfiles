@@ -1,20 +1,29 @@
-- name: Install power management tooling
-  become: true
-  ansible.builtin.package:
-    name:
-      - tlp
-      - powertop
+- name: 11th gen Intel power management
+  when: "'11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz' in ansible_processor"
+  block:
+  - name: Install power management tooling
+    become: true
+    ansible.builtin.package:
+      name:
+        - tlp
+        - powertop
 
-- name: Disable powerprofiles daemon
-  become: true
-  ansible.builtin.systemd:
-    name: power-profiles-daemon
-    state: stopped
-    masked: true
-    enabled: false
+  - name: Disable powerprofiles daemon
+    become: true
+    ansible.builtin.systemd:
+      name: power-profiles-daemon
+      state: stopped
+      masked: true
+      enabled: false
 
-- name: Enable TLP
-  become: true
-  ansible.builtin.systemd:
-    name: tlp
-    enabled: true
+  - name: Enable TLP
+    become: true
+    ansible.builtin.systemd:
+      name: tlp
+      enabled: true
+
+  - name: Enable deep sleep if on 11th gen Intel
+    become: true
+    ansible.builtin.copy:
+      src: tmpfiles/deep-sleep.conf
+      dest: /etc/tmpfiles.d/
