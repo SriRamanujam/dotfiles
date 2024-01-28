@@ -1,0 +1,6 @@
+- name: Uninstall zram generator
+  become: true
+  when: ansible_facts['distribution'] == 'Fedora'
+  ansible.builtin.yum:
+     name: zram-generator-tools
+     state: absent
