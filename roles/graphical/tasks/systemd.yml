@@ -1,5 +1,16 @@
+- name: Check if Secure Boot is enabled
+  become: true
+  ansible.builtin.command: mokutil --sb-state
+  changed_when: false
+  register: secureboot_status
+
+- name: Register SecureBoot fact
+  ansible.builtin.set_fact:
+    secureboot_enabled: "{{ 'SecureBoot enabled' in secureboot_status.stdout }}"
+
 - name: Drop logind drop-in to configure closing the lid as suspend-then-hibernate
   become: true
+  when: not secureboot_enabled
   ansible.builtin.copy:
     src: logind/00_suspend-then-hibernate.conf
     dest: /etc/systemd/logind.conf.d/
