@@ -6,9 +6,12 @@
 
 - name: Install Gnome Extensions
   become: true
-  ansible.builtin.package:
-    name: gnome-extensions-app
+  community.general.flatpak:
+    method: system
+    name: 
+      - org.gnome.Extensions
     state: present
+  when: ansible_distribution == 'Fedora'
 
 - name: Drop Polkit rules file
   become: true

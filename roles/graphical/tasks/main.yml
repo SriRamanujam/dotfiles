@@ -11,15 +11,9 @@
   ansible.builtin.set_fact:
     secureboot_enabled: "{{ 'SecureBoot enabled' in secureboot_status.stdout }}"
 
-- name: Install quassel client
-  become: true
-  ansible.builtin.package:
-    name: quassel-client
-    state: present
-
 - include_tasks: gnome.yml
-- include_tasks: discord.yml
+#- include_tasks: discord.yml
 - include_tasks: code.yml
 - include_tasks: ff-nightly.yml
 - include_tasks: systemd.yml
-- include_tasks: swap.yml
+#- include_tasks: swap.yml

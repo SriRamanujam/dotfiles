@@ -35,9 +35,9 @@
 - include_tasks: tmux.yml
 - include_tasks: go.yml
 - include_tasks: git.yml
-- include_tasks: hashicorp.yml
+  #- include_tasks: hashicorp.yml
 
-- include_tasks: dotnet.yml
+  #- include_tasks: dotnet.yml
 - include_tasks: atuin.yml
 
 # Distro-specific tasks

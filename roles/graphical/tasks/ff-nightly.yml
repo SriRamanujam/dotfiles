@@ -14,7 +14,7 @@
       - gstreamer1-vaapi
       - gstreamer1-plugins-good
       - gstreamer1-plugins-good-extras
-      - gstreamer1-plugins-ugly
+      - gstreamer1-plugins-ugly-free
   when: ansible_distribution == "Fedora"
 
 - name: Install firefox-nightly package from COPR repository (Fedora)

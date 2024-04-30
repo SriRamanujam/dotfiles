@@ -12,3 +12,5 @@ for f in {{ bash_config_dropins_dir }}/*; do source $f; done
 
 # set up PATH so that our binaries take precedence over everything else
 export PATH={{ local_bin_dir }}:$PATH
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh

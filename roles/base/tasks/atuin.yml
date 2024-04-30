@@ -20,12 +20,6 @@
     dest: "{{ ansible_env.HOME }}/.config/atuin/"
     mode: '0644'
 
-- name: Drop atuin key file
-  ansible.builtin.copy:
-    src: files/atuin/key
-    dest: "{{ ansible_env.HOME }}/.local/share/atuin/"
-    mode: '0644'
-
 - name: Drop atuin bash config snippet
   ansible.builtin.copy:
     src: files/atuin/10-atuin
