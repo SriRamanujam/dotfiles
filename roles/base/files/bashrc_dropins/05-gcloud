@@ -1,0 +1,11 @@
+function gcloud() {
+    # get whether the config has already been set up
+    local CONFIG_EXISTS=$(podman ps -a -q -f name="gcloud-config")
+
+    if [[ -z ${CONFIG_EXISTS} ]]; then
+        # we don't have the config, run through first-time setup.
+        podman run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud auth login
+    fi
+
+    podman run -it --rm --volumes-from gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud "$@"
+}
