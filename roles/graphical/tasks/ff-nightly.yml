@@ -15,6 +15,7 @@
       - gstreamer1-plugins-good
       - gstreamer1-plugins-good-extras
       - gstreamer1-plugins-ugly-free
+      - libavcodec-freeworld
   when: ansible_distribution == "Fedora"
 
 - name: Install firefox-nightly package from COPR repository (Fedora)
