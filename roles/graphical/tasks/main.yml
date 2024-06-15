@@ -15,11 +15,17 @@
   ansible.builtin.dnf:
     name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
     state: present
+  when:
+    - ansible_facts['distribution'] == 'Fedora'
+    - rpmfusion-free-release in ansible_facts.packages
 
 - name: Install RPMFusion Nonfree repository
   ansible.builtin.dnf:
     name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
     state: present
+  when:
+    - ansible_facts['distribution'] == 'Fedora'
+    - rpmfusion-nonfree-release in ansible_facts.packages
 
 - include_tasks: gnome.yml
 #- include_tasks: discord.yml
