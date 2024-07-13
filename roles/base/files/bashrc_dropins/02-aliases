@@ -27,3 +27,6 @@ alias sudo='sudo '
 
 # This is the best
 alias codesearch="rg -F --no-heading --with-filename"
+
+# Use bat instead of cat
+alias cat='bat'

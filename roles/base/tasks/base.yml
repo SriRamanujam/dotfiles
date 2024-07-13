@@ -31,6 +31,7 @@
       - git-lfs
       - zip
       - "{{ p7zip_pkg_name }}"
+      - bat
     state: present
 
 - name: Install SSH tools
