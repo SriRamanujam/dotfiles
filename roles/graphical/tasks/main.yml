@@ -27,9 +27,14 @@
     - ansible_facts['distribution'] == 'Fedora'
     - rpmfusion-nonfree-release in ansible_facts.packages
 
-- include_tasks: gnome.yml
-#- include_tasks: discord.yml
-- include_tasks: code.yml
-- include_tasks: ff-nightly.yml
-- include_tasks: systemd.yml
-#- include_tasks: swap.yml
+- name: Configure GNOME
+  ansible.builtin.include_tasks: gnome.yml
+
+- name: Configure visual studio code
+  ansible.builtin.include_tasks: code.yml
+
+- name: Configure firefox nightly
+  ansible.builtin.include_tasks: ff-nightly.yml
+
+- name: Configure systemd
+  ansible.builtin.include_tasks: systemd.yml

@@ -6,8 +6,8 @@
     name: vscode
     description: Visual Studio Code
     baseurl: https://packages.microsoft.com/yumrepos/vscode
-    enabled: yes
-    gpgcheck: yes
+    enabled: true
+    gpgcheck: true
     gpgkey: https://packages.microsoft.com/keys/microsoft.asc
 
 - name: Ensure VSCode repository GPG key is imported (Ubuntu)
@@ -15,13 +15,14 @@
   ansible.builtin.get_url:
     url: https://packages.microsoft.com/keys/microsoft.asc
     dest: /etc/apt/trusted.gpg.d/microsoft.asc
+    mode: '0644'
   when: ansible_distribution == "Ubuntu"
 
 - name: Ensure VSCode repository is present (Ubuntu)
   become: true
   ansible.builtin.apt_repository:
     state: present
-    update_cache: yes
+    update_cache: true
     repo: "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/microsoft.asc] https://packages.microsoft.com/repos/code stable main"
   when: ansible_distribution == 'Ubuntu'
 
