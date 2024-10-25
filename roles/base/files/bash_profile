@@ -4,12 +4,6 @@
 
 [[ -f /etc/profile ]] && . /etc/profile
 
-if $(grep -q "Microsoft" /proc/version 2>/dev/null); then
-    umask 022
-    export DISPLAY=:0
-    export DOCKER_HOST="192.168.39.2:2375"
-fi
-
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
 [[ -f ~/.bash-preexec.sh ]] && . ~/.bash-preexec.sh
