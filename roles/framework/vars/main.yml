@@ -1,2 +1,6 @@
 ---
 # vars file for framework
+
+framework_swapdir: /var/swap
+framework_swapfile: "{{ framework_swapdir }}/swapfile"
+framework_swapsize: 33G

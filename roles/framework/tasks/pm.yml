@@ -1,29 +1,82 @@
 - name: 11th gen Intel power management
   when: "'11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz' in ansible_processor"
   block:
-  - name: Install power management tooling
-    become: true
-    ansible.builtin.package:
-      name:
-        - tlp
-        - powertop
+    - name: Install power management tooling
+      become: true
+      ansible.builtin.package:
+        name:
+          - tlp
+          - powertop
 
-  - name: Disable powerprofiles daemon
-    become: true
-    ansible.builtin.systemd:
-      name: power-profiles-daemon
-      state: stopped
-      masked: true
-      enabled: false
+    - name: Disable powerprofiles daemon
+      become: true
+      ansible.builtin.systemd:
+        name: power-profiles-daemon
+        state: stopped
+        masked: true
+        enabled: false
 
-  - name: Enable TLP
-    become: true
-    ansible.builtin.systemd:
-      name: tlp
-      enabled: true
+    - name: Enable TLP
+      become: true
+      ansible.builtin.systemd:
+        name: tlp
+        enabled: true
 
-  - name: Enable deep sleep if on 11th gen Intel
-    become: true
-    ansible.builtin.copy:
-      src: tmpfiles/deep-sleep.conf
-      dest: /etc/tmpfiles.d/
+    - name: Enable deep sleep if on 11th gen Intel
+      become: true
+      ansible.builtin.copy:
+        src: tmpfiles/deep-sleep.conf
+        dest: /etc/tmpfiles.d/
+
+- name: Check if swapfile is enabled already
+  become: true
+  ansible.builtin.stat:
+    path: "{{ framework_swapfile }}"
+  register: swapfile_stat
+
+- name: Enable hibernation
+  when: "not swapfile_stat.stat.exists"
+  block:
+    - name: Create swap subvolume
+      become: true
+      community.general.btrfs_subvolume:
+        name: "{{ framework_swapdir }}"
+        state: present
+
+    - name: Disable copy-on-write for swap
+      become: true
+      ansible.builtin.file:
+        path: "{{ framework_swapdir }}"
+        state: touch
+        attributes: +C
+        selevel: _default
+        serole: _default
+        setype: _default
+        seuser: _default
+
+    - name: Create swapfile
+      become: true
+      ansible.builtin.command:
+        cmd: "mkswap --file -L SWAPFILE --size {{ framework_swapsize }} {{ framework_swapfile }}"
+        creates: "{{ framework_swapfile }}"
+
+    - name: Add to fstab
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        backup: true
+        line: "{{ framework_swapfile }} none swap defaults 0 0"
+
+    - name: Turn swap on
+      become: true
+      ansible.builtin.command: swapon -av
+
+    - name: Add resume module to dracut config
+      become: true
+      ansible.builtin.copy:
+        src: dracut-resume.conf
+        dest: /etc/dracut.conf.d/10-resume.conf
+
+    - name: Rebuild dracut initrd
+      become: true
+      ansible.builtin.command: dracut -f
