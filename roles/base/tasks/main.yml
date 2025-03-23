@@ -33,7 +33,7 @@
 - include_tasks: aws.yml
 - include_tasks: openshift.yml
 - include_tasks: tmux.yml
-- include_tasks: go.yml
+# - include_tasks: go.yml
 - include_tasks: git.yml
   #- include_tasks: hashicorp.yml
 

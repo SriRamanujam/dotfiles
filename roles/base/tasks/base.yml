@@ -131,18 +131,18 @@
         return_content: yes
       register: oh_my_posh_latest_release
 
-    - name: Fetch sha256sum of latest release
+    - name: Fetch sha256sums of latest release
       ansible.builtin.uri:
-        url: "{{ oh_my_posh_latest_release.json | json_query('assets[?name==`posh-linux-amd64.sha256`].browser_download_url') | first }}"
+        url: "{{ oh_my_posh_latest_release.json | json_query('assets[?name==`checksums.txt`].browser_download_url') | first }}"
         return_content: yes
       register: oh_my_posh_latest_release_checksum
-
+  
     - name: Download and install latest oh-my-posh release
       ansible.builtin.get_url:
         dest: "{{ local_bin_dir }}/oh-my-posh"
         mode: 0755
         url: "{{ oh_my_posh_latest_release.json | json_query('assets[?name==`posh-linux-amd64`].browser_download_url') | first }}"
-        checksum: "sha256:{{ oh_my_posh_latest_release_checksum.content }}"
+        checksum: "sha256:{{ oh_my_posh_latest_release_checksum.content | regex_search('([0-9a-f]{64})  posh-linux-amd64', '\\1') }}"
 
 - name: Drop oh-my-posh config
   ansible.builtin.copy:

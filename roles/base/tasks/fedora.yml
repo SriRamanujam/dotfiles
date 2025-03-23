@@ -10,5 +10,5 @@
   ansible.builtin.systemd:
     enabled: true
     state: started
-    name: dnf-automatic-install.timer
+    name: dnf-automatic.timer
   when: not is_graphical
