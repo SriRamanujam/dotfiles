@@ -4,14 +4,11 @@ cleanup-podman() {
     podman rm $(podman ps -qa --no-trunc --filter "status=exited")
 }
 
-# If system has podman installed, prefer that over docker
-if $(command -v podman &>/dev/null); then
+# If system has podman installed but no docker, set up docker alias to podman
+# for convenience
+if $(command -v podman &>/dev/null) && ! $(command -v docker &>/dev/null); then
     alias docker='podman'
 fi
-
-check-docker-ratelimit() {
-    curl -s --head -H "Authorization: Bearer $(curl -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest | rg -Fi 'ratelimit'
-}
 
 export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock
 export DOCKER_SOCK=/run/user/$UID/podman/podman.sock
