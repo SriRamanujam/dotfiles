@@ -7,12 +7,11 @@ function gcloud() {
     fi
 
     # get whether the config has already been set up
-    local CONFIG_EXISTS=$($docker_bin ps -a -q -f name="gcloud-config")
-
-    if [[ -z ${CONFIG_EXISTS} ]]; then
-        # we don't have the config, run through first-time setup.
-        $docker_bin run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud auth login
+    if [[ $($docker_bin volume ls -q -f name="gcloud-config" | wc -l) -eq 0 ]]; then
+        # Assume we don't have the gcloud config volume set up at all, run through first-time setup
+        $docker_bin volume create gcloud-config
+        $docker_bin run -ti --rm --mount type=volume,src=gcloud-config,dst=/root/.config/gcloud --name gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud auth login
     fi
 
-    $docker_bin run -it --rm --volumes-from gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud "$@"
+    $docker_bin run -it --rm --mount type=volume,src=gcloud-config,dst=/root/.config/gcloud gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud "$@"
 }
