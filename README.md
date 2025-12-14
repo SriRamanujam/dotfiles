@@ -14,10 +14,9 @@ user interaction, and it'll keep everything up-to-date with the remote repositor
 
 ## Prerequisites
 
-This playbook is designed to run on either Ubuntu, Fedora, or MacOS. It will gracefully fail to run on any other distribution.
+This playbook is designed to run on either Ubuntu, Fedora, or MacOS. It will gracefully fail to run on any other distribution. This can also be run from a WSL distro to bootstrap the created user. 
 
-This playbook is designed to be run during an OCI image build of Fedora Silverblue to slipstream in all necessary customizations. Don't try to run this outside of that environment,
-as it won't work.
+On MacOS, it will only configure the user's command line environment. It will not configure any graphical aspects of MacOS or install graphical applications.
 
 Note that this playbook makes a ton of assumptions about the environment in which it is being run and is therefore unsuitable for general use.
 
@@ -36,6 +35,14 @@ Anything less permissive than this is not supported and may fail to deploy.
 
 For MacOS specifically, you will need to have Homebrew installed and configured prior to invoking the playbook. It is recommended to then install Ansible via Homebrew.
 You will also need the `community.general` collection installed at the global scope for this playbook on Mac hosts. Install it with `ansible-galaxy collection install community.general`.
+
+### WSL
+
+In WSL, you will need to install the following prerequisites (these examples are for Fedora WSL):
+
+```
+sudo dnf install /usr/bin/ansible-playbook ansible-collection-community-general git /usr/bin/clear python3-dnf python3-jmespath
+```
 
 ## Deployment
 

@@ -20,9 +20,6 @@
   when: ansible_system == 'Darwin'
 
 - include_tasks: base.yml
-- include_tasks: php.yml
-- include_tasks: rust.yml
-- include_tasks: python.yml
 
 # Skip podman installation on WSL hosts and OSX
 - include_tasks: podman.yml
@@ -30,15 +27,15 @@
     - "'microsoft' not in ansible_kernel"
     - "ansible_os_family != 'Darwin'"
 
+# Install Docker on WSL hosts
+- include_tasks: docker.yml
+  when:
+    - "'microsoft' in ansible_kernel"
+
 - include_tasks: aws.yml
 - include_tasks: openshift.yml
 - include_tasks: tmux.yml
-# - include_tasks: go.yml
 - include_tasks: git.yml
-  #- include_tasks: hashicorp.yml
-
-  #- include_tasks: dotnet.yml
-- include_tasks: atuin.yml
 
 # Distro-specific tasks
 - include_tasks: fedora.yml

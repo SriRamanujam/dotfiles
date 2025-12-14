@@ -1,0 +1,22 @@
+---
+- name: Install Docker and Docker CLI
+  ansible.builtin.package:
+    name:
+      - docker
+      - docker-cli
+    state: present
+  become: true
+
+- name: Enable and start Docker service
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started
+  become: true
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: true
+  become: true

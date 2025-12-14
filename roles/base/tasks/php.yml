@@ -1,5 +1,0 @@
-- name: Install Composer for PHP dev
-  become: true
-  ansible.builtin.package:
-    name: composer
-    state: present
