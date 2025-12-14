@@ -1,7 +1,7 @@
 - name: Ensure dnf-automatic is installed (Only on headless systems)
   become: true
   ansible.builtin.package:
-    name: dnf-automatic
+    name: dnf5-plugin-automatic
     state: present
   when: not is_graphical
 
