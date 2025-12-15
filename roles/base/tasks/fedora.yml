@@ -12,3 +12,12 @@
     state: started
     name: dnf-automatic.timer
   when: not is_graphical
+
+- name: Configure dnf dropin configuration
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/dnf/libdnf5.conf.d/80-local-dnf.conf
+    src: files/fedora/80-local-dnf.conf
+    owner: root
+    group: root
+    mode: '0644'
