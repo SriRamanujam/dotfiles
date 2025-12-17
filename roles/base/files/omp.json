@@ -28,7 +28,7 @@
             "{{ if .Writable }}#729fcf{{ end }}",
             "{{ if not .Writable }}#a40000{{ end }}"
           ],
-          "properties": {
+          "options": {
             "style": "full"
           }
         },
@@ -47,11 +47,20 @@
         {
           "type": "git",
           "style": "plain",
-          "template": " {{ .Ref }} {{ .Working.String }} {{ .Upstream }} {{ substr 0 7 .Commit.Sha }}",
+          "template": " {{ if not .Segments.Jujutsu }}{{ .Ref }} {{ .Working.String }} {{ .Upstream }} {{ substr 0 7 .Commit.Sha }}{{ end }}",
           "foreground": "yellow",
-          "properties": {
+          "options": {
             "fetch_status": true
           }
+        },
+        {
+          "type": "jujutsu",
+          "style": "plain",
+          "foreground": "yellow",
+          "options": {
+            "fetch_status": true
+          },
+          "template": "@{{.ChangeID}}{{if .Working.Changed}} {{ .Working.String }}{{ end }} {{ .ClosestBookmarks }}"
         }
       ]
     },
@@ -64,26 +73,19 @@
           "style": "plain",
           "foreground": "green",
           "template": "{{ if .Error }} \ue235 {{ .Error }}{{ else }}{{ if .Venv }} \ue235 {{ .Venv }}{{ end }}{{ end }}",
-          "properties": {
+          "options": {
             "display_mode": "context",
             "fetch_version": false
           }
         },
         {
-          "type": "go",
+          "type": "kubectl",
           "style": "plain",
-          "foreground": "#00ADD8",
-          "template": "{{ if .Error }}{{ .Error }}{{ else }} \ue627 <b>go.mod {{ .Full }}</b>{{ end }}",
-          "properties": {
-            "parse_mod_file": true
-          },
-          "alias": "Modfile"
-        },
-        {
-          "type": "go",
-          "style": "plain",
-          "foreground": "#d88200",
-          "template": "{{ if ne .Segments.Modfile.Minor .Minor }} != {{ .Major }}.{{ .Minor }}{{ end }}"
+          "foreground": "#326ce5",
+          "template": " 󱃾 {{ .Context }}",
+          "include_folders": [
+            "~/Documents/Projects/.*"
+          ]
         }
       ]
     },
@@ -96,7 +98,7 @@
           "style": "plain",
           "foreground": "#A3BE8C",
           "template": " {{ .FormattedMs }}",
-          "properties": {
+          "options": {
             "style": "austin"
           }
         }
@@ -114,7 +116,7 @@
             "{{ if gt .Code 0 }}#BF616A{{ end }}"
           ],
           "template": "❯ ",
-          "properties": {
+          "options": {
             "always_enabled": true
           }
         }

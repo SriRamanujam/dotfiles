@@ -9,3 +9,35 @@
     src: files/git/07-git-aliases
     dest: "{{ bash_config_dropins_dir }}/07-git-aliases"
     mode: '0644'
+
+- name: Ensure latest jujutsu is installed
+  block:
+    - name: Get latest jujutsu release info from github
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/jj-vcs/jj/releases/latest
+        return_content: yes
+      register: jj_release_info
+
+    - name: Set latest jujutsu version fact
+      ansible.builtin.set_fact:
+        jj_latest_version: "{{ jj_release_info.json | json_query('name') }}"
+    
+    - name: Check installed jujutsu version
+      ansible.builtin.command:
+        cmd: "{{ ansible_env.HOME }}/.local/bin/jj --version"
+      register: jj_installed_version_cmd
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Set installed jujutsu version fact
+      ansible.builtin.set_fact:
+        # normalize output to match the format of the latest version tag - jj --version returns something like jj 0.36.0-70fd8f7697fbc20a9329a6e2f790ef86a8e284d1
+        jj_installed_version: "v{{ jj_installed_version_cmd.stdout.split('-')[0].split(' ')[1] if jj_installed_version_cmd.stdout is defined else '' }}"
+    
+    - name: Download and unpack latest jujutsu tarball
+      when: jj_installed_version != jj_latest_version
+      ansible.builtin.unarchive:
+        src: https://github.com/jj-vcs/jj/releases/download/{{ jj_latest_version }}/jj-{{ jj_latest_version }}-x86_64-unknown-linux-musl.tar.gz
+        dest: "{{ ansible_env.HOME }}/.local/bin/"
+        include:
+          - jj
