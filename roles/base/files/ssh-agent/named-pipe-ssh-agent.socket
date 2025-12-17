@@ -1,0 +1,11 @@
+[Unit]
+Description=SSH Agent provided by Windows named pipe \.\pipe\openssh-ssh-agent
+
+[Socket]
+ListenStream=%t/ssh_auth.sock
+SocketMode=0600
+DirectoryMode=0700
+Accept=true
+
+[Install]
+WantedBy=sockets.target

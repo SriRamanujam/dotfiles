@@ -1,0 +1,11 @@
+[Unit]
+Description=Proxy to Windows SSH Agent, which provides the standard named pipe (Win32-OpenSSH, 1Password, KeeAgent, etc.)
+Requires=named-pipe-ssh-agent.socket
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/npiperelay.exe -p -l -ei -s '//./pipe/openssh-ssh-agent'
+StandardInput=socket
+
+[Install]
+WantedBy=default.target
