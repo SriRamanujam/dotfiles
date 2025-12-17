@@ -34,10 +34,16 @@
       notify:
         - Reload systemd user daemon
 
-    # Todo: go download npiperelay.exe if not present and put it there
-    - name: Ensure npiperelay.exe symlink is present
-      ansible.builtin.file:
-        src: "/mnt/c/Users/{{ ansible_env.USER }}/AppData/Local/npiperelay.exe"
-        dest: "{{ local_bin_dir }}/npiperelay.exe"
-        state: link
-        force: yes
+    - name: Ensure npiperelay.exe
+      block:
+        - name: Download npiperelay.exe to local app data
+          ansible.builtin.get_url:
+            url: https://github.com/albertony/npiperelay/releases/download/v1.8.0/npiperelay_windows_amd64.exe
+            dest: "/mnt/c/Users/{{ ansible_env.USER }}/AppData/Local/npiperelay.exe"
+            mode: '0777'
+        - name: Ensure npiperelay.exe is symlinked to local bin dir
+          ansible.builtin.file:
+            src: "/mnt/c/Users/{{ ansible_env.USER }}/AppData/Local/npiperelay.exe"
+            dest: "{{ local_bin_dir }}/npiperelay.exe"
+            state: link
+            force: yes
