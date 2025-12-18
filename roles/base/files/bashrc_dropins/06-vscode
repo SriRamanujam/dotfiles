@@ -1,0 +1,20 @@
+vscode_workspace() {
+    local ws_name="${PWD##*/}.code-workspace"
+    
+    # Generate the current list of directories as a JSON array
+    local dir_json
+    dir_json=$(printf '%s\n' "." */ | sed 's/\/$//' | jq -R . | jq -s '.')
+
+    if [[ -f "$ws_name" ]]; then
+        # Update existing: Merge and ensure unique paths
+        jq --argjson new_dirs "$dir_json" '
+            .folders += ($new_dirs | map({path: .})) 
+            | .folders |= unique_by(.path)
+        ' "$ws_name" > "${ws_name}.tmp" && mv "${ws_name}.tmp" "$ws_name"
+        echo "Updated: $ws_name"
+    else
+        # Create fresh: Initialize folders and empty settings
+        echo "$dir_json" | jq '{ folders: map({path: .}), settings: {} }' > "$ws_name"
+        echo "Created: $ws_name"
+    fi
+}

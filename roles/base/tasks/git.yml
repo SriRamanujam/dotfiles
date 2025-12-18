@@ -48,6 +48,6 @@
 
 - name: Ensure latest jujutsu is installed
   when: ansible_system == 'Darwin'
-  ansible.bulitin.package:
+  ansible.builtin.package:
     name:
       - jj
