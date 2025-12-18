@@ -1,11 +1,9 @@
 ---
 - name: Load distribution-specific variables
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution | lower | replace(' ', '-') }}-{{ ansible_distribution_major_version | lower }}.yml"
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
 
-#- include_tasks: scaling.yml
-- include_tasks: dmcrypt.yml
-- include_tasks: pm.yml
-  
+- ansible.builtin.include_tasks: dmcrypt.yml
+- ansible.builtin.include_tasks: pm.yml

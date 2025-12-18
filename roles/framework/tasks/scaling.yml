@@ -1,3 +1,4 @@
+---
 - name: Ensure dbus-run-session binary is present
   become: true
   ansible.builtin.package:
@@ -6,7 +7,8 @@
     state: present
 
 - name: Enable experimental features for GDM # noqa no-changed-when
-  ansible.builtin.shell: dbus-run-session bash -c "dconf write /org/gnome/mutter/experimental-features \"['scale-monitor-framebuffer', 'variable-refresh-rate']\" "
+  ansible.builtin.shell: dbus-run-session bash -c "dconf write /org/gnome/mutter/experimental-features \"['scale-monitor-framebuffer',
+    'variable-refresh-rate']\" "
   become: true
   become_user: gdm
   become_flags: ""

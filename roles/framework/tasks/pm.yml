@@ -1,3 +1,4 @@
+---
 - name: 11th gen Intel power management
   when: "'11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz' in ansible_processor"
   block:
@@ -27,6 +28,7 @@
       ansible.builtin.copy:
         src: tmpfiles/deep-sleep.conf
         dest: /etc/tmpfiles.d/
+        mode: "0644"
 
 - name: Check if swapfile is enabled already
   become: true
@@ -43,7 +45,7 @@
         name: "{{ framework_swapdir }}"
         state: present
 
-    - name: Disable copy-on-write for swap
+    - name: Disable copy-on-write for swap # noqa risky-file-permissions
       become: true
       ansible.builtin.file:
         path: "{{ framework_swapdir }}"
@@ -67,7 +69,7 @@
         backup: true
         line: "{{ framework_swapfile }} none swap defaults 0 0"
 
-    - name: Turn swap on
+    - name: Turn swap on # noqa no-changed-when
       become: true
       ansible.builtin.command: swapon -av
 
@@ -76,7 +78,8 @@
       ansible.builtin.copy:
         src: dracut-resume.conf
         dest: /etc/dracut.conf.d/10-resume.conf
+        mode: "0644"
 
-    - name: Rebuild dracut initrd
+    - name: Rebuild dracut initrd # noqa no-changed-when
       become: true
       ansible.builtin.command: dracut -f
