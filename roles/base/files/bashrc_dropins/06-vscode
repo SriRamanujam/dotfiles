@@ -1,19 +1,27 @@
 vscode_workspace() {
     local ws_name="${PWD##*/}.code-workspace"
     
-    # Generate the current list of directories as a JSON array
+    # 1. Scan subdirectories
+    # 2. Filter out internal/bloat folders (.vscode, node_modules)
     local dir_json
-    dir_json=$(printf '%s\n' "." */ | sed 's/\/$//' | jq -R . | jq -s '.')
+    dir_json=$(
+        shopt -s nullglob
+        printf '%s\n' */ | sed 's/\/$//' | \
+        jq -R . | \
+        jq -s 'map(select(. != ".vscode" and . != "node_modules"))'
+    )
+
+    # Fallback to empty array
+    [[ -z "$dir_json" ]] && dir_json="[]"
 
     if [[ -f "$ws_name" ]]; then
-        # Update existing: Merge and ensure unique paths
-        jq --argjson new_dirs "$dir_json" '
-            .folders += ($new_dirs | map({path: .})) 
-            | .folders |= unique_by(.path)
+        # Overwrite .folders with fresh scan, preserving other workspace keys
+        jq --argjson current_dirs "$dir_json" '
+            .folders = ($current_dirs | map({path: .}))
         ' "$ws_name" > "${ws_name}.tmp" && mv "${ws_name}.tmp" "$ws_name"
-        echo "Updated: $ws_name"
+        echo "Synced: $ws_name"
     else
-        # Create fresh: Initialize folders and empty settings
+        # Create fresh
         echo "$dir_json" | jq '{ folders: map({path: .}), settings: {} }' > "$ws_name"
         echo "Created: $ws_name"
     fi
