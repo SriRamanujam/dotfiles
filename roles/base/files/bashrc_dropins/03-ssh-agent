@@ -1,6 +1,8 @@
-# set up ssh-agent upon login, using the Bitwarden agent.
+# set up ssh-agent environment variable if not already set.
 # We don't necessarily want to do this in macos land, because for now macos is work only
 # and that has its own ssh-agent setup via the Keychain.
 if [[ $(uname -s) != "Darwin" ]]; then
-    export SSH_AUTH_SOCK="/run/user/$UID/ssh_auth.sock"
+    if [[ -z "$SSH_AUTH_SOCK" && -S "/run/user/$UID/ssh_auth.sock" ]]; then 
+        export SSH_AUTH_SOCK="/run/user/$UID/ssh_auth.sock"
+    fi
 fi
