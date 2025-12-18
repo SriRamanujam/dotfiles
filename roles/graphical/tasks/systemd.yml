@@ -1,7 +1,8 @@
+---
 - name: Drop logind drop-in to configure closing the lid as suspend-then-hibernate
   become: true
   when: not secureboot_enabled
   ansible.builtin.copy:
     src: logind/00_suspend-then-hibernate.conf
     dest: /etc/systemd/logind.conf.d/
-    mode: '0644'
+    mode: "0644"

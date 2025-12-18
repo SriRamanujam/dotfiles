@@ -1,3 +1,4 @@
+---
 - name: Ensure VSCode repository is present (Fedora)
   when: ansible_distribution == 'Fedora'
   become: true
@@ -15,7 +16,7 @@
   ansible.builtin.get_url:
     url: https://packages.microsoft.com/keys/microsoft.asc
     dest: /etc/apt/trusted.gpg.d/microsoft.asc
-    mode: '0644'
+    mode: "0644"
   when: ansible_distribution == "Ubuntu"
 
 - name: Ensure VSCode repository is present (Ubuntu)

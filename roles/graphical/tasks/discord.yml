@@ -1,3 +1,4 @@
+---
 - name: Install Discord Flatpak
   become: true
   community.general.flatpak:
@@ -18,6 +19,7 @@
   ansible.builtin.get_url:
     url: https://discord.com/api/download?platform=linux&format=deb
     dest: "{{ discord_tempfile.path }}"
+    mode: "0644"
   when: ansible_distribution == "Ubuntu"
 
 - name: Install Discord deb (Ubuntu)
