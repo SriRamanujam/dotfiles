@@ -1,3 +1,4 @@
+---
 - name: Ensure dnf-automatic is installed (Only on headless systems)
   become: true
   ansible.builtin.package:
@@ -20,4 +21,4 @@
     src: files/fedora/80-local-dnf.conf
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"

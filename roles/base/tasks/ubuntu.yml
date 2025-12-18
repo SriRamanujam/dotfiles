@@ -1,3 +1,4 @@
+---
 - name: Lookup all files in /etc/update-motd.d
   ansible.builtin.find:
     paths: /etc/update-motd.d
@@ -10,7 +11,7 @@
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: file
-    mode: '0644'
+    mode: "0644"
   with_items: "{{ update_motd_files.files }}"
 
 - name: Drop unattended upgrades config
@@ -28,7 +29,7 @@
 - name: Disable motd timer
   become: true
   ansible.builtin.systemd:
-    enabled: no
+    enabled: false
     name: motd-news.timer
     state: stopped
   when: ansible_service_mgr == 'systemd'
@@ -36,7 +37,7 @@
 - name: Disable fwupd refresh timer
   become: true
   ansible.builtin.systemd:
-    enabled: no
+    enabled: false
     state: stopped
     name: fwupd-refresh.timer
   when: ansible_service_mgr == 'systemd'

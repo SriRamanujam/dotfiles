@@ -1,3 +1,4 @@
+---
 # All credit for this technique goes to https://sxda.io/posts/sharing-ssh-agent-wsl/#my-preferred-solution
 
 - name: Set up ssh-agent to use Windows named pipe on WSL systems
@@ -7,13 +8,13 @@
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.config/systemd/user"
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Ensure named-pipe-ssh-agent.socket is present
       ansible.builtin.copy:
         src: files/ssh-agent/named-pipe-ssh-agent.socket
         dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
-        mode: '0644'
+        mode: "0644"
       notify:
         - Reload systemd user daemon
 
@@ -21,13 +22,13 @@
       ansible.builtin.copy:
         src: files/ssh-agent/named-pipe-ssh-agent@.service
         dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
-        mode: '0644'
+        mode: "0644"
       notify:
         - Reload systemd user daemon
 
     - name: Ensure named-pipe-ssh-agent socket is started and enabled
       ansible.builtin.systemd:
-        enabled: yes
+        enabled: true
         state: started
         name: named-pipe-ssh-agent.socket
         scope: user
@@ -40,10 +41,10 @@
           ansible.builtin.get_url:
             url: https://github.com/albertony/npiperelay/releases/download/v1.8.0/npiperelay_windows_amd64.exe
             dest: "/mnt/c/Users/{{ ansible_env.USER }}/AppData/Local/npiperelay.exe"
-            mode: '0777'
+            mode: "0777"
         - name: Ensure npiperelay.exe is symlinked to local bin dir
           ansible.builtin.file:
             src: "/mnt/c/Users/{{ ansible_env.USER }}/AppData/Local/npiperelay.exe"
             dest: "{{ local_bin_dir }}/npiperelay.exe"
             state: link
-            force: yes
+            force: true

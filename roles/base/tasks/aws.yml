@@ -1,8 +1,9 @@
+---
 - name: Install AWS CLI (Linux)
   when: ansible_system == 'Linux'
   block:
     - name: Ensure aws package dependencies are installed
-      become: yes
+      become: true
       ansible.builtin.package:
         name:
           - python
@@ -13,7 +14,7 @@
       ansible.builtin.shell:
         cmd: aws --version | awk '{split($1,a,"/"); print a[2]}'
       register: aws_version_cmd_output
-      ignore_errors: yes # we want the play to continue if the aws command is not present
+      ignore_errors: true # we want the play to continue if the aws command is not present
       changed_when: false
 
     - name: Set AWS CLI version fact
@@ -23,7 +24,7 @@
     - name: Find latest upstream AWS CLI version
       ansible.builtin.uri:
         url: https://api.github.com/repos/aws/aws-cli/tags?per_page=1
-        return_content: yes
+        return_content: true
       register: aws_cli_releases
 
     - name: Set latest upstream AWS CLI version
@@ -42,10 +43,10 @@
           ansible.builtin.unarchive:
             src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
             dest: "{{ aws_tempdir.path }}/"
-            remote_src: yes
+            remote_src: true
           register: awscli_path
 
-        - name: Run the AWS installer
+        - name: Run the AWS installer # noqa no-changed-when
           ansible.builtin.command:
             cmd: "{{ awscli_path.dest }}/aws/install --update -i {{ local_dir }} -b {{ local_bin_dir }}"
 

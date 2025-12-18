@@ -1,13 +1,14 @@
+---
 - name: Refresh package repositories
   become: true
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == 'Ubuntu'
 
 - name: Refresh Homebrew
   when: ansible_system == 'Darwin'
   community.general.homebrew:
-    upgrade_all: yes
+    upgrade_all: true
 
 - name: Install common base set of packages
   become: true
@@ -47,7 +48,7 @@
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.ssh"
     state: directory
-    mode: '0700'
+    mode: "0700"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_gid }}"
 
@@ -73,32 +74,32 @@
   ansible.builtin.file:
     path: "{{ local_bin_dir }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Ensure bash config directory is present
   ansible.builtin.file:
     path: "{{ bash_config_dir }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Ensure bash dropins directory is present
   ansible.builtin.file:
     path: "{{ bash_config_dropins_dir }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Ensure .bashrc is present
   ansible.builtin.template:
     src: bashrc.j2
     dest: "{{ bash_config_dir }}/bashrc"
-    mode: '0755'
+    mode: "0755"
 
 - name: Ensure .bashrc is symlinked out to home dir
   ansible.builtin.file:
     src: "{{ bash_config_dir }}/bashrc"
     dest: "{{ ansible_env.HOME }}/.bashrc"
     state: link
-    force: yes
+    force: true
 
 - name: Ensure base bashrc snippets are dropped into place
   ansible.builtin.copy:
@@ -117,38 +118,39 @@
     src: "{{ bash_config_dir }}/bash_profile"
     dest: "{{ ansible_env.HOME }}/.bash_profile"
     state: link
-    force: yes
+    force: true
 
 - name: Ensure latest bash-preexec.sh is present
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh
     dest: "{{ bash_config_dir }}/bash-preexec.sh"
+    mode: "0644"
 
 - name: Ensure bash-preexec.sh is symlinked out to home dir
   ansible.builtin.file:
     src: "{{ bash_config_dir }}/bash-preexec.sh"
     dest: "{{ ansible_env.HOME }}/.bash-preexec.sh"
     state: link
-    force: yes
+    force: true
 
 - name: Install oh-my-posh
   block:
     - name: Fetch latest oh-my-posh release from Github
       ansible.builtin.uri:
         url: https://api.github.com/repos/jandedobbeleer/oh-my-posh/releases/latest
-        return_content: yes
+        return_content: true
       register: oh_my_posh_latest_release
 
     - name: Fetch sha256sums of latest release
       ansible.builtin.uri:
         url: "{{ oh_my_posh_latest_release.json | json_query('assets[?name==`checksums.txt`].browser_download_url') | first }}"
-        return_content: yes
+        return_content: true
       register: oh_my_posh_latest_release_checksum
-  
+
     - name: Download and install latest oh-my-posh release
       ansible.builtin.get_url:
         dest: "{{ local_bin_dir }}/oh-my-posh"
-        mode: 0755
+        mode: "0755"
         url: "{{ oh_my_posh_latest_release.json | json_query('assets[?name==`posh-linux-amd64`].browser_download_url') | first }}"
         checksum: "sha256:{{ oh_my_posh_latest_release_checksum.content | regex_search('([0-9a-f]{64})  posh-linux-amd64', '\\1') }}"
 
@@ -156,4 +158,4 @@
   ansible.builtin.copy:
     src: omp.json
     dest: "{{ bash_config_dir }}/omp.json"
-    mode: 0644
+    mode: "0644"

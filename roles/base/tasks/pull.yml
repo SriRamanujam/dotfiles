@@ -1,8 +1,9 @@
+---
 - name: Ensure ansible-pull timer is available
   ansible.builtin.copy:
     src: pull/dotfiles-ansible-pull.timer
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
-    mode: '0644'
+    mode: "0644"
   when: ansible_service_mgr == 'systemd'
   register: pull_timer
 
@@ -10,14 +11,14 @@
   ansible.builtin.copy:
     src: pull/dotfiles-ansible-pull.service
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/"
-    mode: '0644'
+    mode: "0644"
   when: ansible_service_mgr == 'systemd'
   notify:
     - Reload systemd user daemon
 
 - name: Ensure ansible-pull timer is started and enabled
   ansible.builtin.systemd:
-    enabled: yes
+    enabled: true
     state: started
     name: dotfiles-ansible-pull.timer
     scope: user
@@ -29,7 +30,8 @@
   when: ansible_system == 'Darwin'
   ansible.builtin.cron:
     name: ansible-pull
-    job: "/usr/local/bin/ansible-pull --accept-host-key --checkout main --tags base --url 'https://github.com/SriRamanujam/dotfiles.git' --directory {{ ansible_env.HOME }}/.dotfiles --inventory 'localhost,' --connection=local --private-key {{ ansible_env.HOME }}/.ssh/id_rsa"
+    job: "/usr/local/bin/ansible-pull --accept-host-key --checkout main --tags base --url 'https://github.com/SriRamanujam/dotfiles.git' --directory {{ ansible_env.HOME
+      }}/.dotfiles --inventory 'localhost,' --connection=local --private-key {{ ansible_env.HOME }}/.ssh/id_rsa"
     state: present
     minute: "43"
     hour: "*/2"

@@ -2,7 +2,7 @@
 # tasks file for base
 
 - name: Load distribution-specific variables
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution | lower | replace(' ', '-') }}-{{ ansible_distribution_major_version | lower }}.yml"
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
@@ -11,42 +11,37 @@
 - name: Set graphical fact
   ansible.builtin.set_fact:
     is_graphical: true
-  when: (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or
-        (ansible_facts['distribution'] == 'Ubuntu' and 'ubuntu-desktop' in ansible_facts.packages)
+  when: (ansible_facts['distribution'] == 'Fedora' and 'fedora-release-workstation' in ansible_facts.packages) or (ansible_facts['distribution'] == 'Ubuntu' and
+    'ubuntu-desktop' in ansible_facts.packages)
 
 - name: Override become if on OSX
   ansible.builtin.set_fact:
     ansible_become: false
   when: ansible_system == 'Darwin'
 
-- include_tasks: base.yml
-
-# Skip podman installation on WSL hosts and OSX
-- include_tasks: podman.yml
+- ansible.builtin.include_tasks: base.yml
+- ansible.builtin.include_tasks: podman.yml
   when:
     - "'microsoft' not in ansible_kernel"
     - "ansible_os_family != 'Darwin'"
 
 # Install Docker on WSL hosts
-- include_tasks: docker.yml
+- ansible.builtin.include_tasks: docker.yml
   when:
     - "'microsoft' in ansible_kernel"
 
-- include_tasks: aws.yml
-- include_tasks: openshift.yml
-- include_tasks: tmux.yml
-- include_tasks: git.yml
-
-- include_tasks: ssh-agent.yml
-
-# Distro-specific tasks
-- include_tasks: fedora.yml
+- ansible.builtin.include_tasks: aws.yml
+- ansible.builtin.include_tasks: openshift.yml
+- ansible.builtin.include_tasks: tmux.yml
+- ansible.builtin.include_tasks: git.yml
+- ansible.builtin.include_tasks: ssh-agent.yml
+- ansible.builtin.include_tasks: fedora.yml
   when:
     - ansible_facts['distribution'] == 'Fedora'
 
-- include_tasks: ubuntu.yml
+- ansible.builtin.include_tasks: ubuntu.yml
   when:
     - ansible_facts['distribution'] == 'Ubuntu'
 
 # Finally, deploy a mechanism to automatically run ansible-pull every couple of hours.
-- include_tasks: pull.yml
+- ansible.builtin.include_tasks: pull.yml
