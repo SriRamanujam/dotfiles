@@ -1,62 +1,110 @@
 ---
 # Set up openshift tooling
 
-- name: Fetch OKD releases from Github
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/openshift/okd/releases
-    return_content: true
-  register: okd_releases
+- name: Install latest OKD release from Github
+  block:
+    - name: Fetch latest OKD release from Github
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/openshift/okd/releases/latest
+        return_content: true
+      register: okd_release
 
-- name: Download and install latest oc + kubectl release (Linux)
-  when: ansible_system == 'Linux'
-  ansible.builtin.unarchive:
-    dest: "{{ local_bin_dir }}"
-    keep_newer: true
-    mode: "0755"
-    src: "{{ okd_releases.json | to_json | from_json | json_query('[0].assets[?starts_with(name, `openshift-client-linux`)].browser_download_url') | first }}"
-    remote_src: true
-    exclude:
-      - README.md
+    - name: Set OKD download URL fact (Linux)
+      ansible.builtin.set_fact:
+        okd_download_url: "{{ okd_release.json.assets | selectattr('name', 'match', 'openshift-client-linux.*\\.tar\\.gz$') | map(attribute='browser_download_url') | first }}"
+      when: ansible_system == 'Linux'
 
-- name: Download and install latest oc + kubectl release (MacOS)
-  when: ansible_system == 'Darwin'
-  ansible.builtin.unarchive:
-    dest: "{{ local_bin_dir }}"
-    keep_newer: true
-    mode: "0755"
-    src: "{{ okd_releases.json | to_json | from_json | json_query('[0].assets[?starts_with(name, `openshift-client-mac`)].browser_download_url') | first }}"
-    remote_src: true
-    exclude:
-      - README.md
+    - name: Set OKD download URL fact (MacOS)
+      ansible.builtin.set_fact:
+        okd_download_url: "{{ okd_release.json.assets | selectattr('name', 'match', 'openshift-client-mac.*\\.tar\\.gz$') | map(attribute='browser_download_url') | first }}"
+      when: ansible_system == 'Darwin'
+
+    - name: Check if oc binary exists
+      ansible.builtin.stat:
+        path: "{{ local_bin_dir }}/oc"
+      register: oc_bin
+
+    - name: Get oc version if binary exists
+      ansible.builtin.command:
+        cmd: "{{ local_bin_dir }}/oc version --client"
+      register: oc_installed_version_cmd
+      when: oc_bin.stat.exists
+      failed_when: false
+      changed_when: false
+
+    - name: Set installed oc version fact
+      ansible.builtin.set_fact:
+        oc_installed_version: >-
+          {{ (oc_installed_version_cmd.stdout | regex_search('Client Version: (\S+)') ).split('Client Version: ')[1]
+             if (oc_installed_version_cmd is defined and
+                 oc_installed_version_cmd.stdout is defined)
+             else '' }}
+
+    - name: Extract + install OKD binaries
+      when: oc_installed_version != okd_release.json.tag_name
+      ansible.builtin.unarchive:
+        src: "{{ okd_download_url }}"
+        dest: "{{ local_bin_dir }}"
+        remote_src: true
+        mode: "0755"
+        include:
+          - oc
+    
+    - name: symlink kubectl to oc
+      ansible.builtin.file:
+        src: "{{ local_bin_dir }}/oc"
+        dest: "{{ local_bin_dir }}/kubectl"
+        state: link
+
+- name: Install latest Kustomize release from Github
+  block:
+    - name: Fetch latest Kustomize release from Github
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest
+        return_content: true
+      register: kustomize_release
+
+    - name: Set Kustomize download URL fact (Linux)
+      ansible.builtin.set_fact:
+        kustomize_download_url: "{{ kustomize_release.json.assets | selectattr('name', 'match', 'kustomize.*_linux_amd64\\.tar\\.gz$') | map(attribute='browser_download_url') | first }}"
+      when: ansible_system == 'Linux'
+
+    - name: Set Kustomize download URL fact (MacOS)
+      ansible.builtin.set_fact:
+        kustomize_download_url: "{{ kustomize_release.json.assets | selectattr('name', 'match', 'kustomize.*_darwin_amd64\\.tar\\.gz$') | map(attribute='browser_download_url') | first }}"
+      when: ansible_system == 'Darwin'
+
+    - name: Check if kustomize binary exists
+      ansible.builtin.stat:
+        path: "{{ local_bin_dir }}/kustomize"
+      register: kustomize_bin
+
+    - name: Get kustomize version if binary exists
+      ansible.builtin.command:
+        cmd: "{{ local_bin_dir }}/kustomize version"
+      register: kustomize_installed_version_cmd
+      when: kustomize_bin.stat.exists
+      failed_when: false
+      changed_when: false
+
+    - name: Set installed kustomize version fact
+      ansible.builtin.set_fact:
+        kustomize_installed_version: >-
+          {{ ('kustomize/' ~ kustomize_installed_version_cmd.stdout.strip())
+             if (kustomize_installed_version_cmd is defined and
+                 kustomize_installed_version_cmd.stdout is defined)
+             else '' }}
+
+    - name: Extract + install Kustomize binary
+      when: kustomize_installed_version != kustomize_release.json.tag_name
+      ansible.builtin.unarchive:
+        src: "{{ kustomize_download_url }}"
+        dest: "{{ local_bin_dir }}"
+        remote_src: true
+        mode: "0755"
 
 - name: Drop kubectl alias in bashrc snippet
   ansible.builtin.copy:
     src: files/openshift/08-kubectl-to-k
     dest: "{{ bash_config_dropins_dir }}/"
     mode: "0644"
-
-- name: Fetch Kustomize releases from Github
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/kubernetes-sigs/kustomize/releases
-    return_content: true
-  register: kustomize_releases
-
-- name: Download and install latest kustomize release (Linux)
-  when: ansible_system == 'Linux'
-  ansible.builtin.unarchive:
-    dest: "{{ local_bin_dir }}"
-    keep_newer: true
-    mode: "0755"
-    src: "{{ kustomize_releases.json | to_json | from_json | json_query('[?starts_with(name, `kustomize`)] | [0].assets[?contains(name, `linux_amd64`) == `true`].browser_download_url')
-      | first }}"
-    remote_src: true
-
-- name: Download and install latest kustomize release (MacOS)
-  when: ansible_system == 'Darwin'
-  ansible.builtin.unarchive:
-    dest: "{{ local_bin_dir }}"
-    keep_newer: true
-    mode: "0755"
-    src: "{{ kustomize_releases.json | to_json | from_json | json_query('[?starts_with(name, `kustomize`)] | [0].assets[?contains(name, `darwin_amd64`) == `true`].browser_download_url')
-      | first }}"
-    remote_src: true
