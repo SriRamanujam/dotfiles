@@ -1,0 +1,74 @@
+- name: Install latest atuin release from Github
+  when: ansible_system == 'Linux'
+  block:
+    - name: Fetch latest atuin release from Github
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/atuinsh/atuin/releases/latest
+        return_content: true
+      register: atuin_release
+
+    - name: Set atuin download URL fact
+      ansible.builtin.set_fact:
+        atuin_download_url: "{{ atuin_release.json.assets | selectattr('name', 'match', 'atuin-' ~ ansible_architecture ~ '-unknown-' ~ (ansible_system | lower) ~ '-gnu\\.tar\\.gz$') | map(attribute='browser_download_url') | first }}" 
+
+    - name: Set latest atuin version fact
+      block:
+        - name: Check if atuin binary exists
+          ansible.builtin.stat:
+            path: "{{ ansible_env.HOME }}/.local/bin/atuin"
+          register: atuin_bin
+
+        - name: Get atuin version if binary exists
+          ansible.builtin.command:
+            cmd: "{{ ansible_env.HOME }}/.local/bin/atuin --version"
+          register: atuin_installed_version_cmd
+          when: atuin_bin.stat.exists
+          failed_when: false
+          changed_when: false
+
+    - name: Set installed atuin version fact
+      ansible.builtin.set_fact:
+        atuin_installed_version: >-
+          v{{ (atuin_installed_version_cmd.stdout.split(' ')[1])
+             if (atuin_installed_version_cmd is defined and
+                 atuin_installed_version_cmd.stdout is defined and
+                 (atuin_installed_version_cmd.stdout.split(' ') | length) > 1)
+             else '' }}
+
+    - name: Extract + install atuin binary
+      when: atuin_installed_version != atuin_release.json.tag_name
+      ansible.builtin.unarchive:
+        src: "{{ atuin_download_url }}"
+        dest: "{{ ansible_env.HOME }}/.local/bin/"
+        remote_src: true
+        mode: "0755"
+        extra_opts: ["--strip-components=1"]
+        include:
+          - "atuin-{{ ansible_architecture }}-unknown-{{ ansible_system | lower }}-gnu/atuin"
+
+- name: Install atuin
+  when: ansible_system == 'Darwin'
+  ansible.builtin.package:
+    name: atuin
+    state: present
+
+- name: Ensure atuin bash integration is present
+  ansible.builtin.copy:
+    src: files/atuin/10-atuin
+    dest: "{{ bash_config_dropins_dir }}/10-atuin"
+    mode: "0644"
+
+- name: Ensure atuin directories are present
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ ansible_env.HOME }}/.config/atuin"
+    - "{{ ansible_env.HOME }}/.local/share/atuin"
+
+- name: Ensure atuin config file is present
+  ansible.builtin.copy:
+    src: files/atuin/config.toml
+    dest: "{{ ansible_env.HOME }}/.config/atuin/config.toml"
+    mode: "0644"

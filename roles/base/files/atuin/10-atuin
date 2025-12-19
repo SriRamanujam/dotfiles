@@ -1,1 +1,4 @@
-eval "$(atuin init bash)"
+# Set up atuin, but without the up arrow integration. We just want search.
+eval "$(atuin init bash --disable-up-arrow)"
+
+atuin_key() { echo 'vacuum soup fever knee vote segment only popular guilt bind lucky casual organ moon hotel orient task margin prize smooth sunset earn usage glad' ; }

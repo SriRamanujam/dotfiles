@@ -1,1 +1,36 @@
 sync_address = "https://atuin.apps.library.sri.ramanujam.io"
+dialect = "us"
+show_help = "false"
+enter_accept = "true"
+
+common_subcommands = [
+  "apt",
+  "cargo",
+  "composer",
+  "dnf",
+  "docker",
+  "git",
+  "go",
+  "ip",
+  "jj",
+  "kubectl",
+  "nix",
+  "nmcli",
+  "npm",
+  "pecl",
+  "pnpm",
+  "podman",
+  "port",
+  "systemctl",
+  "tmux",
+  "yarn",
+]
+
+common_prefix = [
+  "sudo",
+  "cd",
+  "clear"
+]
+
+[sync]
+records = true
