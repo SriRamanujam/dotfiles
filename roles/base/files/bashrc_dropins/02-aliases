@@ -30,3 +30,8 @@ alias codesearch="rg -F --no-heading --with-filename"
 
 # Use bat instead of cat
 alias cat='bat'
+
+man() {
+    /usr/sbin/man "$@" |
+    sed -e 's/\x1B\[[0-9;]*m//g; s/.\x08//g' | bat --language=man --wrap=character --paging=always --style=plain
+}
