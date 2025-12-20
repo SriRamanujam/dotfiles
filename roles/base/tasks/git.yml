@@ -35,16 +35,17 @@
       ansible.builtin.set_fact:
         # normalize output to match the format of the latest version tag
         # jj --version returns something like jj 0.36.0-70fd8f7697fbc20a9329a6e2f790ef86a8e284d1
-        base_jj_installed_version: "v{{ base_jj_installed_version_cmd.stdout.split('-')[0].split(' ')[1] if base_jj_installed_version_cmd.stdout is defined else ''
-          }}"
+        base_jj_installed_version: "v{{ base_jj_installed_version_cmd.stdout.split('-')[0].split(' ')[1] if (base_jj_installed_version_cmd.rc == 0) else '' }}"
 
     - name: Download and unpack latest jujutsu tarball
       when: base_jj_installed_version != base_jj_latest_version
       ansible.builtin.unarchive:
+        remote_src: true
         src: https://github.com/jj-vcs/jj/releases/download/{{ base_jj_latest_version }}/jj-{{ base_jj_latest_version }}-x86_64-unknown-linux-musl.tar.gz
-        dest: "{{ ansible_env.HOME }}/.local/bin/"
+        dest: "{{ local_bin_dir }}"
+        mode: "0755"
         include:
-          - jj
+          - ./jj
 
 - name: Ensure latest jujutsu is installed
   when: ansible_system == 'Darwin'
