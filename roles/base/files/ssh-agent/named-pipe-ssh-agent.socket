@@ -3,7 +3,7 @@ Description=SSH Agent provided by Windows named pipe \.\pipe\openssh-ssh-agent
 
 [Socket]
 ListenStream=%t/ssh_auth.sock
-SocketMode=0600
+SocketMode=0666
 DirectoryMode=0700
 Accept=true
 
