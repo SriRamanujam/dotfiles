@@ -9,3 +9,4 @@ vim/.config/nvim/autoload*
 ncmpcpp/.ncmpcpp/error.log
 */scratchpad.txt
 *.xbm
+.github/prompts/*

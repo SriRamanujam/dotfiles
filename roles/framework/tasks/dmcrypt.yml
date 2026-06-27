@@ -9,5 +9,5 @@
     state: present
     path: /etc/crypttab
     backrefs: true
-    regexp: "luks-([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}) UUID=(\\1) none discard"
+    regexp: "luks-([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}) UUID=(\\1) none discard,x-initrd.attach"
     line: "luks-\\1 UUID=\\1 none discard,no-read-workqueue,no-write-workqueue"

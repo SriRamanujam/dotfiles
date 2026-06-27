@@ -18,9 +18,6 @@ alias mimetype='file --mime-type'
 # This is so that I get bash completion with sudo
 complete -cf sudo
 
-# if in a tmux session, make sure to pass on the SSH_AUTH_SOCK variable to ssh
-alias ssh='[ -n "$TMUX" ] && eval $(tmux showenv -s SSH_AUTH_SOCK); /usr/bin/ssh'
-
 # https://stackoverflow.com/questions/37209913/how-does-alias-sudo-sudo-work
 # from alias(1): "A trailing space in VALUE causes the next word to be checked for alias substitution when the alias is expanded.
 alias sudo='sudo '

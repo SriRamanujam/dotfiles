@@ -1,3 +1,0 @@
-new-tmux() {
-    tmux new -s $(basename "$PWD")
-}

@@ -1,0 +1,58 @@
+---
+# tasks file for mise bootstrap
+
+# Install mise via distro-specific package managers
+- name: Install mise (Ubuntu via snap)
+  community.general.snap:
+    name: mise
+    classic: true
+  become: true
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install mise (Fedora via COPR)
+  block:
+    - name: Enable jdxcode/mise COPR repository
+      community.general.copr:
+        name: jdxcode/mise
+        state: present
+      become: true
+
+    - name: Install mise package via dnf
+      ansible.builtin.dnf:
+        name: mise
+        state: present
+      become: true
+  when:
+    - ansible_facts['distribution'] == 'Fedora'
+    - ansible_facts['distribution_major_version'] | int >= 41
+
+# Deploy config.toml
+- name: Ensure mise config directory exists
+  ansible.builtin.file:
+    path: "{{ config_dir }}/mise"
+    state: directory
+    mode: "0755"
+
+- name: Deploy mise config.toml
+  ansible.builtin.copy:
+    src: mise/config.toml
+    dest: "{{ config_dir }}/mise/config.toml"
+    mode: "0644"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+  register: mise_config_deployed
+
+# Run mise trust on the deployed config
+- name: Run mise trust on config.toml
+  ansible.builtin.command:
+    cmd: mise trust "{{ config_dir }}/mise/config.toml"
+  changed_when: false
+  args:
+    creates: "{{ config_dir }}/mise/.mise-trust-entries"
+
+# Run mise install if config changed or mise was just installed
+- name: Run mise install (when config changed)
+  ansible.builtin.command:
+    cmd: mise install
+  changed_when: true
+  when: mise_config_deployed.changed

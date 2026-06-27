@@ -6,4 +6,6 @@
     - "{{ ansible_distribution | lower | replace(' ', '-') }}.yml"
 
 - ansible.builtin.include_tasks: dmcrypt.yml
-- ansible.builtin.include_tasks: pm.yml
+
+# We're no longer as interested in the hibernation situation. 
+# - ansible.builtin.include_tasks: pm.yml

@@ -20,21 +20,12 @@
   when: ansible_system == 'Darwin'
 
 - ansible.builtin.include_tasks: base.yml
-- ansible.builtin.include_tasks: podman.yml
-  when:
-    - "'microsoft' not in ansible_kernel"
-    - "ansible_os_family != 'Darwin'"
-
-# Install Docker on WSL hosts
+- ansible.builtin.include_tasks: mise.yml
 - ansible.builtin.include_tasks: docker.yml
-  when:
-    - "'microsoft' in ansible_kernel"
-- ansible.builtin.include_tasks: atuin.yml
-- ansible.builtin.include_tasks: aws.yml
 - ansible.builtin.include_tasks: openshift.yml
-- ansible.builtin.include_tasks: tmux.yml
 - ansible.builtin.include_tasks: git.yml
 - ansible.builtin.include_tasks: ssh-agent.yml
+
 - ansible.builtin.include_tasks: fedora.yml
   when:
     - ansible_facts['distribution'] == 'Fedora'

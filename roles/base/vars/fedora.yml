@@ -4,3 +4,5 @@ netcat_pkg_name: netcat
 development_tools: "@c-development"
 python3_devel: python3-devel
 p7zip_pkg_name: p7zip-plugins
+
+docker_pkg_name: moby-engine

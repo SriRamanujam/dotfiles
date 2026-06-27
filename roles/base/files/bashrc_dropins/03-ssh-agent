@@ -2,7 +2,9 @@
 # We don't necessarily want to do this in macos land, because for now macos is work only
 # and that has its own ssh-agent setup via the Keychain.
 if [[ $(uname -s) != "Darwin" ]]; then
-    if [[ -z "$SSH_AUTH_SOCK" && -S "/run/user/$UID/ssh_auth.sock" ]]; then 
+    if [[ -S "$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock" ]]; then
+        export SSH_AUTH_SOCK="$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
+    elif [[ -S "/run/user/$UID/ssh_auth.sock" ]]; then
         export SSH_AUTH_SOCK="/run/user/$UID/ssh_auth.sock"
     fi
 fi

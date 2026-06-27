@@ -3,4 +3,8 @@ if test -f /run/.containerenv; then
     export TOOLBOX_CONTAINER_NAME=$(grep 'name=' /run/.containerenv | cut -d'"' -f2)
 fi
 
+if ! command -v oh-my-posh &>/dev/null; then
+    mise use -g oh-my-posh
+fi
+
 eval "$(oh-my-posh init bash --config ~/.config/bash_config/omp.json)"

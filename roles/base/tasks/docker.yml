@@ -2,8 +2,7 @@
 - name: Install Docker and Docker CLI
   ansible.builtin.package:
     name:
-      - docker
-      - docker-cli
+      - "{{ docker_pkg_name }}"
     state: present
   become: true
 
